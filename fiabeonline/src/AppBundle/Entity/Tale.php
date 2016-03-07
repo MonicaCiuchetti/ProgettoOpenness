@@ -22,6 +22,13 @@ class Tale
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="likes", type="integer", options={"default" = 0})
+     */
+    private $likes;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="taleTitle", type="string", length=30)
@@ -69,13 +76,6 @@ class Tale
      * @ORM\Column(name="taleScore", type="integer")
      */
     private $taleScore;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="likes", type="integer")
-     */
-    private $likes;
 
     /**
      * @var int
@@ -291,29 +291,6 @@ class Tale
     }
 
     /**
-     * Set likes
-     *
-     * @param integer $likes
-     * @return Tale
-     */
-    public function setLikes($likes)
-    {
-        $this->likes = $likes;
-
-        return $this;
-    }
-
-    /**
-     * Get likes
-     *
-     * @return integer
-     */
-    public function getLikes()
-    {
-        return $this->likes;
-    }
-
-    /**
      * Set userId
      *
      * @param integer $userId
@@ -469,5 +446,28 @@ class Tale
     public function getSequences()
     {
         return $this->sequences;
+    }
+
+    /**
+     * Set likes
+     *
+     * @param integer $likes
+     * @return Tale
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Get likes
+     *
+     * @return integer
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

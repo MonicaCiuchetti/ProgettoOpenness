@@ -44,7 +44,7 @@ class Action
 
     /**
      * @ORM\ManyToOne(targetEntity="Sequence", inversedBy="actions")
-     * @ORM\JoinColumn(name="Card_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="Sequence_id", referencedColumnName="id")
      */
     protected $sequence;
 

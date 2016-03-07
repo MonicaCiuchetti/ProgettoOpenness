@@ -62,7 +62,7 @@ class Sequence
     protected $sequenceType;
 
     /**
-     * @ORM\OneToMany(targetEntity="Log", mappedBy="Sequence_id")
+     * @ORM\OneToMany(targetEntity="Action", mappedBy="Sequence_id")
      */
     private $actions;
 

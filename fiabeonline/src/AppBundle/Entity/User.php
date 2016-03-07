@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -32,6 +33,11 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=64)
+     *
+     * @Assert\Length(
+     *      min = 8,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     * )
      */
     private $password;
 

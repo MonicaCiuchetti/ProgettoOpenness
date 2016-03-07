@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaleRepository extends EntityRepository
 {
+    public function findAllOrderedByTaleDate()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate ASC'
+            )
+            ->getResult();
+    }
 }

@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class LogRepository extends EntityRepository
 {
+    public function findAllOrderedById()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT l FROM AppBundle:Log l ORDER BY l.id ASC'
+            )
+            ->getResult();
+    }
 }

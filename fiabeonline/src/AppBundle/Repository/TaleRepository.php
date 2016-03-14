@@ -12,11 +12,105 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaleRepository extends EntityRepository
 {
-    public function findAllOrderedByTaleDate()
+    public function findAllByAuthorOrderedByLikesDesc($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t, AppBundle:User u WHERE t.userId = u.id AND u.username = :user ORDER BY t.likes DESC'
+            )
+            ->setParameter('user', $user)
+            ->getResult();
+    }
+
+    public function findAllByAuthorOrderedByTaleDateDesc($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t, AppBundle:User u WHERE t.userId = u.id AND u.username = :user ORDER BY t.taleDate DESC'
+            )
+            ->setParameter('user', $user)
+            ->getResult();
+    }
+
+    public function findAllByGenreOrderedByLikesDesc($genreDescription)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Genre g, AppBundle:Tale, AppBundle:TaleGenre tg WHERE g.id = tg.genreId AND tg.taleId = t.id AND g.genreDescription = :genreDescription ORDER BY t.likes DESC'
+            )
+            ->setParameter('genre', $genreDescription)
+            ->getResult();
+    }
+
+    public function findAllByGenreOrderedByTaleDateDesc($genreDescription)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Genre g, AppBundle:Tale, AppBundle:TaleGenre tg WHERE g.id = tg.genreId AND tg.taleId = t.id AND g.genreDescription = :genreDescription ORDER BY t.likes DESC'
+            )
+            ->setParameter('genre', $genreDescription)
+            ->getResult();
+    }
+
+    public function findAllOrderedByLikesAsc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.likes ASC'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByLikesDesc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.likes DESC'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByTaleDateAsc()
     {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate ASC'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByTaleDateDesc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate DESC'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByTaleScoreAsc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore ASC'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByTaleScoreDesc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore DESC'
+            )
+            ->getResult();
+    }
+
+    public function findOneByLikes()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore DESC'
             )
             ->getResult();
     }

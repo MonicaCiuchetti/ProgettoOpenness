@@ -22,13 +22,6 @@ class Tale
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="likes", type="integer", options={"default" = 0})
-     */
-    private $likes;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="taleTitle", type="string", length=30)
@@ -102,6 +95,11 @@ class Tale
      * @ORM\JoinColumn(name="Type_id", referencedColumnName="id")
      */
     protected $type;
+
+    /**
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="User_id")
+     */
+    private $likes;
 
     /**
      * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="Tale_id")
@@ -449,22 +447,32 @@ class Tale
     }
 
     /**
-     * Set likes
+     * Add likes
      *
-     * @param integer $likes
+     * @param \AppBundle\Entity\UserLike $likes
      * @return Tale
      */
-    public function setLikes($likes)
+    public function addLike(\AppBundle\Entity\UserLike $likes)
     {
-        $this->likes = $likes;
+        $this->likes[] = $likes;
 
         return $this;
     }
 
     /**
+     * Remove likes
+     *
+     * @param \AppBundle\Entity\UserLike $likes
+     */
+    public function removeLike(\AppBundle\Entity\UserLike $likes)
+    {
+        $this->likes->removeElement($likes);
+    }
+
+    /**
      * Get likes
      *
-     * @return integer
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getLikes()
     {

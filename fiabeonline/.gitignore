@@ -10,3 +10,15 @@
 /vendor/
 /bin/
 /composer.phar
+/src/AppBundle/Entity/Action.php~
+/src/AppBundle/Entity/ActionPropp.php~
+/src/AppBundle/Entity/Card.php~
+/src/AppBundle/Entity/CardType.php~
+/src/AppBundle/Entity/Genre.php~
+/src/AppBundle/Entity/Log.php~
+/src/AppBundle/Entity/Sequence.php~
+/src/AppBundle/Entity/SequenceType.php~
+/src/AppBundle/Entity/Tale.php~
+/src/AppBundle/Entity/TaleGenre.php~
+/src/AppBundle/Entity/Type.php~
+/src/AppBundle/Entity/User.php~

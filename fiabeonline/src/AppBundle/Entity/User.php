@@ -84,6 +84,11 @@ class User
     private $birthday;
 
     /**
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="User_id")
+     */
+    private $likes;
+
+    /**
      * @ORM\OneToMany(targetEntity="Log", mappedBy="User_id")
      */
     private $logs;
@@ -95,6 +100,7 @@ class User
 
     public function __construct()
     {
+        $this->likes = new ArrayCollection();
         $this->logs = new ArrayCollection();
         $this->tales = new ArrayCollection();
     }
@@ -357,5 +363,38 @@ class User
     public function getTales()
     {
         return $this->tales;
+    }
+
+    /**
+     * Add likes
+     *
+     * @param \AppBundle\Entity\UserLike $likes
+     * @return User
+     */
+    public function addLike(\AppBundle\Entity\UserLike $likes)
+    {
+        $this->likes[] = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Remove likes
+     *
+     * @param \AppBundle\Entity\UserLike $likes
+     */
+    public function removeLike(\AppBundle\Entity\UserLike $likes)
+    {
+        $this->likes->removeElement($likes);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

@@ -36,33 +36,19 @@ class Sequence
     private $seqOrder;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="Tale_id", type="integer")
-     */
-    private $taleId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="SequenceType_id", type="integer")
-     */
-    private $sequenceTypeId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Tale", inversedBy="sequences")
      * @ORM\JoinColumn(name="Tale_id", referencedColumnName="id")
      */
-    protected $user;
+    private $taleId;
 
     /**
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="sequences")
      * @ORM\JoinColumn(name="SequenceType_id", referencedColumnName="id")
      */
-    protected $sequenceType;
+    private $sequenceTypeId;
 
     /**
-     * @ORM\OneToMany(targetEntity="Action", mappedBy="Sequence_id")
+     * @ORM\OneToMany(targetEntity="Action", mappedBy="sequenceId")
      */
     private $actions;
 
@@ -74,7 +60,7 @@ class Sequence
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -97,7 +83,7 @@ class Sequence
     /**
      * Get seqText
      *
-     * @return string
+     * @return string 
      */
     public function getSeqText()
     {
@@ -120,7 +106,7 @@ class Sequence
     /**
      * Get seqOrder
      *
-     * @return integer
+     * @return integer 
      */
     public function getSeqOrder()
     {
@@ -130,10 +116,10 @@ class Sequence
     /**
      * Set taleId
      *
-     * @param integer $taleId
+     * @param \AppBundle\Entity\Tale $taleId
      * @return Sequence
      */
-    public function setTaleId($taleId)
+    public function setTaleId(\AppBundle\Entity\Tale $taleId = null)
     {
         $this->taleId = $taleId;
 
@@ -143,7 +129,7 @@ class Sequence
     /**
      * Get taleId
      *
-     * @return integer
+     * @return \AppBundle\Entity\Tale 
      */
     public function getTaleId()
     {
@@ -153,10 +139,10 @@ class Sequence
     /**
      * Set sequenceTypeId
      *
-     * @param integer $sequenceTypeId
+     * @param \AppBundle\Entity\SequenceType $sequenceTypeId
      * @return Sequence
      */
-    public function setSequenceTypeId($sequenceTypeId)
+    public function setSequenceTypeId(\AppBundle\Entity\SequenceType $sequenceTypeId = null)
     {
         $this->sequenceTypeId = $sequenceTypeId;
 
@@ -166,7 +152,7 @@ class Sequence
     /**
      * Get sequenceTypeId
      *
-     * @return integer
+     * @return \AppBundle\Entity\SequenceType 
      */
     public function getSequenceTypeId()
     {
@@ -174,58 +160,12 @@ class Sequence
     }
 
     /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\Tale $user
-     * @return Sequence
-     */
-    public function setUser(\AppBundle\Entity\Tale $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\Tale
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set sequenceType
-     *
-     * @param \AppBundle\Entity\SequenceType $sequenceType
-     * @return Sequence
-     */
-    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
-    {
-        $this->sequenceType = $sequenceType;
-
-        return $this;
-    }
-
-    /**
-     * Get sequenceType
-     *
-     * @return \AppBundle\Entity\SequenceType
-     */
-    public function getSequenceType()
-    {
-        return $this->sequenceType;
-    }
-
-    /**
      * Add actions
      *
-     * @param \AppBundle\Entity\Log $actions
+     * @param \AppBundle\Entity\Action $actions
      * @return Sequence
      */
-    public function addAction(\AppBundle\Entity\Log $actions)
+    public function addAction(\AppBundle\Entity\Action $actions)
     {
         $this->actions[] = $actions;
 
@@ -235,9 +175,9 @@ class Sequence
     /**
      * Remove actions
      *
-     * @param \AppBundle\Entity\Log $actions
+     * @param \AppBundle\Entity\Action $actions
      */
-    public function removeAction(\AppBundle\Entity\Log $actions)
+    public function removeAction(\AppBundle\Entity\Action $actions)
     {
         $this->actions->removeElement($actions);
     }
@@ -245,7 +185,7 @@ class Sequence
     /**
      * Get actions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getActions()
     {

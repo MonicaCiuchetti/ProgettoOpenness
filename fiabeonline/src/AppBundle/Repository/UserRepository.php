@@ -12,13 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-    public function findOneByTale($taleTitle)
+    public function findOneByTaleId($taleId)
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t, AppBundle:User u WHERE t.userId = u.id AND t.taleTitle = :taleTitle'
+                'SELECT u FROM AppBundle:Tale t, AppBundle:User u WHERE t.userId = u.id AND t.id = :taleId'
             )
-            ->setParameter('taleTitle', $taleTitle)
+            ->setMaxResults(1)
+            ->setParameter('taleId', $taleId)
             ->getResult();
     }
 }

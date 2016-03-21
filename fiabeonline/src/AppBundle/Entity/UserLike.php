@@ -31,26 +31,6 @@ class UserLike
     protected $taleId;
 
     /**
-     * Get userId
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Get taleId
-     *
-     * @return \AppBundle\Entity\Tale
-     */
-    public function getTaleId()
-    {
-        return $this->taleId;
-    }
-
-    /**
      * Set userId
      *
      * @param \AppBundle\Entity\User $userId
@@ -64,6 +44,16 @@ class UserLike
     }
 
     /**
+     * Get userId
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
      * Set taleId
      *
      * @param \AppBundle\Entity\Tale $taleId
@@ -74,5 +64,15 @@ class UserLike
         $this->taleId = $taleId;
 
         return $this;
+    }
+
+    /**
+     * Get taleId
+     *
+     * @return \AppBundle\Entity\Tale 
+     */
+    public function getTaleId()
+    {
+        return $this->taleId;
     }
 }

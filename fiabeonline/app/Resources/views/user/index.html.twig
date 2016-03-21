@@ -1,0 +1,14 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+        {% for user in users %}
+            <p>User Id: {{ user.id }}</p>
+            <p>User Username: {{ user.username }}</p>
+            <p>User Email: {{ user.email }}</p>
+            <p>User Level: {{ user.level }}</p>
+            <p>User Score: {{ user.score }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

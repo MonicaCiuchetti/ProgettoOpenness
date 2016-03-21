@@ -29,35 +29,21 @@ class ActionPropp
     private $actTypePropp;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="SequenceType_id", type="integer")
-     */
-    private $sequenceTypeId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="CardType_id", type="integer")
-     */
-    private $cardTypeId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="actionsPropp")
      * @ORM\JoinColumn(name="SequenceType_id", referencedColumnName="id")
      */
-    protected $sequenceType;
+    private $sequenceTypeId;
 
     /**
      * @ORM\ManyToOne(targetEntity="CardType", inversedBy="actionsPropp")
      * @ORM\JoinColumn(name="CardType_id", referencedColumnName="id")
      */
-    protected $cardType;
+    private $cardTypeId;
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -80,7 +66,7 @@ class ActionPropp
     /**
      * Get actTypePropp
      *
-     * @return string
+     * @return string 
      */
     public function getActTypePropp()
     {
@@ -90,10 +76,10 @@ class ActionPropp
     /**
      * Set sequenceTypeId
      *
-     * @param integer $sequenceTypeId
+     * @param \AppBundle\Entity\SequenceType $sequenceTypeId
      * @return ActionPropp
      */
-    public function setSequenceTypeId($sequenceTypeId)
+    public function setSequenceTypeId(\AppBundle\Entity\SequenceType $sequenceTypeId = null)
     {
         $this->sequenceTypeId = $sequenceTypeId;
 
@@ -103,7 +89,7 @@ class ActionPropp
     /**
      * Get sequenceTypeId
      *
-     * @return integer
+     * @return \AppBundle\Entity\SequenceType 
      */
     public function getSequenceTypeId()
     {
@@ -113,10 +99,10 @@ class ActionPropp
     /**
      * Set cardTypeId
      *
-     * @param integer $cardTypeId
+     * @param \AppBundle\Entity\CardType $cardTypeId
      * @return ActionPropp
      */
-    public function setCardTypeId($cardTypeId)
+    public function setCardTypeId(\AppBundle\Entity\CardType $cardTypeId = null)
     {
         $this->cardTypeId = $cardTypeId;
 
@@ -126,56 +112,10 @@ class ActionPropp
     /**
      * Get cardTypeId
      *
-     * @return integer
+     * @return \AppBundle\Entity\CardType 
      */
     public function getCardTypeId()
     {
         return $this->cardTypeId;
-    }
-
-    /**
-     * Set sequenceType
-     *
-     * @param \AppBundle\Entity\SequenceType $sequenceType
-     * @return ActionPropp
-     */
-    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
-    {
-        $this->sequenceType = $sequenceType;
-
-        return $this;
-    }
-
-    /**
-     * Get sequenceType
-     *
-     * @return \AppBundle\Entity\SequenceType
-     */
-    public function getSequenceType()
-    {
-        return $this->sequenceType;
-    }
-
-    /**
-     * Set cardType
-     *
-     * @param \AppBundle\Entity\CardType $cardType
-     * @return ActionPropp
-     */
-    public function setCardType(\AppBundle\Entity\CardType $cardType = null)
-    {
-        $this->cardType = $cardType;
-
-        return $this;
-    }
-
-    /**
-     * Get cardType
-     *
-     * @return \AppBundle\Entity\CardType
-     */
-    public function getCardType()
-    {
-        return $this->cardType;
     }
 }

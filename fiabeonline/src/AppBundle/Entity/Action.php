@@ -29,35 +29,21 @@ class Action
     private $actType;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="Sequence_id", type="integer")
-     */
-    private $sequenceId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Card_id", type="integer")
-     */
-    private $cardId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Sequence", inversedBy="actions")
      * @ORM\JoinColumn(name="Sequence_id", referencedColumnName="id")
      */
-    protected $sequence;
+    private $sequenceId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Card", inversedBy="actions")
      * @ORM\JoinColumn(name="Card_id", referencedColumnName="id")
      */
-    protected $card;
+    private $cardId;
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -80,7 +66,7 @@ class Action
     /**
      * Get actType
      *
-     * @return string
+     * @return string 
      */
     public function getActType()
     {
@@ -90,10 +76,10 @@ class Action
     /**
      * Set sequenceId
      *
-     * @param integer $sequenceId
+     * @param \AppBundle\Entity\Sequence $sequenceId
      * @return Action
      */
-    public function setSequenceId($sequenceId)
+    public function setSequenceId(\AppBundle\Entity\Sequence $sequenceId = null)
     {
         $this->sequenceId = $sequenceId;
 
@@ -103,7 +89,7 @@ class Action
     /**
      * Get sequenceId
      *
-     * @return integer
+     * @return \AppBundle\Entity\Sequence 
      */
     public function getSequenceId()
     {
@@ -113,10 +99,10 @@ class Action
     /**
      * Set cardId
      *
-     * @param integer $cardId
+     * @param \AppBundle\Entity\Card $cardId
      * @return Action
      */
-    public function setCardId($cardId)
+    public function setCardId(\AppBundle\Entity\Card $cardId = null)
     {
         $this->cardId = $cardId;
 
@@ -126,56 +112,10 @@ class Action
     /**
      * Get cardId
      *
-     * @return integer
+     * @return \AppBundle\Entity\Card 
      */
     public function getCardId()
     {
         return $this->cardId;
-    }
-
-    /**
-     * Set sequence
-     *
-     * @param \AppBundle\Entity\Sequence $sequence
-     * @return Action
-     */
-    public function setSequence(\AppBundle\Entity\Sequence $sequence = null)
-    {
-        $this->sequence = $sequence;
-
-        return $this;
-    }
-
-    /**
-     * Get sequence
-     *
-     * @return \AppBundle\Entity\Sequence
-     */
-    public function getSequence()
-    {
-        return $this->sequence;
-    }
-
-    /**
-     * Set card
-     *
-     * @param \AppBundle\Entity\Card $card
-     * @return Action
-     */
-    public function setCard(\AppBundle\Entity\Card $card = null)
-    {
-        $this->card = $card;
-
-        return $this;
-    }
-
-    /**
-     * Get card
-     *
-     * @return \AppBundle\Entity\Card
-     */
-    public function getCard()
-    {
-        return $this->card;
     }
 }

@@ -29,7 +29,7 @@ class Type
     private $typeDescription;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tale", mappedBy="Type_id")
+     * @ORM\OneToMany(targetEntity="Tale", mappedBy="typeId")
      */
     private $tales;
 

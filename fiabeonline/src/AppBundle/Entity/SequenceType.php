@@ -36,19 +36,19 @@ class SequenceType
     private $stColor;
 
     /**
-     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="SequenceType_id")
+     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="sequenceTypeId")
      */
     private $sequences;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="SequenceType_id")
+     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="sequenceTypeId")
      */
     private $actionsPropp;
 
     public function __construct()
     {
-        $this->actionsPropp = new ArrayCollection();
         $this->sequences = new ArrayCollection();
+        $this->actionsPropp = new ArrayCollection();
     }
 
     /**

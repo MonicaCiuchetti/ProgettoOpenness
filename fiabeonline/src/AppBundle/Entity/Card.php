@@ -36,22 +36,15 @@ class Card
     private $cardFront;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="CardType_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="CardType", inversedBy="cards")
+     * @ORM\JoinColumn(name="CardType_id", referencedColumnName="id")
      */
     private $cardTypeId;
 
     /**
-     * @ORM\OneToMany(targetEntity="Action", mappedBy="Card_id")
+     * @ORM\OneToMany(targetEntity="Action", mappedBy="cardId")
      */
     private $actions;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="CardType", inversedBy="cards")
-     * @ORM\JoinColumn(name="CardType_id", referencedColumnName="id")
-     */
-    protected $cardType;
 
     public function __construct()
     {
@@ -61,7 +54,7 @@ class Card
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -84,7 +77,7 @@ class Card
     /**
      * Get cardDescription
      *
-     * @return string
+     * @return string 
      */
     public function getCardDescription()
     {
@@ -107,7 +100,7 @@ class Card
     /**
      * Get cardFront
      *
-     * @return string
+     * @return string 
      */
     public function getCardFront()
     {
@@ -117,10 +110,10 @@ class Card
     /**
      * Set cardTypeId
      *
-     * @param integer $cardTypeId
+     * @param \AppBundle\Entity\CardType $cardTypeId
      * @return Card
      */
-    public function setCardTypeId($cardTypeId)
+    public function setCardTypeId(\AppBundle\Entity\CardType $cardTypeId = null)
     {
         $this->cardTypeId = $cardTypeId;
 
@@ -130,7 +123,7 @@ class Card
     /**
      * Get cardTypeId
      *
-     * @return integer
+     * @return \AppBundle\Entity\CardType 
      */
     public function getCardTypeId()
     {
@@ -163,33 +156,10 @@ class Card
     /**
      * Get actions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * Set cardType
-     *
-     * @param \AppBundle\Entity\CardType $cardType
-     * @return Card
-     */
-    public function setCardType(\AppBundle\Entity\CardType $cardType = null)
-    {
-        $this->cardType = $cardType;
-
-        return $this;
-    }
-
-    /**
-     * Get cardType
-     *
-     * @return \AppBundle\Entity\CardType
-     */
-    public function getCardType()
-    {
-        return $this->cardType;
     }
 }

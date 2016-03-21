@@ -22,35 +22,21 @@ class TaleGenre
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="Tale_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Tale", inversedBy="taleGenres")
+     * @ORM\JoinColumn(name="Tale_id", referencedColumnName="id")
      */
     private $taleId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Genre_id", type="integer")
-     */
-    private $genreId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Genre", inversedBy="taleGenres")
      * @ORM\JoinColumn(name="Genre_id", referencedColumnName="id")
      */
-    protected $genre;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Tale", inversedBy="taleGenres")
-     * @ORM\JoinColumn(name="Tale_id", referencedColumnName="id")
-     */
-    protected $tale;
+    private $genreId;
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -60,10 +46,10 @@ class TaleGenre
     /**
      * Set taleId
      *
-     * @param integer $taleId
+     * @param \AppBundle\Entity\Tale $taleId
      * @return TaleGenre
      */
-    public function setTaleId($taleId)
+    public function setTaleId(\AppBundle\Entity\Tale $taleId = null)
     {
         $this->taleId = $taleId;
 
@@ -73,7 +59,7 @@ class TaleGenre
     /**
      * Get taleId
      *
-     * @return integer
+     * @return \AppBundle\Entity\Tale 
      */
     public function getTaleId()
     {
@@ -83,10 +69,10 @@ class TaleGenre
     /**
      * Set genreId
      *
-     * @param integer $genreId
+     * @param \AppBundle\Entity\Genre $genreId
      * @return TaleGenre
      */
-    public function setGenreId($genreId)
+    public function setGenreId(\AppBundle\Entity\Genre $genreId = null)
     {
         $this->genreId = $genreId;
 
@@ -96,56 +82,10 @@ class TaleGenre
     /**
      * Get genreId
      *
-     * @return integer
+     * @return \AppBundle\Entity\Genre 
      */
     public function getGenreId()
     {
         return $this->genreId;
-    }
-
-    /**
-     * Set genre
-     *
-     * @param \AppBundle\Entity\Genre $genre
-     * @return TaleGenre
-     */
-    public function setGenre(\AppBundle\Entity\Genre $genre = null)
-    {
-        $this->genre = $genre;
-
-        return $this;
-    }
-
-    /**
-     * Get genre
-     *
-     * @return \AppBundle\Entity\Genre
-     */
-    public function getGenre()
-    {
-        return $this->genre;
-    }
-
-    /**
-     * Set tale
-     *
-     * @param \AppBundle\Entity\Tale $tale
-     * @return TaleGenre
-     */
-    public function setTale(\AppBundle\Entity\Tale $tale = null)
-    {
-        $this->tale = $tale;
-
-        return $this;
-    }
-
-    /**
-     * Get tale
-     *
-     * @return \AppBundle\Entity\Tale
-     */
-    public function getTale()
-    {
-        return $this->tale;
     }
 }

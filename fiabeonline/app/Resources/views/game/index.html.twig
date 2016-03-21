@@ -60,7 +60,7 @@
       {% for tale in tales %}
 	       <div>fiaba: </br>{{tale.taleTitle}}<a href="{{ path('tale', { slug: tale.id }) }}">
 		    </div>
-		        
+
 		    {% else %}
 		        <div class="well">nessuna fiaba</div>
 		    {% endfor %}
@@ -71,3 +71,22 @@
 		    </div>
 
 {% endblock %}
+
+{#
+Caratteristiche fiaba
+{% block body %}
+    <div class="container body-container">
+        {% if tales[0].0.id is defined %}
+            {% for tale in tales %}
+                <p>Tale Id: {{ tale.0.id }}</p>
+                <p>Tale Title: {{ tale.0.taleTitle }}</p>
+                <p>Tale Score: {{ tale.0.taleScore }}</p>
+                <p>Tale Likes: {{ tale.likes }}</p>
+            {% endfor %}
+        {% else %}
+            {% for tale in tales %}
+                <p>Tale Id: {{ tale.1.id }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}#}

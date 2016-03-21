@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class CardRepository extends EntityRepository
 {
+    public function findAllByTaleId($taleId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c, cT.ctDescription, cT.ctBack
+                  FROM AppBundle:Tale t, AppBundle:Sequence s, AppBundle:Action a, AppBundle:Card c, AppBundle:CardType cT
+                  WHERE t.id = s.taleId AND s.id = a.sequenceId AND a.cardId = c.id AND c.cardTypeId = cT.id AND t.id = :taleId'
+            )
+            ->setParameter('taleId', $taleId)
+            ->getResult();
+    }
 }

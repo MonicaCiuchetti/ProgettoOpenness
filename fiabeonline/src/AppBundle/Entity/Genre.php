@@ -29,7 +29,7 @@ class Genre
     private $genreDescription;
 
     /**
-     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="Genre_id")
+     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="genreId")
      */
     private $taleGenres;
 
@@ -41,7 +41,7 @@ class Genre
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -64,7 +64,7 @@ class Genre
     /**
      * Get genreDescription
      *
-     * @return string
+     * @return string 
      */
     public function getGenreDescription()
     {
@@ -97,7 +97,7 @@ class Genre
     /**
      * Get taleGenres
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getTaleGenres()
     {

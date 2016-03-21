@@ -36,22 +36,15 @@ class Log
     private $logDescription;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="User_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="logs")
+     * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
      */
     private $userId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="logs")
-     * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
-     */
-    private $user;
-
-    /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -74,7 +67,7 @@ class Log
     /**
      * Get logTime
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getLogTime()
     {
@@ -97,7 +90,7 @@ class Log
     /**
      * Get logDescription
      *
-     * @return string
+     * @return string 
      */
     public function getLogDescription()
     {
@@ -107,10 +100,10 @@ class Log
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param \AppBundle\Entity\User $userId
      * @return Log
      */
-    public function setUserId($userId)
+    public function setUserId(\AppBundle\Entity\User $userId = null)
     {
         $this->userId = $userId;
 
@@ -120,33 +113,10 @@ class Log
     /**
      * Get userId
      *
-     * @return integer
+     * @return \AppBundle\Entity\User 
      */
     public function getUserId()
     {
         return $this->userId;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     * @return Log
-     */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

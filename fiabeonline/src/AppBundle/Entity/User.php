@@ -33,11 +33,6 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=64)
-     *
-     * @Assert\Length(
-     *      min = 8,
-     *      minMessage = "Your password must be at least {{ limit }} characters long",
-     * )
      */
     private $password;
 
@@ -84,31 +79,31 @@ class User
     private $birthday;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="User_id")
-     */
-    private $likes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Log", mappedBy="User_id")
+     * @ORM\OneToMany(targetEntity="Log", mappedBy="userId")
      */
     private $logs;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tale", mappedBy="User_id")
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="userId")
+     */
+    private $likes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Tale", mappedBy="userId")
      */
     private $tales;
 
     public function __construct()
     {
-        $this->likes = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->likes = new ArrayCollection();
         $this->tales = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -131,7 +126,7 @@ class User
     /**
      * Get username
      *
-     * @return string
+     * @return string 
      */
     public function getUsername()
     {
@@ -154,7 +149,7 @@ class User
     /**
      * Get password
      *
-     * @return string
+     * @return string 
      */
     public function getPassword()
     {
@@ -177,7 +172,7 @@ class User
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -200,7 +195,7 @@ class User
     /**
      * Get isActive
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getIsActive()
     {
@@ -223,7 +218,7 @@ class User
     /**
      * Get salt
      *
-     * @return string
+     * @return string 
      */
     public function getSalt()
     {
@@ -246,7 +241,7 @@ class User
     /**
      * Get level
      *
-     * @return integer
+     * @return integer 
      */
     public function getLevel()
     {
@@ -269,7 +264,7 @@ class User
     /**
      * Get score
      *
-     * @return integer
+     * @return integer 
      */
     public function getScore()
     {
@@ -292,7 +287,7 @@ class User
     /**
      * Get birthday
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getBirthday()
     {
@@ -325,44 +320,11 @@ class User
     /**
      * Get logs
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getLogs()
     {
         return $this->logs;
-    }
-
-    /**
-     * Add tales
-     *
-     * @param \AppBundle\Entity\Tale $tales
-     * @return User
-     */
-    public function addTale(\AppBundle\Entity\Tale $tales)
-    {
-        $this->tales[] = $tales;
-
-        return $this;
-    }
-
-    /**
-     * Remove tales
-     *
-     * @param \AppBundle\Entity\Tale $tales
-     */
-    public function removeTale(\AppBundle\Entity\Tale $tales)
-    {
-        $this->tales->removeElement($tales);
-    }
-
-    /**
-     * Get tales
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTales()
-    {
-        return $this->tales;
     }
 
     /**
@@ -396,5 +358,38 @@ class User
     public function getLikes()
     {
         return $this->likes;
+    }
+
+    /**
+     * Add tales
+     *
+     * @param \AppBundle\Entity\Tale $tales
+     * @return User
+     */
+    public function addTale(\AppBundle\Entity\Tale $tales)
+    {
+        $this->tales[] = $tales;
+
+        return $this;
+    }
+
+    /**
+     * Remove tales
+     *
+     * @param \AppBundle\Entity\Tale $tales
+     */
+    public function removeTale(\AppBundle\Entity\Tale $tales)
+    {
+        $this->tales->removeElement($tales);
+    }
+
+    /**
+     * Get tales
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTales()
+    {
+        return $this->tales;
     }
 }

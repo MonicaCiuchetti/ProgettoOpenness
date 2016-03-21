@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,14 +46,14 @@ class Tale
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="taleDate", type="date")
+     * @ORM\Column(name="taleDate", type="datetime")
      */
     private $taleDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="taleUpdate", type="date", nullable=true)
+     * @ORM\Column(name="taleUpdate", type="datetime", nullable=true)
      */
     private $taleUpdate;
 
@@ -71,48 +72,35 @@ class Tale
     private $taleScore;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="User_id", type="integer")
-     */
-    private $userId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Type_id", type="integer")
-     */
-    private $typeId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="tales")
      * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
      */
-    protected $user;
+    private $userId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Type", inversedBy="tales")
      * @ORM\JoinColumn(name="Type_id", referencedColumnName="id")
      */
-    protected $type;
+    private $typeId;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="User_id")
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="taleId")
      */
     private $likes;
 
     /**
-     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="Tale_id")
+     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="taleId")
      */
     protected $taleGenres;
 
     /**
-     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="Tale_id")
+     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="taleId")
      */
     protected $sequences;
 
     public function __construct()
     {
+        $this->likes = new ArrayCollection();
         $this->taleGenres = new ArrayCollection();
         $this->sequences = new ArrayCollection();
     }
@@ -120,7 +108,7 @@ class Tale
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -143,7 +131,7 @@ class Tale
     /**
      * Get taleTitle
      *
-     * @return string
+     * @return string 
      */
     public function getTaleTitle()
     {
@@ -166,7 +154,7 @@ class Tale
     /**
      * Get taleAuthor
      *
-     * @return string
+     * @return string 
      */
     public function getTaleAuthor()
     {
@@ -189,7 +177,7 @@ class Tale
     /**
      * Get taleVersion
      *
-     * @return string
+     * @return string 
      */
     public function getTaleVersion()
     {
@@ -212,7 +200,7 @@ class Tale
     /**
      * Get taleDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getTaleDate()
     {
@@ -235,7 +223,7 @@ class Tale
     /**
      * Get taleUpdate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getTaleUpdate()
     {
@@ -258,7 +246,7 @@ class Tale
     /**
      * Get taleNotes
      *
-     * @return string
+     * @return string 
      */
     public function getTaleNotes()
     {
@@ -281,7 +269,7 @@ class Tale
     /**
      * Get taleScore
      *
-     * @return integer
+     * @return integer 
      */
     public function getTaleScore()
     {
@@ -291,10 +279,10 @@ class Tale
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param \AppBundle\Entity\User $userId
      * @return Tale
      */
-    public function setUserId($userId)
+    public function setUserId(\AppBundle\Entity\User $userId = null)
     {
         $this->userId = $userId;
 
@@ -304,7 +292,7 @@ class Tale
     /**
      * Get userId
      *
-     * @return integer
+     * @return \AppBundle\Entity\User 
      */
     public function getUserId()
     {
@@ -314,10 +302,10 @@ class Tale
     /**
      * Set typeId
      *
-     * @param integer $typeId
+     * @param \AppBundle\Entity\Type $typeId
      * @return Tale
      */
-    public function setTypeId($typeId)
+    public function setTypeId(\AppBundle\Entity\Type $typeId = null)
     {
         $this->typeId = $typeId;
 
@@ -327,123 +315,11 @@ class Tale
     /**
      * Get typeId
      *
-     * @return integer
+     * @return \AppBundle\Entity\Type 
      */
     public function getTypeId()
     {
         return $this->typeId;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     * @return Tale
-     */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set type
-     *
-     * @param \AppBundle\Entity\Type $type
-     * @return Tale
-     */
-    public function setType(\AppBundle\Entity\Type $type = null)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return \AppBundle\Entity\Type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Add taleGenres
-     *
-     * @param \AppBundle\Entity\TaleGenre $taleGenres
-     * @return Tale
-     */
-    public function addTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
-    {
-        $this->taleGenres[] = $taleGenres;
-
-        return $this;
-    }
-
-    /**
-     * Remove taleGenres
-     *
-     * @param \AppBundle\Entity\TaleGenre $taleGenres
-     */
-    public function removeTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
-    {
-        $this->taleGenres->removeElement($taleGenres);
-    }
-
-    /**
-     * Get taleGenres
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTaleGenres()
-    {
-        return $this->taleGenres;
-    }
-
-    /**
-     * Add sequences
-     *
-     * @param \AppBundle\Entity\Sequence $sequences
-     * @return Tale
-     */
-    public function addSequence(\AppBundle\Entity\Sequence $sequences)
-    {
-        $this->sequences[] = $sequences;
-
-        return $this;
-    }
-
-    /**
-     * Remove sequences
-     *
-     * @param \AppBundle\Entity\Sequence $sequences
-     */
-    public function removeSequence(\AppBundle\Entity\Sequence $sequences)
-    {
-        $this->sequences->removeElement($sequences);
-    }
-
-    /**
-     * Get sequences
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSequences()
-    {
-        return $this->sequences;
     }
 
     /**
@@ -477,5 +353,71 @@ class Tale
     public function getLikes()
     {
         return $this->likes;
+    }
+
+    /**
+     * Add taleGenres
+     *
+     * @param \AppBundle\Entity\TaleGenre $taleGenres
+     * @return Tale
+     */
+    public function addTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
+    {
+        $this->taleGenres[] = $taleGenres;
+
+        return $this;
+    }
+
+    /**
+     * Remove taleGenres
+     *
+     * @param \AppBundle\Entity\TaleGenre $taleGenres
+     */
+    public function removeTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
+    {
+        $this->taleGenres->removeElement($taleGenres);
+    }
+
+    /**
+     * Get taleGenres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTaleGenres()
+    {
+        return $this->taleGenres;
+    }
+
+    /**
+     * Add sequences
+     *
+     * @param \AppBundle\Entity\Sequence $sequences
+     * @return Tale
+     */
+    public function addSequence(\AppBundle\Entity\Sequence $sequences)
+    {
+        $this->sequences[] = $sequences;
+
+        return $this;
+    }
+
+    /**
+     * Remove sequences
+     *
+     * @param \AppBundle\Entity\Sequence $sequences
+     */
+    public function removeSequence(\AppBundle\Entity\Sequence $sequences)
+    {
+        $this->sequences->removeElement($sequences);
+    }
+
+    /**
+     * Get sequences
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSequences()
+    {
+        return $this->sequences;
     }
 }

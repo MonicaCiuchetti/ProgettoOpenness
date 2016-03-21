@@ -2,6 +2,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-Public game
-{% endblock %}
+<div class="container body-container">
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="row">
 
+        <div class="col-sm-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <!--Da modificare con il css -->
+          <div class="radio">
+            <label><input type="radio" name="optradio">Option 1</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="optradio">Option 2</label>
+          </div>
+          </div>
+        </div>
+
+        </div>
+        <div class="col-sm-8">
+          <div class="panel panel-primary">
+            <div class="panel-heading"> <!--Da modificare con il css -->
+          <div class="checkbox">
+            <label><input type="checkbox" value="">Option 1</label>
+          </div>
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      peppe
+    </div>
+  </div>
+</div>
+{% endblock %}

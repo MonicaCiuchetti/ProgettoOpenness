@@ -1,0 +1,73 @@
+{# app/Resources/views/game/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+      <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-10 col-sm-offset-1">
+                    <h1>Titolo Fiaba</h1>
+                    <h6>Nome Utente Autore</h6>
+                    <p>roduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiaba</p>
+                    <p><button type="button" class="btn btn-primary btn-sm pull-right">Leggi la fiaba completa</button></p>
+                  </div>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  slide
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1">
+                        <h1>Titolo Fiaba</h1>
+                        <h6>Nome Utente Autore</h6>
+                        <p>abaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiaba</p>
+                        <p><button type="button" class="btn btn-primary btn-sm pull-right">Leggi la fiaba completa</button></p>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="panel-footer">
+                      slide
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-10 col-sm-offset-1">
+                            <h1>Titolo Fiaba</h1>
+                            <h6>Nome Utente Autore</h6>
+                            <p>Qua va unae introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiaba</p>
+                            <p><button type="button" class="btn btn-primary btn-sm pull-right">Leggi la fiaba completa</button></p>
+                          </div>
+                        </div>
+                      </div>
+                        <div class="panel-footer">
+                          slide
+                        </div>
+                      </div>
+                    </div>
+          </div>
+
+      {% for tale in tales %}
+	       <div>fiaba: </br>{{tale.taleTitle}}<a href="{{ path('tale', { slug: tale.id }) }}">
+		    </div>
+		        
+		    {% else %}
+		        <div class="well">nessuna fiaba</div>
+		    {% endfor %}
+
+
+		    <div class="navigation text-center">
+		        {{ knp_pagination_render(tales) }}
+		    </div>
+
+{% endblock %}

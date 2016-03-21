@@ -3,111 +3,111 @@
 
 {% block body %}
 <div class="container body-container">
-                <div class="row">
-                        <div class="col-sm-7">
-                        	<h2 id="type-blockquotes">L'algoritmo per le fiabe</h2>
-                            <blockquote>
-  								<p>Inventa la tua storia con le carte di Propp!</p>
-  								<small>ITTS A. Volta <cite title="Source Title">M. Ciuchetti</cite></small>
-							</blockquote>
-              <div id="slideshow" class="carousel slide">
-                 <div class="carousel-inner">
-                  <div class="item active">
-                   <img src="bundles/framework/images/le_carte_di_Propp_slider.jpg" alt="le carte di Propp">
-                   <div class="carousel-caption">
-                    Gioca ora
-                   </div>
-                  </div>
-                  <div class="item">
-                   <img src="bundles/framework/images/slider_4.jpg" alt="seconda">
-                   <div class="carousel-caption">
-                    Sviluppo
-                   </div>
-                  </div>
-                  <div class="item">
-                   <img src="bundles/framework/images/bootstrap_slider.png" alt="terrza">
-                   <div class="carousel-caption">
-                    Architettura
-                   </div>
-                  </div>
-                 </div>
-                 
+    <div class="row">
+        <div class="col-sm-7">
+            <h2 id="type-blockquotes">L'algoritmo per le fiabe</h2>
+            <blockquote>
+                <p>Inventa la tua storia con le carte di Propp!</p>
+                <small>ITTS A. Volta <cite title="Source Title">M. Ciuchetti</cite></small>
+            </blockquote>
+            <div id="slideshow" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="bundles/framework/images/le_carte_di_Propp_slider.jpg" alt="le carte di Propp">
+                        <div class="carousel-caption">
+                            Gioca ora
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="bundles/framework/images/slider_4.jpg" alt="seconda">
+                        <div class="carousel-caption">
+                            Sviluppo
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="bundles/framework/images/bootstrap_slider.png" alt="terrza">
+                        <div class="carousel-caption">
+                            Architettura
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Indicatori di posizione -->
-                 <ol class="carousel-indicators">
-                  <li data-target="#slideshow" data-slide-to="0" class="active"></li>
-                  <li data-target="#slideshow" data-slide-to="1"></li>
-                  <li data-target="#slideshow" data-slide-to="2"></li>
-                 </ol>
-                 
+                <ol class="carousel-indicators">
+                    <li data-target="#slideshow" data-slide-to="0" class="active"></li>
+                    <li data-target="#slideshow" data-slide-to="1"></li>
+                    <li data-target="#slideshow" data-slide-to="2"></li>
+                </ol>
+
                 <!-- Controlli -->
-                 <a class="left carousel-control" href="#slideshow" data-slide="prev">
-                 <span class="icon-prev"></span>
-                 </a>
-                 <a class="right carousel-control" href="#slideshow" data-slide="next">
-                 <span class="icon-next"></span>
-                 </a>
-                </div>
-                <div class="page-header">
+                <a class="left carousel-control" href="#slideshow" data-slide="prev">
+                    <span class="icon-prev"></span>
+                </a>
+                <a class="right carousel-control" href="#slideshow" data-slide="next">
+                    <span class="icon-next"></span>
+                </a>
+            </div>
+            <div class="page-header">
                 testo
-                </div>
-                <div class="jumbotron">
-                  <h1>Novità</h1>
-                  <p>Attenzione</p>
-                  <p><a class="btn btn-primary btn-lg">Learn more</a></p>
-                </div>
-                        </div>
-                        <!--da vedere class section-->
-                       
-                        <div id="sidebar" class="col-sm-5">
-                            {% block sidebar %}
-                          <div class="section more">
-                            	 <div class="well well-lg">
-			                		<p>
-					                    Naviga tra le fiabe più lette
-					                </p>
-					                <div class="thumbnail">
-									      <img src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
-									      <div class="caption">
-									        <h4>Titolo</h4>
-                          <p>sintesi</p>
-									      </div>
-									 </div>
-									    <p> <a class="btn btn-primary btn-sm" href="#">
-					                        <span class="fa fa-users" aria-hidden="true"></span> Le fiabe pubbliche
-					                    </a></p>
-					            </div>
-                    </div>
-                      <div class="section last">
-                                    <div class="well well-lg">
-                                        <p>
-                                        L'ultima fiaba
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="section your">
-                                    <div class="well well-lg">
-                                      <div class="media">
-                                      <div class="media-left media-middle">
-                                        <a href="#">
-                                          <img class="media-object" src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
-                                        </a>
-                                      </div>
-                                      <div class="media-body">
-                                        <h4 class="media-heading">Titolo</h4>
-                                        sintesi
-                                      </div>
-                                    </div>
-                                     <p> <a class="btn btn-primary btn-sm" href="#">
-                                  <span class="fa fa-lock" aria-hidden="true"></span> Le tue fiabe
-                              </a></p>
-                                    </div>
-                                </div>
-                            {% endblock %}
+            </div>
+            <div class="jumbotron">
+                <h1>Novità</h1>
+                <p>Attenzione</p>
+                <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+            </div>
+        </div>
+        <!--da vedere class section-->
+
+        <div id="sidebar" class="col-sm-5">
+            {% block sidebar %}
+            <div class="section more">
+                <div class="well well-lg">
+                    <p>
+                        Naviga tra le fiabe più lette
+                    </p>
+                    <div class="thumbnail">
+                        <img src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
+                        <div class="caption">
+                            <h4>Titolo</h4>
+                            <p>sintesi</p>
                         </div>
                     </div>
-
-
-                            {% block main %}{% endblock %}
-
+                    <p> <a class="btn btn-primary btn-sm" href="#">
+                        <span class="fa fa-users" aria-hidden="true"></span> Le fiabe pubbliche
+                    </a></p>
                 </div>
+            </div>
+            <div class="section last">
+                <div class="well well-lg">
+                    <p>
+                        L'ultima fiaba
+                    </p>
+                </div>
+            </div>
+            <div class="section your">
+                <div class="well well-lg">
+                    <div class="media">
+                        <div class="media-left media-middle">
+                            <a href="#">
+                                <img class="media-object" src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Titolo</h4>
+                            sintesi
+                        </div>
+                    </div>
+                    <p> <a class="btn btn-primary btn-sm" href="#">
+                        <span class="fa fa-lock" aria-hidden="true"></span> Le tue fiabe
+                    </a></p>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+
+
+    {% block main %}{% endblock %}
+
+</div>
 {% endblock %}

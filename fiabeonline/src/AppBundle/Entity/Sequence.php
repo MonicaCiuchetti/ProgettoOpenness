@@ -37,18 +37,18 @@ class Sequence
 
     /**
      * @ORM\ManyToOne(targetEntity="Tale", inversedBy="sequences")
-     * @ORM\JoinColumn(name="Tale_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="tale", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $taleId;
+    private $tale;
 
     /**
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="sequences")
-     * @ORM\JoinColumn(name="SequenceType_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sequenceType", referencedColumnName="id")
      */
-    private $sequenceTypeId;
+    private $sequenceType;
 
     /**
-     * @ORM\OneToMany(targetEntity="Action", mappedBy="sequenceId")
+     * @ORM\OneToMany(targetEntity="Action", mappedBy="sequence", orphanRemoval=true)
      */
     private $actions;
 
@@ -114,49 +114,49 @@ class Sequence
     }
 
     /**
-     * Set taleId
+     * Set tale
      *
-     * @param \AppBundle\Entity\Tale $taleId
+     * @param \AppBundle\Entity\Tale $tale
      * @return Sequence
      */
-    public function setTaleId(\AppBundle\Entity\Tale $taleId = null)
+    public function setTale(\AppBundle\Entity\Tale $tale = null)
     {
-        $this->taleId = $taleId;
+        $this->tale = $tale;
 
         return $this;
     }
 
     /**
-     * Get taleId
+     * Get tale
      *
      * @return \AppBundle\Entity\Tale 
      */
-    public function getTaleId()
+    public function getTale()
     {
-        return $this->taleId;
+        return $this->tale;
     }
 
     /**
-     * Set sequenceTypeId
+     * Set sequenceType
      *
-     * @param \AppBundle\Entity\SequenceType $sequenceTypeId
+     * @param \AppBundle\Entity\SequenceType $sequenceType
      * @return Sequence
      */
-    public function setSequenceTypeId(\AppBundle\Entity\SequenceType $sequenceTypeId = null)
+    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
     {
-        $this->sequenceTypeId = $sequenceTypeId;
+        $this->sequenceType = $sequenceType;
 
         return $this;
     }
 
     /**
-     * Get sequenceTypeId
+     * Get sequenceType
      *
      * @return \AppBundle\Entity\SequenceType 
      */
-    public function getSequenceTypeId()
+    public function getSequenceType()
     {
-        return $this->sequenceTypeId;
+        return $this->sequenceType;
     }
 
     /**

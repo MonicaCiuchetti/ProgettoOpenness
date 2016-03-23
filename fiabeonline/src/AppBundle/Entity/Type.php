@@ -29,7 +29,7 @@ class Type
     private $typeDescription;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tale", mappedBy="typeId")
+     * @ORM\OneToMany(targetEntity="Tale", mappedBy="type")
      */
     private $tales;
 
@@ -41,7 +41,7 @@ class Type
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -64,7 +64,7 @@ class Type
     /**
      * Get typeDescription
      *
-     * @return string
+     * @return string 
      */
     public function getTypeDescription()
     {
@@ -97,7 +97,7 @@ class Type
     /**
      * Get tales
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getTales()
     {

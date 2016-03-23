@@ -79,17 +79,17 @@ class User
     private $birthday;
 
     /**
-     * @ORM\OneToMany(targetEntity="Log", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Log", mappedBy="user", orphanRemoval=true)
      */
     private $logs;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="user", orphanRemoval=true)
      */
     private $likes;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tale", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Tale", mappedBy="user", orphanRemoval=true)
      */
     private $tales;
 

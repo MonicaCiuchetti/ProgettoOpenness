@@ -16,9 +16,9 @@ class CardRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT c, cT.ctDescription, cT.ctBack
-                  FROM AppBundle:Tale t, AppBundle:Sequence s, AppBundle:Action a, AppBundle:Card c, AppBundle:CardType cT
-                  WHERE t.id = s.taleId AND s.id = a.sequenceId AND a.cardId = c.id AND c.cardTypeId = cT.id AND t.id = :taleId'
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t
+                  WHERE t.id = :taleId'
             )
             ->setParameter('taleId', $taleId)
             ->getResult();

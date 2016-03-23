@@ -29,7 +29,7 @@ class Genre
     private $genreDescription;
 
     /**
-     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="genreId")
+     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="genre")
      */
     private $taleGenres;
 

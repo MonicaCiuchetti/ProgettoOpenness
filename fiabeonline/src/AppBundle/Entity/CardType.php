@@ -36,12 +36,12 @@ class CardType
     private $ctBack;
 
     /**
-     * @ORM\OneToMany(targetEntity="Card", mappedBy="cardTypeId")
+     * @ORM\OneToMany(targetEntity="Card", mappedBy="cardType")
      */
     private $cards;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="cardTypeId")
+     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="cardType")
      */
     private $actionsPropp;
 
@@ -54,7 +54,7 @@ class CardType
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -77,7 +77,7 @@ class CardType
     /**
      * Get ctDescription
      *
-     * @return string
+     * @return string 
      */
     public function getCtDescription()
     {
@@ -100,7 +100,7 @@ class CardType
     /**
      * Get ctBack
      *
-     * @return string
+     * @return string 
      */
     public function getCtBack()
     {
@@ -133,7 +133,7 @@ class CardType
     /**
      * Get cards
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getCards()
     {
@@ -166,7 +166,7 @@ class CardType
     /**
      * Get actionsPropp
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getActionsPropp()
     {

@@ -30,15 +30,15 @@ class ActionPropp
 
     /**
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="actionsPropp")
-     * @ORM\JoinColumn(name="SequenceType_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sequenceType", referencedColumnName="id")
      */
-    private $sequenceTypeId;
+    private $sequenceType;
 
     /**
      * @ORM\ManyToOne(targetEntity="CardType", inversedBy="actionsPropp")
-     * @ORM\JoinColumn(name="CardType_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="cardType", referencedColumnName="id")
      */
-    private $cardTypeId;
+    private $cardType;
 
     /**
      * Get id
@@ -74,48 +74,48 @@ class ActionPropp
     }
 
     /**
-     * Set sequenceTypeId
+     * Set sequenceType
      *
-     * @param \AppBundle\Entity\SequenceType $sequenceTypeId
+     * @param \AppBundle\Entity\SequenceType $sequenceType
      * @return ActionPropp
      */
-    public function setSequenceTypeId(\AppBundle\Entity\SequenceType $sequenceTypeId = null)
+    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
     {
-        $this->sequenceTypeId = $sequenceTypeId;
+        $this->sequenceType = $sequenceType;
 
         return $this;
     }
 
     /**
-     * Get sequenceTypeId
+     * Get sequenceType
      *
      * @return \AppBundle\Entity\SequenceType 
      */
-    public function getSequenceTypeId()
+    public function getSequenceType()
     {
-        return $this->sequenceTypeId;
+        return $this->sequenceType;
     }
 
     /**
-     * Set cardTypeId
+     * Set cardType
      *
-     * @param \AppBundle\Entity\CardType $cardTypeId
+     * @param \AppBundle\Entity\CardType $cardType
      * @return ActionPropp
      */
-    public function setCardTypeId(\AppBundle\Entity\CardType $cardTypeId = null)
+    public function setCardType(\AppBundle\Entity\CardType $cardType = null)
     {
-        $this->cardTypeId = $cardTypeId;
+        $this->cardType = $cardType;
 
         return $this;
     }
 
     /**
-     * Get cardTypeId
+     * Get cardType
      *
      * @return \AppBundle\Entity\CardType 
      */
-    public function getCardTypeId()
+    public function getCardType()
     {
-        return $this->cardTypeId;
+        return $this->cardType;
     }
 }

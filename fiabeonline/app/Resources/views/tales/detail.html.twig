@@ -7,6 +7,7 @@
             <div align="center" class="col-sm-4">
                 {% for tale in tales %}
                     <h3>Titolo: {{ tale.0.taleTitle }}</h3>
+                    <p>Tale Likes: {{ tale.0.likes.count() }}</p>
                 {% endfor %}
             </div>
             <div class="col-sm-2"></div>

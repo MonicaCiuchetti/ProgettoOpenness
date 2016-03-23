@@ -37,12 +37,12 @@ class Card
 
     /**
      * @ORM\ManyToOne(targetEntity="CardType", inversedBy="cards")
-     * @ORM\JoinColumn(name="CardType_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="cardType", referencedColumnName="id")
      */
-    private $cardTypeId;
+    private $cardType;
 
     /**
-     * @ORM\OneToMany(targetEntity="Action", mappedBy="cardId")
+     * @ORM\OneToMany(targetEntity="Action", mappedBy="card")
      */
     private $actions;
 
@@ -108,26 +108,26 @@ class Card
     }
 
     /**
-     * Set cardTypeId
+     * Set cardType
      *
-     * @param \AppBundle\Entity\CardType $cardTypeId
+     * @param \AppBundle\Entity\CardType $cardType
      * @return Card
      */
-    public function setCardTypeId(\AppBundle\Entity\CardType $cardTypeId = null)
+    public function setCardType(\AppBundle\Entity\CardType $cardType = null)
     {
-        $this->cardTypeId = $cardTypeId;
+        $this->cardType = $cardType;
 
         return $this;
     }
 
     /**
-     * Get cardTypeId
+     * Get cardType
      *
      * @return \AppBundle\Entity\CardType 
      */
-    public function getCardTypeId()
+    public function getCardType()
     {
-        return $this->cardTypeId;
+        return $this->cardType;
     }
 
     /**

@@ -17,18 +17,18 @@ class UserLike
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="User", inversedBy="likes")
-     * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $userId;
+    private $user;
 
     /**
      * @var int
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Tale", inversedBy="likes")
-     * @ORM\JoinColumn(name="Tale_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="tale", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $taleId;
+    private $tale;
 
     /**
      * Set userId
@@ -46,7 +46,7 @@ class UserLike
     /**
      * Get userId
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getUserId()
     {
@@ -69,10 +69,56 @@ class UserLike
     /**
      * Get taleId
      *
-     * @return \AppBundle\Entity\Tale 
+     * @return \AppBundle\Entity\Tale
      */
     public function getTaleId()
     {
         return $this->taleId;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return UserLike
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set tale
+     *
+     * @param \AppBundle\Entity\Tale $tale
+     * @return UserLike
+     */
+    public function setTale(\AppBundle\Entity\Tale $tale)
+    {
+        $this->tale = $tale;
+
+        return $this;
+    }
+
+    /**
+     * Get tale
+     *
+     * @return \AppBundle\Entity\Tale 
+     */
+    public function getTale()
+    {
+        return $this->tale;
     }
 }

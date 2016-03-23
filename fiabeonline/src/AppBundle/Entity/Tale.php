@@ -73,30 +73,30 @@ class Tale
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="tales")
-     * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="Type", inversedBy="tales")
-     * @ORM\JoinColumn(name="Type_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="type", referencedColumnName="id")
      */
-    private $typeId;
+    private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="taleId")
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="tale", orphanRemoval=true)
      */
     private $likes;
 
     /**
-     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="taleId")
+     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="tale")
      */
-    protected $taleGenres;
+    private $taleGenres;
 
     /**
-     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="taleId")
+     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="tale", orphanRemoval=true)
      */
-    protected $sequences;
+    private $sequences;
 
     public function __construct()
     {
@@ -277,49 +277,49 @@ class Tale
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param \AppBundle\Entity\User $userId
+     * @param \AppBundle\Entity\User $user
      * @return Tale
      */
-    public function setUserId(\AppBundle\Entity\User $userId = null)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
      * @return \AppBundle\Entity\User 
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
-     * Set typeId
+     * Set type
      *
-     * @param \AppBundle\Entity\Type $typeId
+     * @param \AppBundle\Entity\Type $type
      * @return Tale
      */
-    public function setTypeId(\AppBundle\Entity\Type $typeId = null)
+    public function setType(\AppBundle\Entity\Type $type = null)
     {
-        $this->typeId = $typeId;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get typeId
+     * Get type
      *
      * @return \AppBundle\Entity\Type 
      */
-    public function getTypeId()
+    public function getType()
     {
-        return $this->typeId;
+        return $this->type;
     }
 
     /**

@@ -21,4 +21,15 @@ class UserController extends Controller
                 'users' => $users)
         );
     }
+
+    /**
+     * @Route("/users/delete/id/{id}", name="deleteUserById")
+     */
+    public function deleteOneById($id)
+    {
+        $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User')
+            ->deleteOneById($id);
+    }
 }

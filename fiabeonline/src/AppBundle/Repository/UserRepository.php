@@ -16,10 +16,20 @@ class UserRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT u FROM AppBundle:Tale t, AppBundle:User u WHERE t.userId = u.id AND t.id = :taleId'
+                'SELECT u FROM AppBundle:User u JOIN u.tales t WHERE t.id = :taleId'
             )
             ->setMaxResults(1)
             ->setParameter('taleId', $taleId)
+            ->getResult();
+    }
+
+    public function deleteOneById($id)
+    {
+        $this->getEntityManager()
+            ->createQuery(
+                'DELETE FROM AppBundle:User u WHERE u.id = :id'
+            )
+            ->setParameter('id', $id)
             ->getResult();
     }
 }

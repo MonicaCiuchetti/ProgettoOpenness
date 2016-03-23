@@ -30,15 +30,15 @@ class Action
 
     /**
      * @ORM\ManyToOne(targetEntity="Sequence", inversedBy="actions")
-     * @ORM\JoinColumn(name="Sequence_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sequence", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $sequenceId;
+    private $sequence;
 
     /**
      * @ORM\ManyToOne(targetEntity="Card", inversedBy="actions")
-     * @ORM\JoinColumn(name="Card_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="card", referencedColumnName="id")
      */
-    private $cardId;
+    private $card;
 
     /**
      * Get id
@@ -74,48 +74,48 @@ class Action
     }
 
     /**
-     * Set sequenceId
+     * Set sequence
      *
-     * @param \AppBundle\Entity\Sequence $sequenceId
+     * @param \AppBundle\Entity\Sequence $sequence
      * @return Action
      */
-    public function setSequenceId(\AppBundle\Entity\Sequence $sequenceId = null)
+    public function setSequence(\AppBundle\Entity\Sequence $sequence = null)
     {
-        $this->sequenceId = $sequenceId;
+        $this->sequence = $sequence;
 
         return $this;
     }
 
     /**
-     * Get sequenceId
+     * Get sequence
      *
      * @return \AppBundle\Entity\Sequence 
      */
-    public function getSequenceId()
+    public function getSequence()
     {
-        return $this->sequenceId;
+        return $this->sequence;
     }
 
     /**
-     * Set cardId
+     * Set card
      *
-     * @param \AppBundle\Entity\Card $cardId
+     * @param \AppBundle\Entity\Card $card
      * @return Action
      */
-    public function setCardId(\AppBundle\Entity\Card $cardId = null)
+    public function setCard(\AppBundle\Entity\Card $card = null)
     {
-        $this->cardId = $cardId;
+        $this->card = $card;
 
         return $this;
     }
 
     /**
-     * Get cardId
+     * Get card
      *
      * @return \AppBundle\Entity\Card 
      */
-    public function getCardId()
+    public function getCard()
     {
-        return $this->cardId;
+        return $this->card;
     }
 }

@@ -37,14 +37,14 @@ class Log
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="logs")
-     * @ORM\JoinColumn(name="User_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $userId;
+    private $user;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +67,7 @@ class Log
     /**
      * Get logTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLogTime()
     {
@@ -90,7 +90,7 @@ class Log
     /**
      * Get logDescription
      *
-     * @return string 
+     * @return string
      */
     public function getLogDescription()
     {
@@ -113,10 +113,33 @@ class Log
     /**
      * Get userId
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Log
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

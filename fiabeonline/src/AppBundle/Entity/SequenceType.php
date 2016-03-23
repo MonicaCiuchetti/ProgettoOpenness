@@ -36,12 +36,12 @@ class SequenceType
     private $stColor;
 
     /**
-     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="sequenceTypeId")
+     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="sequenceType")
      */
     private $sequences;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="sequenceTypeId")
+     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="sequenceType")
      */
     private $actionsPropp;
 
@@ -54,7 +54,7 @@ class SequenceType
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -77,7 +77,7 @@ class SequenceType
     /**
      * Get stDescription
      *
-     * @return string
+     * @return string 
      */
     public function getStDescription()
     {
@@ -100,7 +100,7 @@ class SequenceType
     /**
      * Get stColor
      *
-     * @return string
+     * @return string 
      */
     public function getStColor()
     {
@@ -133,7 +133,7 @@ class SequenceType
     /**
      * Get sequences
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getSequences()
     {
@@ -166,7 +166,7 @@ class SequenceType
     /**
      * Get actionsPropp
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getActionsPropp()
     {

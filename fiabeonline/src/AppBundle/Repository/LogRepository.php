@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class LogRepository extends EntityRepository
 {
+    public function deleteOneById($id)
+    {
+        $this->getEntityManager()
+            ->createQuery(
+                'DELETE FROM AppBundle:Log l WHERE l.id = :id'
+            )
+            ->setParameter('id', $id)
+            ->getResult();
+    }
 }

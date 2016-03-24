@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -25,7 +26,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=25)
+     * @ORM\Column(name="username", type="string", length=25, unique=true)
      */
     private $username;
 
@@ -39,7 +40,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=60)
+     * @ORM\Column(name="email", type="string", length=60, unique=true)
      */
     private $email;
 
@@ -95,6 +96,7 @@ class User
 
     public function __construct()
     {
+        $this->isActive = true;
         $this->logs = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->tales = new ArrayCollection();
@@ -222,7 +224,7 @@ class User
      */
     public function getSalt()
     {
-        return $this->salt;
+        return mb_substr(md5($this->getUsername()), 3, 3);
     }
 
     /**
@@ -391,5 +393,64 @@ class User
     public function getTales()
     {
         return $this->tales;
+    }
+
+    /**
+     * Returns the roles or permissions granted to the user for security.
+     * @return $roles
+     */
+    public function getRoles()
+    {
+        $roles = $this->roles;
+
+        // guarantees that a user always has at least one role for security
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @return credentials
+     */
+    public function eraseCredentials()
+    {
+        return true;
+    }
+
+    /**
+     * Serialize user
+     * @return string
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->getId(),
+            $this->getUsername(),
+            $this->getPassword()
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /**
+     * Unserialize user
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 }

@@ -25,31 +25,8 @@ class TaleController extends Controller
      */
     public function talesAction($page)
     {
-        //$query = $this->getDoctrine()->getRepository('AppBundle:Post')->queryLatest();
-
         $paginator = $this->get('knp_paginator');
-        /*$tales = array( 
-            "1" => array (
-               "id" => 1,
-               "title" => "la bella e la bestia",
-               "notes" => "riassunto",   
-               "author" => "monica"
-            ),
-            
-            "2" => array (
-               "id" => 2,
-               "title" => "cenerontola",
-               "notes" => "riassunto",   
-               "author" => "anna"
-            ),
-            
-            "3" => array (
-               "id" => 3,
-               "title" => "biancaneve",
-               "notes" => "riassunto",   
-               "author" => "monica"
-            )
-         );*/
+       
         $em = $this->getDoctrine()->getManager();
         $tales = $em->getRepository('AppBundle:Tale')->findAllOrderedByTaleDateAsc();
 

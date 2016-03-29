@@ -3,67 +3,51 @@
 
 {% block body %}
     <div class="container body-container">
-      <div class="row">
-        <div class="col-sm-4">
+
+        {% set ciclo = false %}
+
+        {% for tale in tales %}
+          {% set ciclo = true %}
+          {% if loop.index0 == 0 %}
+            <div class="row">
+          {% elseif loop.index0%3 == 0 %}
+            </div>
+            <div class="row">
+          {% endif %}
+
+          <div class="col col-sm-4">
+
             <div class="panel panel-default">
               <div class="panel-body">
                 <div class="row">
-                  <div class="col-sm-10 col-sm-offset-1">
-                    <h1>Titolo Fiaba</h1>
-                    <h6>Nome Utente Autore</h6>
-                    <p>roduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiaba</p>
-                    <p><button type="button" class="btn btn-primary btn-sm pull-right">Leggi la fiaba completa</button></p>
-                  </div>
-                  </div>
-                </div>
-                <div class="panel-footer">
-                  slide
+                    <div class="col-sm-10 col-sm-offset-1">
+                    <h1>{{tale.taleTitle}}</h1>
+                    {% if tale.taleAuthor is not null  %}
+                      <h6>{{tale.taleAuthor}}</h6>
+                    {% else %}
+                      <h6>Autore non specificato</h6>
+                    {% endif %}
+                    <p>{{tale.taleNotes | truncate(10 , false) }}</p>
+                    <p><button type="button" class="btn btn-primary btn-sm pull-right" onclick="location.href='{{ path('tale', { slug: tale.id }) }}'">Leggi la fiaba completa</button></p>
                 </div>
               </div>
             </div>
-            <div class="col-sm-4">
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1">
-                        <h1>Titolo Fiaba</h1>
-                        <h6>Nome Utente Autore</h6>
-                        <p>abaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiaba</p>
-                        <p><button type="button" class="btn btn-primary btn-sm pull-right">Leggi la fiaba completa</button></p>
-                      </div>
-                    </div>
-                  </div>
-                    <div class="panel-footer">
-                      slide
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="panel panel-default">
-                      <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-10 col-sm-offset-1">
-                            <h1>Titolo Fiaba</h1>
-                            <h6>Nome Utente Autore</h6>
-                            <p>Qua va unae introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiabaQua va una breve introduzione della fiaba</p>
-                            <p><button type="button" class="btn btn-primary btn-sm pull-right">Leggi la fiaba completa</button></p>
-                          </div>
-                        </div>
-                      </div>
-                        <div class="panel-footer">
-                          slide
-                        </div>
-                      </div>
-                    </div>
+              <div class="panel-footer">
+                slide
+              </div>
+            </div>
+
           </div>
 
-      {% for tale in tales %}
-	       <div>fiaba: </br>{{tale.taleTitle}}<a href="{{ path('tale', { slug: tale.id }) }}">
-		    </div>
-
 		    {% else %}
-		        <div class="well">nessuna fiaba</div>
+		        <div class="well">Nessuna fiaba</div>
 		    {% endfor %}
+
+
+
+        {% if ciclo == true %}
+          </div>
+        {% endif %}
 
 
 		    <div class="navigation text-center">
@@ -71,22 +55,3 @@
 		    </div>
 
 {% endblock %}
-
-{#
-Caratteristiche fiaba
-{% block body %}
-    <div class="container body-container">
-        {% if tales[0].0.id is defined %}
-            {% for tale in tales %}
-                <p>Tale Id: {{ tale.0.id }}</p>
-                <p>Tale Title: {{ tale.0.taleTitle }}</p>
-                <p>Tale Score: {{ tale.0.taleScore }}</p>
-                <p>Tale Likes: {{ tale.likes }}</p>
-            {% endfor %}
-        {% else %}
-            {% for tale in tales %}
-                <p>Tale Id: {{ tale.1.id }}</p>
-            {% endfor %}
-        {% endif %}
-    </div>
-{% endblock %}#}

@@ -26,11 +26,11 @@ class TaleController extends Controller
     public function talesAction($page)
     {
         $paginator = $this->get('knp_paginator');
-       
+
         $em = $this->getDoctrine()->getManager();
         $tales = $em->getRepository('AppBundle:Tale')->findAllOrderedByTaleDateAsc();
 
-        $tales = $paginator->paginate($tales, $page, 2);
+        $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
 
         return $this->render('game/index.html.twig', array('tales' => $tales));

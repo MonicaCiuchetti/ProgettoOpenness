@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class CardTypeRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT cT
+                  FROM AppBundle:CardType cT'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByCtDescriptionAsc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT cT
+                  FROM AppBundle:CardType cT
+                  ORDER BY cT.ctDescription ASC'
+            )
+            ->getResult();
+    }
 }

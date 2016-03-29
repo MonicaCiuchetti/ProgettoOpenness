@@ -12,24 +12,40 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-    public function findOneByTaleId($taleId)
+    public function findByLogId($logId)
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT u FROM AppBundle:User u JOIN u.tales t WHERE t.id = :taleId'
+                'SELECT u
+                  FROM AppBundle:User u JOIN u.logs l
+                  WHERE l.id = :logId'
+            )
+            ->setMaxResults(1)
+            ->setParameter('logId', $logId)
+            ->getResult();
+    }
+
+    public function findByTaleId($taleId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT u
+                  FROM AppBundle:User u JOIN u.tales t
+                  WHERE t.id = :taleId'
             )
             ->setMaxResults(1)
             ->setParameter('taleId', $taleId)
             ->getResult();
     }
 
-    public function deleteOneById($id)
+    public function deleteById($userId)
     {
         $this->getEntityManager()
             ->createQuery(
-                'DELETE FROM AppBundle:User u WHERE u.id = :id'
+                'DELETE FROM AppBundle:User u
+                  WHERE u.id = :userId'
             )
-            ->setParameter('id', $id)
+            ->setParameter('userId', $userId)
             ->getResult();
     }
 }

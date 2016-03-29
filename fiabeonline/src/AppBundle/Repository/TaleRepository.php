@@ -12,11 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaleRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t'
+            )
+            ->getResult();
+    }
+
     public function findAllOrderedByTitleAsc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleTitle ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleTitle ASC'
             )
             ->getResult();
     }
@@ -25,7 +37,9 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleTilte DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleTitle DESC'
             )
             ->getResult();
     }
@@ -35,7 +49,9 @@ class TaleRepository extends EntityRepository
 
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleDate ASC'
             )
             ->getResult();
     }
@@ -44,7 +60,9 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleDate DESC'
             )
             ->getResult();
     }
@@ -53,7 +71,9 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleScore ASC'
             )
             ->getResult();
     }
@@ -62,7 +82,9 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleScore DESC'
             )
             ->getResult();
     }
@@ -71,7 +93,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l GROUP BY t ORDER BY likes ASC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l
+                  GROUP BY t
+                  ORDER BY likes ASC'
             )
             ->getResult();
     }
@@ -80,7 +105,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->getResult();
     }
@@ -89,7 +117,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.user u WHERE u.id = :userId ORDER BY t.taleTitle ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.user u
+                  WHERE u.id = :userId
+                  ORDER BY t.taleTitle ASC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -99,7 +130,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.user u WHERE u.id = :userId ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.user u
+                  WHERE u.id = :userId
+                  ORDER BY t.taleDate DESC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -109,7 +143,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.user u WHERE u.id = :userId ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.user u
+                  WHERE u.id = :userId
+                  ORDER BY t.taleScore DESC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -119,7 +156,11 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l JOIN t.user u WHERE u.id = :userId GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l JOIN t.user u
+                  WHERE u.id = :userId
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -129,7 +170,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId ORDER BY t.taleTitle ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  ORDER BY t.taleTitle ASC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
@@ -139,7 +183,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  ORDER BY t.taleDate DESC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
@@ -149,7 +196,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  ORDER BY t.taleScore DESC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
@@ -159,47 +209,60 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
     }
 
-    public function findOneByDateDesc()
+    public function findByDateDesc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleDate DESC'
             )
             ->setMaxResults(1)
             ->getResult();
     }
 
-    public function findOneByScoreDesc()
+    public function findByScoreDesc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleScore DESC'
             )
             ->setMaxResults(1)
             ->getResult();
     }
 
-    public function findOneByLikesDesc()
+    public function findByLikesDesc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->setMaxResults(1)
             ->getResult();
     }
 
-    public function deleteOneById($id)
+    public function deleteById($id)
     {
         $this->getEntityManager()
             ->createQuery(
-                'DELETE FROM AppBundle:Tale t WHERE t.id = :id'
+                'DELETE
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :id'
             )
             ->setParameter('id', $id)
             ->getResult();

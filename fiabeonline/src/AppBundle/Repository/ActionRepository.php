@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class ActionRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT a
+                  FROM AppBundle:Action a'
+            )
+            ->getResult();
+    }
 }

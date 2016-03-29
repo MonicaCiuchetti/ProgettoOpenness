@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaleGenreRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT tG
+                  FROM AppBundle:TaleGenre tG'
+            )
+            ->getResult();
+    }
 }

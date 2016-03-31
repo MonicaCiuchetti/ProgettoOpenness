@@ -1,0 +1,11 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+        {% for sequence in sequences %}
+            <p>Sequence Id: {{ sequence.id }}</p>
+            <br/>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -13,7 +13,7 @@ class TaleController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/card.html.twig', array(
+        return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
         ));
     }
@@ -291,7 +291,7 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findByLikesDesc();
-        return $this->render('test/tale.html.twig', array(
+        return $this->render('tales/detail.html.twig', array(
                 'tales' => $tales)
         );
     }

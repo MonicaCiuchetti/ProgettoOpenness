@@ -27,10 +27,9 @@
             </div>
         </div>
 
-        <div class="col-sm-1"></div>
         {# fasi fiabe #}
-        <div class="col-sm-8">
-            {% for sequence in sequences %}
+        <div class="col-sm-8  col-sm-offset-1">
+            {% for sequence in tale.sequences %}
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="verticaltext">Sequenza {{ sequence.seqOrder }}</div>
@@ -40,6 +39,7 @@
                             </div>
                         </div>
                     </div>
+                    {#slide show carte #}
                     {% if sequence.actions.count() > 0 %}
                         <div class="col-sm-6">
                             <div class="container-fluid">
@@ -79,9 +79,5 @@
                 </div>
             {% endfor %}
         </div>
-
-        {#slide show carte #}
-
     </div>
-
 {% endblock %}

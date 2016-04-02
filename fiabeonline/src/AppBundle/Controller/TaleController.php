@@ -291,16 +291,8 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findByLikesDesc();
-        $sequences = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:Sequence')
-            ->findAllByTaleIdOrderedBySeqOrderAsc($tale->getId());
-        $actions = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:Action')
-            ->findAllByTaleIdOrderedBySeqOrder($tale->getId());
         return $this->render('tales/detail.html.twig', array(
-                'tale' => $tale, 'sequences' => $sequences, 'actions' => $actions)
+                'tale' => $tale)
         );
     }
 

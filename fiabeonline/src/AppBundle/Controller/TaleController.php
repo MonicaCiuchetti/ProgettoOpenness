@@ -283,21 +283,29 @@ class TaleController extends Controller
     }
 
     /**
-     * @Route("/tale/find/one/like/desc", name="findTaleByLikesDesc")
+     * @Route("/tale/find/like/", name="findTaleByLikesDesc")
      */
     public function findByLikesDesc()
     {
-        $tales = $this->getDoctrine()
+        $tale = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findByLikesDesc();
+        $sequences = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Sequence')
+            ->findAllByTaleIdOrderedBySeqOrderAsc($tale->getId());
+        $cards = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Sequence')
+            ->findAllByTaleIdOrderedBySeqOrderAsc($tale->getId());
         return $this->render('tales/detail.html.twig', array(
-                'tales' => $tales)
+                'tale' => $tale, 'sequences' => $sequences, 'cards' => $cards)
         );
     }
 
     /**
-     * @Route("/tale/delete/id/{taleId}", name="deleteTailById")
+     * @Route("/tale/delete/{taleId}", name="deleteTailById")
      */
     public function deleteOneById($taleId)
     {

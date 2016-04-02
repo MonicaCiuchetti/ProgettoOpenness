@@ -59,6 +59,19 @@ class CardRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findAllByTaleIdOrderedBySeqOrder($taleId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s
+                  WHERE s.tale = :taleId
+                  ORDER BY s.seqOrder ASC'
+            )
+            ->setParameter('taleId', $taleId)
+            ->getResult();
+    }
+
     public function findAllByTypeId($typeId)
     {
         return $this->getEntityManager()

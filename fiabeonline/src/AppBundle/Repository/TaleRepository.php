@@ -245,15 +245,40 @@ class TaleRepository extends EntityRepository
 
     public function findByLikesDesc()
     {
-        return $this->getEntityManager()
+        /*return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes
-                  FROM AppBundle:Tale t JOIN t.likes l
-                  GROUP BY t
-                  ORDER BY likes DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :taleId'
             )
-            ->setMaxResults(1)
+            ->setParameter('taleId', $this->getEntityManager()
+                ->createQuery(
+                    'SELECT t, COUNT(t) AS likes
+                      FROM AppBundle:Tale t JOIN t.likes l
+                      GROUP BY t
+                      ORDER BY likes DESC'
+                )
+                ->setMaxResults(1)
+                ->getSingleResult()[0]
+                ->getId()
+            )
+            ->getResult()[0];
+        */
+
+        $tales = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t'
+            )
             ->getResult();
+
+        foreach ($tales as $tale) {
+            if (!isset($result) || $tale->getLikes()->count() > $result->getLikes()->count()) {
+                $result = $tale;
+            }
+        }
+
+        return $result;
     }
 
     public function deleteById($id)

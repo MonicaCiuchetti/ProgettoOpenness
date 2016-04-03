@@ -8,5 +8,10 @@
 {% autoescape false %}
 {{ 'resetting.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
 {% endautoescape %}
+Ciao {{ user.username }} !
+
+Puoi cambiare la password seguendo il link {{ confirmationUrl }}
+
+Il team di sviluppo
 {% endblock %}
 {% block body_html %}{% endblock %}

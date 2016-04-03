@@ -272,6 +272,8 @@ class TaleRepository extends EntityRepository
             )
             ->getResult();
 
+        $result = null;
+
         foreach ($tales as $tale) {
             if (!isset($result) || $tale->getLikes()->count() > $result->getLikes()->count()) {
                 $result = $tale;

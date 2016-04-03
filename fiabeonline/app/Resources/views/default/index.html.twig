@@ -66,7 +66,7 @@
 					                    Naviga tra le fiabe più votate
 					                </p>
 					                <div class="thumbnail">
-									      <img src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
+									      <img src= "{{ asset('castello1.png') }}" alt="fiaba">
 									      <div class="caption">
 									        <h4>Titolo</h4>
                           <p>sintesi</p>
@@ -78,27 +78,38 @@
 					            </div>
                     </div>
                       <div class="section last">
-                                    <div class="well well-lg">
-                                        <p>
+                            <div class="well well-lg">
+                                  <p>
                                         L'ultima fiaba scritta
                                         </p>
+                                        <div class="media">
+                                          <div class="media-body">
+                                        <h4 class="media-heading">Titolo della fiaba</h4>
+                                        sintesi
+                                      </div>
+                                      <div class="media-right media-middle">
+                                        <a href="#">
+                                         <img src= "{{ asset('castello1.png') }}" alt="fiaba">
+                                        </a>
+                                      </div>
                                          <p> <a class="btn btn-primary btn-sm" href="#">
                                   <span class="fa fa-fort-awesome" aria-hidden="true"></span> Visualizza 
                               </a></p>
                                     </div>
-                                   
+                                  </div>
                                 </div>
                                 <div class="section your">
                                     <div class="well well-lg">
                                       <div class="media">
-                                      <div class="media-left media-middle">
-                                        <a href="#">
-                                          <img class="media-object" src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
-                                        </a>
-                                      </div>
+                                      
                                       <div class="media-body">
                                         <h4 class="media-heading">Titolo della fiaba</h4>
                                         sintesi
+                                      </div>
+                                      <div class="media-left media-middle">
+                                        <a href="#">
+                                         <img src= "{{ asset('propp.jpg') }}" alt="fiaba">
+                                        </a>
                                       </div>
                                     </div>
                                      <p> <a class="btn btn-primary btn-sm" href="#">

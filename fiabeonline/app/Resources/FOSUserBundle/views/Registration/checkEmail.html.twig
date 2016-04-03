@@ -1,10 +1,13 @@
 {# app/Resources/FOSUserBundle/views/Registration/checkEmail.html.twig #}
 {% extends 'base.html.twig' %}
-{% block body %}
 
+{% block session_alert %}
 {% trans_default_domain 'FOSUserBundle' %}
-
-{% block fos_user_content %}
-    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
-{% endblock fos_user_content %}
-{% endblock %}
+<div class="row">
+<div id="checkemail" style="margin-top:20px" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+		     <div class="alert alert-dismissible alert-success">
+	             <button type="button" class="close" data-dismiss="alert">&times;</button>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</div>
+         </div>
+ </div>
+{% endblock session_alert %}
+{% block body %}{% endblock %}

@@ -62,16 +62,19 @@
 
                 </header> 
             {% endblock %}
+            
             <!--gestione sessione -->
-            {% if app.request.hasPreviousSession %}
-                {% for type, messages in app.session.flashbag.all() %}
-                    {% for message in messages %}
-                        <div class="flash-{{ type }}">
-                            {{ message }}
-                        </div>
+            {% block session %}
+                {% if app.request.hasPreviousSession %}
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for message in messages %}
+                            <div class="flash-{{ type }}"><p class="text-warning">{{ message }}</p>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            {% endif %}
+                {% endif %}
+            {% endblock %}
+            {% block message %}{% endblock message%}
             <!--fine gestione sessione -->
             {% block body %}{% endblock %}
             {% block footer %}
@@ -96,8 +99,7 @@
                 </div>
             </footer>
         {% endblock %}
-        {% block fos_user_content %}
-        {% endblock fos_user_content %}
+        
         {% block javascripts %}
             <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
             <script src="{{ asset('js/jquery.js') }}"></script>

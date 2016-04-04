@@ -33,7 +33,7 @@ class TaleController extends Controller
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
 
-        return $this->render('game/card.html.twig', array('tales' => $tales));
+        return $this->render('tales/index.html.twig', array('tales' => $tales));
     }
 
     /**
@@ -55,7 +55,11 @@ class TaleController extends Controller
      */
     public function taleShowAction($id)
     {
-        return $this->render('game/tale_show.html.twig', array('id' => $id));
+        $tale = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Tale')
+            ->findAll();//da cambiare
+        return $this->render('tales/detail.html.twig', array('tale' => $tale));
     }
 
     /**

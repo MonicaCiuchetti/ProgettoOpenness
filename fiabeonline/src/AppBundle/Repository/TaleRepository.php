@@ -294,4 +294,15 @@ class TaleRepository extends EntityRepository
             ->setParameter('id', $id)
             ->getResult();
     }
+    public function findById($id)
+    {
+        $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :id'
+            )
+            ->setParameter('id', $id)
+            ->getResult();
+    }
 }

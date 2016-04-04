@@ -9,27 +9,41 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/user/tale/id/{taleId}", name="findOneByTaleId")
+     * @Route("/user/find/log/id/{logId}", name="findUserByLogId")
      */
-    public function findOneByTaleId($taleId)
+    public function findByLogId($logId)
     {
         $users = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:User')
-            ->findOneByTaleId($taleId);
-        return $this->render('user/index.html.twig', array(
+            ->findByTaleId($logId);
+        return $this->render('test/user.html.twig', array(
                 'users' => $users)
         );
     }
 
     /**
-     * @Route("/users/delete/id/{id}", name="deleteUserById")
+     * @Route("/user/find/tale/id/{taleId}", name="findUserByTaleId")
      */
-    public function deleteOneById($id)
+    public function findByTaleId($taleId)
+    {
+        $users = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User')
+            ->findByTaleId($taleId);
+        return $this->render('test/user.html.twig', array(
+                'users' => $users)
+        );
+    }
+
+    /**
+     * @Route("/user/delete/id/{userId}", name="deleteUserById")
+     */
+    public function deleteById($userId)
     {
         $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:User')
-            ->deleteOneById($id);
+            ->deleteOneById($userId);
     }
 }

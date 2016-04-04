@@ -1,0 +1,12 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+        {% for userlike in userlikes %}
+            <p>Tale Id: {{ userlike.tale.id }}</p>
+            <p>User Id: {{ userlike.user.id }}</p>
+            <br/>
+        {% endfor %}
+    </div>
+{% endblock %}

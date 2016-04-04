@@ -12,4 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserLikeRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT uL
+                  FROM AppBundle:UserLike uL'
+            )
+            ->getResult();
+    }
+
+    public function deleteById($taleId, $userId)
+    {
+        $this->getEntityManager()
+            ->createQuery(
+                'DELETE
+                  FROM AppBundle:UserLike uL
+                  WHERE uL.tale = :taleId AND uL.user = :userId'
+            )
+            ->setParameter('taleId', $taleId)
+            ->setParameter('userId', $userId)
+            ->getResult();
+    }
 }

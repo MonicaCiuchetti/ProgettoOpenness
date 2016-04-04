@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class TypeRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Type t'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderedByTypeDescriptionAsc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Type t
+                  ORDER BY t.typeDescription ASC'
+            )
+            ->getResult();
+    }
 }

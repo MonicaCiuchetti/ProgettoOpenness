@@ -1,0 +1,11 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+        {% for genre in genres %}
+            <p>Genre Id: {{ genre.id }}</p>
+            <br/>
+        {% endfor %}
+    </div>
+{% endblock %}

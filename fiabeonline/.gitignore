@@ -25,6 +25,7 @@
 /src/AppBundle/Entity/TaleGenre.php~
 /src/AppBundle/Entity/Type.php~
 /src/AppBundle/Entity/User.php~
+/src/AppBundle/Entity/UserLike.php~
 /app/SymfonyRequirements.php
 /app/check.php
 /composer.lock

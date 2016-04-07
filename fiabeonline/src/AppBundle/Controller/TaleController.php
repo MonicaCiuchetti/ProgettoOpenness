@@ -30,10 +30,28 @@ class TaleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $tales = $em->getRepository('AppBundle:Tale')->findAllOrderedByTaleDateAsc();
 
+
+        $talesText = array();
+        $talesImages = array();
+        foreach ($tales as &$tale) {
+            $text = "";
+            foreach($tale->getSequences() as $sequence){
+                $imagesArray = array();
+                $text .= $sequence->getSeqText();
+                $text .= " ";
+                foreach ($sequence->getActions() as $action) {
+                    $imagesArray[] = $action->getCard()->getCardType()->getCtBack();
+                }
+                $talesImages[] = $imagesArray;
+            }
+            $talesText[] = $text;
+        }
+
+
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
 
-        return $this->render('tales/index.html.twig', array('tales' => $tales));
+        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesTexts' => $talesText, 'images' => $talesImages));
     }
 
     /**
@@ -51,15 +69,24 @@ class TaleController extends Controller
     }
 
     /**
-     * @Route("/tales/{slug}", name="tale", defaults={"id" = 1})
+     * @Route("/tales/{idTale}", name="tale")
      */
-    public function taleShowAction($id)
+    public function taleShowAction($idTale)
     {
         $tale = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->findAll();//da cambiare
-        return $this->render('tales/detail.html.twig', array('tale' => $tale));
+            ->findById($idTale);
+
+        $imagesArray = array();
+
+        foreach ($tale[0]->getSequences() as $sequence) {
+            foreach ($sequence->getActions() as $action) {
+                $imagesArray[] = $action->getCard()->getCardType()->getCtBack();
+            }
+        }
+
+        return $this->render('tales/detail.html.twig', array('tale' => $tale, 'images' => $imagesArray));
     }
 
     /**

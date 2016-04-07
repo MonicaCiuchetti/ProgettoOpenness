@@ -27,8 +27,8 @@
                 {% else %}
                   <h6>Autore non specificato</h6>
                 {% endif %}
-                <p>{{tale.taleNotes | truncate(10 , false) }}</p>
-                <p><button type="button" class="btn btn-primary btn-sm pull-right" onclick="location.href='{{ path('tale', { slug: tale.id }) }}'">Leggi la fiaba completa</button></p>
+                <p>{{talesTexts[loop.index0] | truncate(150 , false) }}</p>
+                <p><button type="button" class="btn btn-primary btn-sm pull-right" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'">Leggi la fiaba completa</button></p>
             </div>
           </div>
         </div>

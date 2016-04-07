@@ -296,7 +296,7 @@ class TaleRepository extends EntityRepository
     }
     public function findById($id)
     {
-        $this->getEntityManager()
+        return $this->getEntityManager()
             ->createQuery(
                 'SELECT t
                   FROM AppBundle:Tale t

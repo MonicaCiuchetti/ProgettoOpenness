@@ -35,7 +35,7 @@ class TaleController extends Controller
         $talesImages = array();
         foreach ($tales as &$tale) {
             $text = "";
-            foreach($tale->getSequences() as $sequence){
+            foreach ($tale->getSequences() as $sequence) {
                 $imagesArray = array();
                 $text .= $sequence->getSeqText();
                 $text .= " ";

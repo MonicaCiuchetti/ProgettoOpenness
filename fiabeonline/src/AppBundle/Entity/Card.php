@@ -31,7 +31,14 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="cardFront", type="string", length=40)
+     * @ORM\Column(name="cardText", type="string", length=100)
+     */
+    private $cardText;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cardFront", type="string", length=50)
      */
     private $cardFront;
 
@@ -54,7 +61,7 @@ class Card
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -77,7 +84,7 @@ class Card
     /**
      * Get cardDescription
      *
-     * @return string 
+     * @return string
      */
     public function getCardDescription()
     {
@@ -100,7 +107,7 @@ class Card
     /**
      * Get cardFront
      *
-     * @return string 
+     * @return string
      */
     public function getCardFront()
     {
@@ -123,7 +130,7 @@ class Card
     /**
      * Get cardType
      *
-     * @return \AppBundle\Entity\CardType 
+     * @return \AppBundle\Entity\CardType
      */
     public function getCardType()
     {
@@ -156,10 +163,33 @@ class Card
     /**
      * Get actions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Set cardText
+     *
+     * @param string $cardText
+     * @return Card
+     */
+    public function setCardText($cardText)
+    {
+        $this->cardText = $cardText;
+
+        return $this;
+    }
+
+    /**
+     * Get cardText
+     *
+     * @return string 
+     */
+    public function getCardText()
+    {
+        return $this->cardText;
     }
 }

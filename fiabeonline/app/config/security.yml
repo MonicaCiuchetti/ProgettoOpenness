@@ -18,6 +18,7 @@ security:
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -29,8 +30,12 @@ security:
                 csrf_token_generator: security.csrf.token_manager
                 # if you are using Symfony < 2.8, use the following config instead:
                 # csrf_provider: form.csrf_provider
-                remember_me: true
                 require_previous_session: false
+                remember_me: true
+            remember_me:
+                    secret:   '%secret%'
+                    lifetime: 1200 # in seconds
+                    path:     /
             logout:       true
             anonymous:    true
 

@@ -16,10 +16,12 @@
             <div class="panel panel-primary" >
                     <div class="panel-heading">
                         <div class="panel-title">Sign In</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="{{ path('fos_user_resetting_request') }}"><p class="text-info">Password dimenticata?</p></a></div>
+                        <!--modificare stile text-info con colore bianco -->
                     </div>     
                     
                     <div style="padding-top:30px" class="panel-body" >
-                    	<div style="float:right; font-size: 80%; position: relative; top:-20px"><a href="{{ path('fos_user_resetting_request') }}">Password dimenticata?</a></div>
+                    	
 
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                         {% if error %}
@@ -43,7 +45,7 @@
                             <div class="input-group">
                                       <div class="checkbox">
                                         <label>
-                                          <input id="remember_me" type="checkbox" name="_remember_me" value="1"> Ricorda la password
+                                          <input id="remember_me" type="checkbox" name="_remember_me" value="1"/> Ricorda la password
                                         </label>
                                          
                                       </div>

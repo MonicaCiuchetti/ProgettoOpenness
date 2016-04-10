@@ -32,6 +32,10 @@ security:
                 # csrf_provider: form.csrf_provider
                 require_previous_session: false
                 remember_me: true
+                 # login success redirecting options (read further below)
+                always_use_default_target_path: false
+                default_target_path:            /user
+
             remember_me:
                     secret:   '%secret%'
                     lifetime: 1200 # in seconds

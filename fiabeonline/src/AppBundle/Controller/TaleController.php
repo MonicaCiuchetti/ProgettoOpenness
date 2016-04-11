@@ -34,24 +34,24 @@ class TaleController extends Controller
         $talesText = array();
         $talesImages = array();
         foreach ($tales as &$tale) {
-            $text = "";
+            $taleText = "";
             foreach($tale->getSequences() as $sequence){
                 $imagesArray = array();
-                $text .= $sequence->getSeqText();
-                $text .= " ";
+                $taleText .= $sequence->getSeqText();
+                $taleText .= " ";
                 foreach ($sequence->getActions() as $action) {
                     $imagesArray[] = $action->getCard()->getCardType()->getCtBack();
                 }
                 $talesImages[] = $imagesArray;
             }
-            $talesText[] = $text;
+            $talesText[] = $taleText;
         }
 
 
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
 
-        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesTexts' => $talesText, 'images' => $talesImages));
+        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesText' => $talesText, 'images' => $talesImages));
     }
 
     /**
@@ -79,14 +79,17 @@ class TaleController extends Controller
             ->findById($idTale);
 
         $imagesArray = array();
+        $taleText = "";
 
         foreach ($tale[0]->getSequences() as $sequence) {
+            $taleText .= $sequence->getSeqText();
+            $taleText .= " ";
             foreach ($sequence->getActions() as $action) {
                 $imagesArray[] = $action->getCard()->getCardType()->getCtBack();
             }
         }
 
-        return $this->render('tales/detail.html.twig', array('tale' => $tale, 'images' => $imagesArray));
+        return $this->render('tales/detail.html.twig', array('tale' => $tale, 'images' => $imagesArray, "taleText" => $taleText));
     }
 
     /**

@@ -92,7 +92,7 @@ class UserLike
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getUser()
     {
@@ -115,7 +115,7 @@ class UserLike
     /**
      * Get tale
      *
-     * @return \AppBundle\Entity\Tale 
+     * @return \AppBundle\Entity\Tale
      */
     public function getTale()
     {

@@ -89,7 +89,7 @@ class ActionPropp
     /**
      * Get sequenceType
      *
-     * @return \AppBundle\Entity\SequenceType 
+     * @return \AppBundle\Entity\SequenceType
      */
     public function getSequenceType()
     {
@@ -112,7 +112,7 @@ class ActionPropp
     /**
      * Get cardType
      *
-     * @return \AppBundle\Entity\CardType 
+     * @return \AppBundle\Entity\CardType
      */
     public function getCardType()
     {

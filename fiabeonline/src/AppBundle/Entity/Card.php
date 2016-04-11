@@ -20,7 +20,7 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="cardDescription", type="string", length=25)
+     * @ORM\Column(name="cardDescription", type="string", length=50)
      */
     private $cardDescription;
     /**

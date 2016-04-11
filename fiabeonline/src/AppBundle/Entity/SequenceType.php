@@ -24,14 +24,14 @@ class SequenceType
     /**
      * @var string
      *
-     * @ORM\Column(name="stDescription", type="string", length=20)
+     * @ORM\Column(name="stDescription", type="string", length=50)
      */
     private $stDescription;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="stColor", type="string", length=8)
+     * @ORM\Column(name="stColor", type="string", length=7)
      */
     private $stColor;
 

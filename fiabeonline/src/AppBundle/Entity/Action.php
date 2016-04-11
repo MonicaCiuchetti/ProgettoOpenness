@@ -22,13 +22,6 @@ class Action
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="actType", type="string", length=2, options={"fixed" = true})
-     */
-    private $actType;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Sequence", inversedBy="actions")
      * @ORM\JoinColumn(name="sequence", referencedColumnName="id", onDelete="CASCADE")
      */

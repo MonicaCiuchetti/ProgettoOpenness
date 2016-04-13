@@ -36,6 +36,25 @@ class UserController extends Controller
         );
     }
 
+
+    /**
+     * @Route("/user/tales", name="usertales")
+     * @Route("/user/tales/page/{page}", name="user_tales_paginated", defaults={"page" = 1})
+     */
+    public function findUserTalesAction($page)
+    {
+        $paginator = $this->get('knp_paginator');
+        $tales = $this->getUser()->getTales();
+
+        $tales = $paginator->paginate($tales, $page, 12);
+        $tales->setUsedRoute('user_tales_paginated');
+
+
+        return $this->render('test/view_userindex.html.twig', array('tales' => $tales));//Da testare, in attesa della vista
+    }
+
+
+
     /**
      * @Route("/user/delete/id/{userId}", name="deleteUserById")
      */

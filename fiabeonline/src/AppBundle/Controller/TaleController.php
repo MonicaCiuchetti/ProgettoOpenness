@@ -69,6 +69,31 @@ class TaleController extends Controller
     }
 
     /**
+     * @Route("/tales/insert", name="inserttale")
+     */
+    public function viewInsertTaleAction(){
+      $genres = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:Genre')
+          ->findAll();
+
+      $types = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:Type')
+          ->findAll();
+
+      $sequenceTypes = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:SequenceType')
+          ->findAll();
+
+      return $this->render('test/tale.html.twig', array("genres" => $genres, "types" => $types, "sequenceTypes" => $sequenceTypes));
+      //cambiare la vista da renderizzare
+    }
+
+
+
+    /**
      * @Route("/tales/{idTale}", name="tale")
      */
     public function taleShowAction($idTale)

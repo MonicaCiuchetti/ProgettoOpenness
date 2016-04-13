@@ -22,11 +22,11 @@ class ActionPropp
     private $id;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="actTypePropp", type="string", length=2, options={"fixed" = true})
+     * @ORM\Column(name="actionProppScore", type="integer")
      */
-    private $actTypePropp;
+    private $actionProppScore;
 
     /**
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="actionsPropp")
@@ -43,7 +43,7 @@ class ActionPropp
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -51,26 +51,26 @@ class ActionPropp
     }
 
     /**
-     * Set actTypePropp
+     * Set actionProppScore
      *
-     * @param string $actTypePropp
+     * @param integer $actionProppScore
      * @return ActionPropp
      */
-    public function setActTypePropp($actTypePropp)
+    public function setActionProppScore($actionProppScore)
     {
-        $this->actTypePropp = $actTypePropp;
+        $this->actionProppScore = $actionProppScore;
 
         return $this;
     }
 
     /**
-     * Get actTypePropp
+     * Get actionProppScore
      *
-     * @return string 
+     * @return integer
      */
-    public function getActTypePropp()
+    public function getActionProppScore()
     {
-        return $this->actTypePropp;
+        return $this->actionProppScore;
     }
 
     /**
@@ -89,7 +89,7 @@ class ActionPropp
     /**
      * Get sequenceType
      *
-     * @return \AppBundle\Entity\SequenceType 
+     * @return \AppBundle\Entity\SequenceType
      */
     public function getSequenceType()
     {
@@ -112,7 +112,7 @@ class ActionPropp
     /**
      * Get cardType
      *
-     * @return \AppBundle\Entity\CardType 
+     * @return \AppBundle\Entity\CardType
      */
     public function getCardType()
     {

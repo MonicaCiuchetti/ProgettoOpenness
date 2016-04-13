@@ -60,7 +60,7 @@ class Tale
     /**
      * @var string
      *
-     * @ORM\Column(name="taleNotes", type="string", length=30, nullable=true)
+     * @ORM\Column(name="taleNotes", type="string", length=50, nullable=true)
      */
     private $taleNotes;
 

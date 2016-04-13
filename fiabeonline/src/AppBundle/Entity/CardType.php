@@ -24,7 +24,7 @@ class CardType
     /**
      * @var string
      *
-     * @ORM\Column(name="ctDescription", type="string", length=25)
+     * @ORM\Column(name="ctDescription", type="string", length=50)
      */
     private $ctDescription;
 

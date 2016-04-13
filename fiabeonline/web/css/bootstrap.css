@@ -25,7 +25,9 @@ aside,
 details,
 figcaption,
 figure,
-footer,
+footer{
+  height: 65px;
+}
 header,
 hgroup,
 main,
@@ -1092,6 +1094,7 @@ body {
     line-height: 1.42857143;
     color: #555555;
     background-color: #ffffff
+
 }
 input,
 button,
@@ -4353,7 +4356,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
     position: fixed;
     right: 0;
     left: 0;
-    z-index: 1030
+    z-index: 1030;
 }
 @media (min-width: 768px) {
     .navbar-fixed-top,
@@ -7043,10 +7046,4 @@ button.close {
     padding-bottom: 15px;
     margin-bottom: 20px;
     color: inherit;
-}
-.footer-static{
-  position: fixed;
-  height: 100px;
-  bottom: 0;
-  width: 100%;
 }

@@ -30,6 +30,13 @@ class Tale
     private $taleTitle;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="isPublic", type="boolean")
+     */
+    private $isPublic;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="taleAuthor", type="string", length=30, nullable=true)
@@ -108,7 +115,7 @@ class Tale
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -131,11 +138,34 @@ class Tale
     /**
      * Get taleTitle
      *
-     * @return string 
+     * @return string
      */
     public function getTaleTitle()
     {
         return $this->taleTitle;
+    }
+
+    /**
+     * Set isPublic
+     *
+     * @param boolean $isPublic
+     * @return Tale
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublic
+     *
+     * @return boolean
+     */
+    public function getIsPublic()
+    {
+        return $this->isPublic;
     }
 
     /**
@@ -154,7 +184,7 @@ class Tale
     /**
      * Get taleAuthor
      *
-     * @return string 
+     * @return string
      */
     public function getTaleAuthor()
     {
@@ -177,7 +207,7 @@ class Tale
     /**
      * Get taleVersion
      *
-     * @return string 
+     * @return string
      */
     public function getTaleVersion()
     {
@@ -200,7 +230,7 @@ class Tale
     /**
      * Get taleDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTaleDate()
     {
@@ -223,7 +253,7 @@ class Tale
     /**
      * Get taleUpdate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTaleUpdate()
     {
@@ -246,7 +276,7 @@ class Tale
     /**
      * Get taleNotes
      *
-     * @return string 
+     * @return string
      */
     public function getTaleNotes()
     {
@@ -269,7 +299,7 @@ class Tale
     /**
      * Get taleScore
      *
-     * @return integer 
+     * @return integer
      */
     public function getTaleScore()
     {
@@ -292,7 +322,7 @@ class Tale
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getUser()
     {
@@ -315,7 +345,7 @@ class Tale
     /**
      * Get type
      *
-     * @return \AppBundle\Entity\Type 
+     * @return \AppBundle\Entity\Type
      */
     public function getType()
     {
@@ -348,7 +378,7 @@ class Tale
     /**
      * Get likes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLikes()
     {
@@ -381,7 +411,7 @@ class Tale
     /**
      * Get taleGenres
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTaleGenres()
     {
@@ -414,7 +444,7 @@ class Tale
     /**
      * Get sequences
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSequences()
     {

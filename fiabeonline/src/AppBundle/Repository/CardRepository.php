@@ -47,19 +47,19 @@ class CardRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findAllByTaleId($taleId)
+    public function findAllByTypeId($typeId)
     {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT c
-                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s
-                  WHERE s.tale = :taleId'
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t JOIN t.type ty
+                  WHERE ty.id = :typeId'
             )
-            ->setParameter('taleId', $taleId)
+            ->setParameter('typeId', $typeId)
             ->getResult();
     }
 
-    public function findAllByTaleIdOrderedBySeqOrder($taleId)
+    public function findAllByTaleId($taleId)
     {
         return $this->getEntityManager()
             ->createQuery(
@@ -72,15 +72,47 @@ class CardRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findAllByTypeId($typeId)
+    public function findAllFunctions()
     {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT c
-                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t JOIN t.type ty
-                  WHERE ty.id = :typeId'
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Funzione\''
             )
-            ->setParameter('typeId', $typeId)
+            ->getResult();
+    }
+
+    public function findAllCharacters()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Roulo/Personaggio\''
+            )
+            ->getResult();
+    }
+
+    public function findAllPlaces()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Luogo\''
+            )
+            ->getResult();
+    }
+
+    public function findAllObjectsOfDesire()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Elemento magico\''
+            )
             ->getResult();
     }
 }

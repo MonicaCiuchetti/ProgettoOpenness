@@ -294,6 +294,7 @@ class TaleRepository extends EntityRepository
             ->setParameter('id', $id)
             ->getResult();
     }
+
     public function findById($id)
     {
         return $this->getEntityManager()
@@ -304,5 +305,41 @@ class TaleRepository extends EntityRepository
             )
             ->setParameter('id', $id)
             ->getResult();
+    }
+
+    public function findCloserByTaleScore($id)
+    {
+        $tales = $this->findById($id);
+        $score = $tales[0]->getTaleScore();
+
+        $bestTales = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t
+                    WHERE t.taleScore >= :score
+                    ORDER BY t.taleScore ASC'
+            )
+            ->setMaxResults(6)
+            ->setParameter('score', $score)
+            ->getResult();
+
+        $worstTale = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t
+                    WHERE t.taleScore < :score
+                    ORDER BY t.taleScore DESC'
+            )
+            ->setMaxResults(5)
+            ->setParameter('score', $score)
+            ->getResult();
+
+        $bestTales = array_reverse($bestTales);
+
+        foreach ($worstTale as $tale) {
+            $bestTales[] = $tale;
+        }
+
+        return $bestTales;
     }
 }

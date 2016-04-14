@@ -22,16 +22,16 @@ class TaleGenre
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tale", inversedBy="taleGenres")
-     * @ORM\JoinColumn(name="tale", referencedColumnName="id")
-     */
-    private $tale;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Genre", inversedBy="taleGenres")
      * @ORM\JoinColumn(name="genre", referencedColumnName="id")
      */
     private $genre;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tale", inversedBy="taleGenres")
+     * @ORM\JoinColumn(name="tale", referencedColumnName="id")
+     */
+    private $tale;
 
     /**
      * Get id
@@ -41,29 +41,6 @@ class TaleGenre
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set tale
-     *
-     * @param \AppBundle\Entity\Tale $tale
-     * @return TaleGenre
-     */
-    public function setTale(\AppBundle\Entity\Tale $tale = null)
-    {
-        $this->tale = $tale;
-
-        return $this;
-    }
-
-    /**
-     * Get tale
-     *
-     * @return \AppBundle\Entity\Tale 
-     */
-    public function getTale()
-    {
-        return $this->tale;
     }
 
     /**
@@ -87,5 +64,28 @@ class TaleGenre
     public function getGenre()
     {
         return $this->genre;
+    }
+
+    /**
+     * Set tale
+     *
+     * @param \AppBundle\Entity\Tale $tale
+     * @return TaleGenre
+     */
+    public function setTale(\AppBundle\Entity\Tale $tale = null)
+    {
+        $this->tale = $tale;
+
+        return $this;
+    }
+
+    /**
+     * Get tale
+     *
+     * @return \AppBundle\Entity\Tale 
+     */
+    public function getTale()
+    {
+        return $this->tale;
     }
 }

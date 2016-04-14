@@ -24,15 +24,9 @@ class ActionPropp
     /**
      * @var int
      *
-     * @ORM\Column(name="actionProppScore", type="integer")
+     * @ORM\Column(name="score", type="integer")
      */
-    private $actionProppScore;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="actionsPropp")
-     * @ORM\JoinColumn(name="sequenceType", referencedColumnName="id")
-     */
-    private $sequenceType;
+    private $score;
 
     /**
      * @ORM\ManyToOne(targetEntity="CardType", inversedBy="actionsPropp")
@@ -41,9 +35,15 @@ class ActionPropp
     private $cardType;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="actionsPropp")
+     * @ORM\JoinColumn(name="sequenceType", referencedColumnName="id")
+     */
+    private $sequenceType;
+
+    /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -51,49 +51,26 @@ class ActionPropp
     }
 
     /**
-     * Set actionProppScore
+     * Set score
      *
-     * @param integer $actionProppScore
+     * @param integer $score
      * @return ActionPropp
      */
-    public function setActionProppScore($actionProppScore)
+    public function setScore($score)
     {
-        $this->actionProppScore = $actionProppScore;
+        $this->score = $score;
 
         return $this;
     }
 
     /**
-     * Get actionProppScore
+     * Get score
      *
-     * @return integer
+     * @return integer 
      */
-    public function getActionProppScore()
+    public function getScore()
     {
-        return $this->actionProppScore;
-    }
-
-    /**
-     * Set sequenceType
-     *
-     * @param \AppBundle\Entity\SequenceType $sequenceType
-     * @return ActionPropp
-     */
-    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
-    {
-        $this->sequenceType = $sequenceType;
-
-        return $this;
-    }
-
-    /**
-     * Get sequenceType
-     *
-     * @return \AppBundle\Entity\SequenceType
-     */
-    public function getSequenceType()
-    {
-        return $this->sequenceType;
+        return $this->score;
     }
 
     /**
@@ -112,10 +89,33 @@ class ActionPropp
     /**
      * Get cardType
      *
-     * @return \AppBundle\Entity\CardType
+     * @return \AppBundle\Entity\CardType 
      */
     public function getCardType()
     {
         return $this->cardType;
+    }
+
+    /**
+     * Set sequenceType
+     *
+     * @param \AppBundle\Entity\SequenceType $sequenceType
+     * @return ActionPropp
+     */
+    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
+    {
+        $this->sequenceType = $sequenceType;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceType
+     *
+     * @return \AppBundle\Entity\SequenceType 
+     */
+    public function getSequenceType()
+    {
+        return $this->sequenceType;
     }
 }

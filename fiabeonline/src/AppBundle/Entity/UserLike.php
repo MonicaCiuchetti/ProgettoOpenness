@@ -16,64 +16,41 @@ class UserLike
      * @var int
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="likes")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $user;
-
-    /**
-     * @var int
-     *
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Tale", inversedBy="likes")
      * @ORM\JoinColumn(name="tale", referencedColumnName="id", onDelete="CASCADE")
      */
     private $tale;
 
     /**
-     * Set userId
+     * @var int
      *
-     * @param \AppBundle\Entity\User $userId
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="likes")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $user;
+
+    /**
+     * Set tale
+     *
+     * @param \AppBundle\Entity\Tale $tale
      * @return UserLike
      */
-    public function setUserId(\AppBundle\Entity\User $userId)
+    public function setTale(\AppBundle\Entity\Tale $tale)
     {
-        $this->userId = $userId;
+        $this->tale = $tale;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get tale
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Tale 
      */
-    public function getUserId()
+    public function getTale()
     {
-        return $this->userId;
-    }
-
-    /**
-     * Set taleId
-     *
-     * @param \AppBundle\Entity\Tale $taleId
-     * @return UserLike
-     */
-    public function setTaleId(\AppBundle\Entity\Tale $taleId)
-    {
-        $this->taleId = $taleId;
-
-        return $this;
-    }
-
-    /**
-     * Get taleId
-     *
-     * @return \AppBundle\Entity\Tale
-     */
-    public function getTaleId()
-    {
-        return $this->taleId;
+        return $this->tale;
     }
 
     /**
@@ -92,33 +69,10 @@ class UserLike
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\User 
      */
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set tale
-     *
-     * @param \AppBundle\Entity\Tale $tale
-     * @return UserLike
-     */
-    public function setTale(\AppBundle\Entity\Tale $tale)
-    {
-        $this->tale = $tale;
-
-        return $this;
-    }
-
-    /**
-     * Get tale
-     *
-     * @return \AppBundle\Entity\Tale
-     */
-    public function getTale()
-    {
-        return $this->tale;
     }
 }

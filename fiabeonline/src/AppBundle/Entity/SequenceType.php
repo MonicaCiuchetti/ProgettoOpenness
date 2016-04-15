@@ -31,7 +31,7 @@ class SequenceType
     /**
      * @var string
      *
-     * @ORM\Column(name="stDescription", type="string", length=250)
+     * @ORM\Column(name="stDescription", type="string", length=250, nullable=true)
      */
     private $stDescription;
 

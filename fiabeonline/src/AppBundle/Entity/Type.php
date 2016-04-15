@@ -24,14 +24,14 @@ class Type
     /**
      * @var string
      *
-     * @ORM\Column(name="typeName", type="string", length=250)
+     * @ORM\Column(name="typeName", type="string", length=50)
      */
     private $typeName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="typeDescription", type="string", length=50, nullable=true)
+     * @ORM\Column(name="typeDescription", type="string", length=250, nullable=true)
      */
     private $typeDescription;
 

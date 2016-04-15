@@ -24,14 +24,14 @@ class Genre
     /**
      * @var string
      *
-     * @ORM\Column(name="genreName", type="string", length=250)
+     * @ORM\Column(name="genreName", type="string", length=50)
      */
     private $genreName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="genreDescription", type="string", length=50)
+     * @ORM\Column(name="genreDescription", type="string", length=250, nullable=true)
      */
     private $genreDescription;
 
@@ -53,6 +53,29 @@ class Genre
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set genreName
+     *
+     * @param string $genreName
+     * @return Genre
+     */
+    public function setGenreName($genreName)
+    {
+        $this->genreName = $genreName;
+
+        return $this;
+    }
+
+    /**
+     * Get genreName
+     *
+     * @return string
+     */
+    public function getGenreName()
+    {
+        return $this->genreName;
     }
 
     /**
@@ -109,28 +132,5 @@ class Genre
     public function getTaleGenres()
     {
         return $this->taleGenres;
-    }
-
-    /**
-     * Set genreName
-     *
-     * @param string $genreName
-     * @return Genre
-     */
-    public function setGenreName($genreName)
-    {
-        $this->genreName = $genreName;
-
-        return $this;
-    }
-
-    /**
-     * Get genreName
-     *
-     * @return string 
-     */
-    public function getGenreName()
-    {
-        return $this->genreName;
     }
 }

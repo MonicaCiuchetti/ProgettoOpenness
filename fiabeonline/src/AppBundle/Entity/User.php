@@ -33,6 +33,13 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @ORM\Column(name="email", type="string", length=60, unique=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
@@ -40,23 +47,16 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=60, unique=true)
-     */
-    private $email;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isActive", type="boolean")
-     */
-    private $isActive;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="salt", type="string", length=40)
      */
     private $salt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="birthday", type="date")
+     */
+    private $birthday;
 
     /**
      * @var int
@@ -73,11 +73,11 @@ class User implements UserInterface, \Serializable
     private $score;
 
     /**
-     * @var \DateTime
+     * @var bool
      *
-     * @ORM\Column(name="birthday", type="date")
+     * @ORM\Column(name="isActive", type="boolean")
      */
-    private $birthday;
+    private $isActive;
 
     /**
      * @ORM\OneToMany(targetEntity="Log", mappedBy="user", orphanRemoval=true)
@@ -105,7 +105,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -128,7 +128,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -151,7 +151,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -174,7 +174,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -197,7 +197,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -220,7 +220,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get salt
      *
-     * @return string 
+     * @return string
      */
     public function getSalt()
     {
@@ -243,7 +243,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get level
      *
-     * @return integer 
+     * @return integer
      */
     public function getLevel()
     {
@@ -266,7 +266,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get score
      *
-     * @return integer 
+     * @return integer
      */
     public function getScore()
     {
@@ -289,7 +289,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get birthday
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getBirthday()
     {
@@ -322,7 +322,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get logs
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLogs()
     {
@@ -355,7 +355,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get likes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLikes()
     {
@@ -388,7 +388,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get tales
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTales()
     {
@@ -451,6 +451,6 @@ class User implements UserInterface, \Serializable
             $this->password,
             // see section on salt below
             // $this->salt
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 }

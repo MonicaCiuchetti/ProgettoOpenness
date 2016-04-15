@@ -2,6 +2,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+<style>
+.slideshow {
+    padding-top: 6%;
+    padding-bottom: 0px;
+    margin-bottom: -6%;
+    color: inherit;
+    margin-top: -6%;
+}
+</style>
+
 <div class="container body-container">
 
     {% set ciclo = false %}
@@ -32,8 +43,51 @@
             </div>
           </div>
         </div>
-          <div class="panel-footer">
-            slide
+          <div class="panel-footer" style="padding:0, 0, 0, 0!important">
+            <div id="cardDiv" class="slideshow">
+              <div id="{{loop.index0}}" class="carousel slide">
+
+                <!--<ol class="carousel-indicators">
+                  <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#Carousel" data-slide-to="1"></li>
+                  <li data-target="#Carousel" data-slide-to="2"></li>
+                </ol>-->
+
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                  {% for image in talesImages[loop.index0] %}
+                    {% if loop.index0%4 == 0 and loop.index0 != 0 %}
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="row">
+                          <div class="col-sm-3"><a href="#" class="thumbnail"><img src="{{image}}" alt="Image" style="max-width:100%;"></a></div>
+                    {% elseif loop.index0 == 0 %}
+                      <div class="item active">
+                        <div class="row">
+                          <div class="col-sm-3"><a href="#" class="thumbnail"><img src="{{image}}" alt="Image" style="max-width:100%;"></a></div>
+                    {% else %}
+                      <div class="col-sm-3"><a href="#" class="thumbnail"><img src="{{image}}" alt="Image" style="max-width:100%;"></a></div>
+                    {% endif %}
+                  {% endfor %}
+                  </div><!-- row -->
+                  </div><!-- item -->
+                </div><!--.carousel-inner-->
+
+                <a data-slide="prev" href="#{{loop.index0}}" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#{{loop.index0}}" class="right carousel-control">›</a>
+              </div><!--.Carousel-->
+
+
+
+              <script>
+              $(document).ready(function() {
+                $("#{{loop.index0}}").carousel({
+                  interval: 5000
+                })
+              });
+              </script>
+            </div>
           </div>
         </div>
 

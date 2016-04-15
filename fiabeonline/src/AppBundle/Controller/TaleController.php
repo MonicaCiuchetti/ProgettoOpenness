@@ -105,12 +105,22 @@ class TaleController extends Controller
 
         $taleText = "";
 
+        $sequencesImages = array();
         foreach ($tale[0]->getSequences() as $sequence) {
+           //Concateno testi di ogni sequenza
             $taleText .= $sequence->getSeqText();
+            //Li separo con lo spazio
             $taleText .= " ";
+            //creo l'array che associa le sequenze ai fronti delle proprie carte
+            $sequenceImages = array()
+            foreach ($sequence->getActions() as $action) {
+                $sequenceImages[] = $action->getCard()->getCardFront();
+              }
+            $sequencesImages[] = $sequenceImages;
         }
 
-        return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText));
+
+        return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
     }
 
     /**

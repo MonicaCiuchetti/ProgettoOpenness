@@ -67,20 +67,22 @@ class TaleRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findAllPublicOrderByTaleDateDesc(){
-      return $this->getEntityManager()->createQuery(
-          'SELECT t
+    public function findAllPublicOrderByTaleDateDesc()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT t
             FROM AppBundle:Tale t
             WHERE t.isPublic = TRUE ORDER BY t.taleDate DESC'
-      )->getResult();
+        )->getResult();
     }
 
-    public function findAllPublicOrderByTaleDateAsc(){
-      return $this->getEntityManager()->createQuery(
-          'SELECT t
+    public function findAllPublicOrderByTaleDateAsc()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT t
             FROM AppBundle:Tale t
             WHERE t.isPublic = TRUE ORDER BY t.taleDate ASC'
-      )->getResult();
+        )->getResult();
     }
 
     public function findAllOrderedByTaleScoreAsc()
@@ -355,6 +357,50 @@ class TaleRepository extends EntityRepository
         foreach ($worstTale as $tale) {
             $bestTales[] = $tale;
         }
+
+        return $bestTales;
+    }
+
+    public function findCloserByTaleLikes($id)
+    {
+        $tales = $this->findById($id);
+        $score = $tales[0]->getLikes()->count();
+
+        $bestTales = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t JOIN t.likes l
+                    GROUP BY t
+                    HAVING COUNT(l) >= :score'
+            )
+            ->setMaxResults(6)
+            ->setParameter('score', $score)
+            ->getResult();
+
+        $worstTale = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t JOIN t.likes l
+                    GROUP BY t
+                    HAVING COUNT(l) < :score'
+            )
+            ->setMaxResults(5)
+            ->setParameter('score', $score)
+            ->getResult();
+
+
+        foreach ($worstTale as $tale) {
+            $bestTales[] = $tale;
+        }
+
+        usort($bestTales, function ($a, $b) {
+            if ($a->getLikes()->count() == $b->getLikes()->count()) {
+                return 0;
+            }
+            return ($a->getLikes()->count() < $b->getLikes()->count()) ? -1 : 1;
+        });
+
+        array_reverse($tales);
 
         return $bestTales;
     }

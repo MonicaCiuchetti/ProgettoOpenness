@@ -28,30 +28,30 @@ class TaleController extends Controller
         $paginator = $this->get('knp_paginator');
 
         $em = $this->getDoctrine()->getManager();
-        $tales = $em->getRepository('AppBundle:Tale')->findAllOrderedByTaleDateAsc();
+        $tales = $em->getRepository('AppBundle:Tale')->findAllPublicOrderByTaleDateDesc();
 
-
+        $talesImages =  array();
         $talesText = array();
-        $talesImages = array();
+
         foreach ($tales as &$tale) {
             $taleText = "";
             foreach($tale->getSequences() as $sequence){
-                $imagesArray = array();
                 $taleText .= $sequence->getSeqText();
                 $taleText .= " ";
+                $taleImages = array();
                 foreach ($sequence->getActions() as $action) {
-                    $imagesArray[] = $action->getCard()->getCardType()->getCtBack();
+                  $taleImages[] = $action->getCard()->getCardFront();
                 }
-                $talesImages[] = $imagesArray;
             }
             $talesText[] = $taleText;
+            $talesImages[] = $taleImages;
         }
 
 
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
 
-        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesText' => $talesText, 'images' => $talesImages));
+        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesText' => $talesText, 'talesImages' => $talesImages));
     }
 
     /**
@@ -103,18 +103,14 @@ class TaleController extends Controller
             ->getRepository('AppBundle:Tale')
             ->findById($idTale);
 
-        $imagesArray = array();
         $taleText = "";
 
         foreach ($tale[0]->getSequences() as $sequence) {
             $taleText .= $sequence->getSeqText();
             $taleText .= " ";
-            foreach ($sequence->getActions() as $action) {
-                $imagesArray[] = $action->getCard()->getCardType()->getCtBack();
-            }
         }
 
-        return $this->render('tales/detail.html.twig', array('tale' => $tale, 'images' => $imagesArray, "taleText" => $taleText));
+        return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText));
     }
 
     /**

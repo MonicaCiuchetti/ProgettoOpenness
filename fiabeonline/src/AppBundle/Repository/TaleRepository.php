@@ -67,6 +67,22 @@ class TaleRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findAllPublicOrderByTaleDateDesc(){
+      return $this->getEntityManager()->createQuery(
+          'SELECT t
+            FROM AppBundle:Tale t
+            WHERE t.isPublic = TRUE ORDER BY t.taleDate DESC'
+      )->getResult();
+    }
+
+    public function findAllPublicOrderByTaleDateAsc(){
+      return $this->getEntityManager()->createQuery(
+          'SELECT t
+            FROM AppBundle:Tale t
+            WHERE t.isPublic = TRUE ORDER BY t.taleDate ASC'
+      )->getResult();
+    }
+
     public function findAllOrderedByTaleScoreAsc()
     {
         return $this->getEntityManager()

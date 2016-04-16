@@ -1,160 +1,150 @@
 {% extends 'base.html.twig' %}
-{% block body %}
-   <style>
-       .verticaltext {
-           transform: rotate(-90deg);
-           padding-bottom: 130px;
-           width: 100px;
-           position: absolute;
-       }
-       .carousel {
-           margin-bottom: 0;
-           padding: 0 40px 30px 40px;
-       }
-
-       /* The controlsy */
-       .carousel-control {
-           left: -12px;
-           height: 40px;
-           width: 40px;
-           background: none repeat scroll 0 0 #222222;
-           border: 4px solid #FFFFFF;
-           border-radius: 23px 23px 23px 23px;
-           margin-top: 90px;
-       }
-
-       .carousel-control.right {
-           right: -12px;
-       }
-
-       /* The indicators */
-       .carousel-indicators {
-           right: 50%;
-           top: auto;
-           bottom: -10px;
-           margin-right: -19px;
-       }
-
-       /* The colour of the indicators */
-       .carousel-indicators li {
-           background: #cecece;
-       }
-
-       .carousel-indicators .active {
-           background: #428bca;
-       }
-   </style>
-   <div class="container-fluid">
-       <div class="row">
-           <div class="col-sm-4"></div>
-           <div class="col-sm-4">
-               <h3 align="center">{{ tale[0].taleTitle }}</h3>
-           </div>
-           <div id="cardCol" class="col-sm-4">
-               <h3 align="center">Carte</h3>
-           </div>
-       </div>
-
-       <div class="row">
-           <div class="col-sm-3">
-               <div class="container-fluid">
-                   <div class="material-switch">
-
-                       <div class="material-switch">
-                           <input id="mode" name="mode" type="checkbox"/>
-                           <label for="mode" class="label-primary"></label>
-                           <script>
-                               $(document).ready(function () {
-                                   $('#classicDiv').hide();
-                                   $('#mode').change(function () {
-                                       $('#classicDiv').hide();
-                                       if (this.checked) {
-                                           $('#detailDiv').fadeOut();
-                                           $('#cardCol').fadeOut();
-                                           $('#classicDiv').fadeIn(2050);
-                                       }
-                                       else {
-                                           $('#detailDiv').fadeIn(2050);
-                                           $('#cardCol').fadeIn(2050);
-                                           $('#classiDiv').fadeOut();
-                                       }
-                                   });
-                               });
-                           </script>
-                       </div>
-
-                   </div>
-                   <h3>Dettagli</h3>
-                   <div class="panel panel-default">
-                       <div class="panel-body">
-                           <p>Autore: {{ tale[0].taleAuthor }}</p>
-                           <p>Likes: {{ tale[0].likes.count() }}</p>
-                           <p>Data Creazione: {{ tale[0].taleDate | date("Y-m-d") }}</p>
-                           <p>Punteggio: {{ tale[0].taleScore }}</p>
-                       </div>
-                   </div>
-               </div>
-           </div>
-
-           <div class="col-sm-8 col-sm-offset-1" id="detailDiv">
-
-               {% set ciclo = false %}
-               {% for sequence in tale[0].sequences %}
-                   {% set ciclo = true %}
-                   <div class="row">
-                       <div class="col-sm-6">
-                           <div class="verticaltext" style="color:{{ sequence.sequenceType.stColor }}">{{ sequence.sequenceType.stName }}</div>
-                           <div class="container-fluid">
-                                   <div class="jumbotron" style="background:{{ sequence.sequenceType.stColor }}">
-                                   {{ sequence.seqText }}
-                               </div>
-                           </div>
-                       </div>
-                       <div class="col-sm-6">
-                           <div id="Carousel{{ sequence.seqOrder }}" class="carousel slide">
-                               <ol class="carousel-indicators">
-                                   {% if sequence.actions.count()%3 == 0 %}
-                                       {% for i in 0..sequence.actions.count()/3-1 %}
-                                           {% if loop.index0 == 0 %}
-                                               <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}" class="active"></li>
-                                           {% else %}
-                                               <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}"></li>
-                                           {% endif %}
-                                       {% endfor %}
-                                   {% elseif sequence.actions.count() <= 3 %}
-                                       <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="0" class="active"></li>
-                                   {% else %}
-                                       {% for i in 0..sequence.actions.count()/3 %}
-                                           {% if loop.index0 == 0 %}
-                                               <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}" class="active"></li>
-                                           {% else %}
-                                               <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}"></li>
-                                           {% endif %}
-                                       {% endfor %}
-                                   {% endif %}
-                               </ol>
-
-                               <!-- Carousel items -->
-                               <div class="carousel-inner">
-                                   {% for action in sequence.actions %}
-
-                                   {% endfor %}
-                               </div><!--.carousel-inner-->
-                               <a data-slide="prev" href="#Carousel{{ sequence.seqOrder }}" class="left carousel-control">‹</a>
-                               <a data-slide="next" href="#Carousel{{ sequence.seqOrder }}" class="right carousel-control">›</a>
-                           </div><!--.Carousel-->
-                       </div>
-                   </div>
-               {% endfor %}
-           </div>
-           <div id="classicDiv" class="col-sm-6 col-sm-offset-1">
-               <div class="jumbotron">
-                   <p>{{ taleText }}</p>
-               </div>
-           </div>
-       </div>
-       <br/><br/>
-       <br/><br/>
-       <br/><br/>
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
 {% endblock %}
+{% block body %}
+<style>
+    .verticaltext {
+        transform: rotate(-90deg);
+        padding-bottom: 150px;
+        width: 100px;
+        position: absolute;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <h3 align="center">{{ tale[0].taleTitle }}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="container-fluid">
+                <div class="material-switch">
+
+                    <div class="material-switch">
+                        <input id="mode" name="mode" type="checkbox"/>
+                        <label for="mode" class="label-primary"></label>
+                        <script>
+                            $(document).ready(function () {
+                                $('#classicDiv').hide();
+                                $('#mode').change(function () {
+                                    $('#classicDiv').hide();
+                                    if (this.checked) {
+                                        $('#detailDiv').fadeOut();
+                                        $('#classicDiv').fadeIn(2050);
+                                    }
+                                    else {
+                                        $('#detailDiv').fadeIn(2050);
+                                        $('#classiDiv').fadeOut();
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+
+                </div>
+                <h3>Dettagli</h3>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>Autore: {{ tale[0].taleAuthor }}</p>
+                        <p>Likes: {{ tale[0].likes.count() }}</p>
+                        <p>Data Creazione: {{ tale[0].taleDate | date("Y-m-d") }}</p>
+                        <p>Punteggio: {{ tale[0].taleScore }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8 col-sm-offset-1" id="detailDiv">
+
+            {% set ciclo = false %}
+            {% for sequence in tale[0].sequences %}
+                {% set ciclo = true %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        {#
+                            <div class="verticaltext" style="color:{{ sequence.sequenceType.stColor }}">{{ sequence.sequenceType.stName }}</div>
+                        #}
+                        <div class="verticaltext" style="color:{{ sequence.sequenceType.stColor }}">{{ sequence.sequenceType.stName }}</div>
+                        <div class="container-fluid">
+                            <div class="jumbotron" style="background:{{ sequence.sequenceType.stColor }}">
+                                {{ sequence.seqText }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="Carousel{{ sequence.seqOrder }}" class="carousel slide">
+                            <ol class="carousel-indicators">
+                                {% if sequence.actions.count()%3 == 0 %}
+                                    {% for i in 0..sequence.actions.count()/3-1 %}
+                                        {% if loop.index0 == 0 %}
+                                            <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}" class="active"></li>
+                                        {% else %}
+                                            <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}"></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif sequence.actions.count() <= 3 %}
+                                    <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="0" class="active"></li>
+                                {% else %}
+                                    {% for i in 0..sequence.actions.count()/3 %}
+                                        {% if loop.index0 == 0 %}
+                                            <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}" class="active"></li>
+                                        {% else %}
+                                            <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}"></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ol>
+
+
+                            <!-- Carousel items -->
+                            <div class="carousel-inner">
+                                {% for action in sequence.actions %}
+
+                                {% if loop.index0 == 0 %}
+                                <div class="item active">
+                                    <div class="row">
+                                        <div class="col-xs-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+
+                                        {% elseif loop.index%4 == 0 and loop.index0 != 0 %}
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="row">
+                                        <div class="col-xs-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+
+                                        {% else %}
+                                            <div class="col-xs-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+
+                                        {% endif %}
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div><!--.carousel-inner-->
+
+
+                            <a data-slide="prev" href="#Carousel{{ sequence.seqOrder }}" class="left carousel-control">‹</a>
+                            <a data-slide="next" href="#Carousel{{ sequence.seqOrder }}" class="right carousel-control">›</a>
+                        </div><!--.Carousel-->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="classicDiv" class="col-sm-6 col-sm-offset-1">
+            <div class="jumbotron">
+                <p>{{ taleText }}</p>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+
+    {% endblock %}

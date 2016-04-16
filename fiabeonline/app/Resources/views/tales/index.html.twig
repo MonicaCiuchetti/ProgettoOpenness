@@ -47,27 +47,43 @@
             <div id="cardDiv" class="slideshow">
               <div id="{{loop.index0}}" class="carousel slide">
 
-                <!--<ol class="carousel-indicators">
-                  <li data-target="#Carousel" data-slide-to="0" class="active"></li>
-                  <li data-target="#Carousel" data-slide-to="1"></li>
-                  <li data-target="#Carousel" data-slide-to="2"></li>
-                </ol>-->
+                  <ol class="carousel-indicators">
+                      {% if talesImages[loop.index0]|length%3 == 0 %}
+                          {% for i in 0..talesImages[loop.index0]|length/3-1 %}
+                              {% if loop.index0 == 0 %}
+                                  <li data-target="#Carousel{{ tale.id }}" data-slide-to="{{ i }}" class="active"></li>
+                              {% else %}
+                                  <li data-target="#Carousel{{ tale.id }}" data-slide-to="{{ i }}"></li>
+                              {% endif %}
+                          {% endfor %}
+                      {% elseif talesImages[loop.index0]|length <= 3 %}
+                          <li data-target="#Carousel{{ tale.id }}" data-slide-to="0" class="active"></li>
+                      {% else %}
+                          {% for i in 0..talesImages[loop.index0]|length/3 %}
+                              {% if loop.index0 == 0 %}
+                                  <li data-target="#{{ tale.id }}" data-slide-to="{{ i }}" class="active"></li>
+                              {% else %}
+                                  <li data-target="#{{ tale.id }}" data-slide-to="{{ i }}"></li>
+                              {% endif %}
+                          {% endfor %}
+                      {% endif %}
+                  </ol>
 
                 <!-- Carousel items -->
                 <div class="carousel-inner">
                   {% for image in talesImages[loop.index0] %}
-                    {% if loop.index0%4 == 0 and loop.index0 != 0 %}
+                    {% if loop.index0%3 == 0 and loop.index0 != 0 %}
                         </div>
                       </div>
                       <div class="item">
                         <div class="row">
-                          <div class="col-sm-3"><a href="#" class="thumbnail"><img src="{{image}}" alt="Image" style="max-width:100%;"></a></div>
+                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
                     {% elseif loop.index0 == 0 %}
                       <div class="item active">
                         <div class="row">
-                          <div class="col-sm-3"><a href="#" class="thumbnail"><img src="{{image}}" alt="Image" style="max-width:100%;"></a></div>
+                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
                     {% else %}
-                      <div class="col-sm-3"><a href="#" class="thumbnail"><img src="{{image}}" alt="Image" style="max-width:100%;"></a></div>
+                      <div class="col-sm-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
                     {% endif %}
                   {% endfor %}
                   </div><!-- row -->

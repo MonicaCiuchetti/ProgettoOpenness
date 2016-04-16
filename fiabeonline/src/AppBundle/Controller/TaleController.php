@@ -33,24 +33,25 @@ class TaleController extends Controller
         $talesImages =  array();
         $talesText = array();
 
-        foreach ($tales as &$tale) {
-            $taleText = "";
-            foreach($tale->getSequences() as $sequence){
-                $taleText .= $sequence->getSeqText();
-                $taleText .= " ";
+            foreach ($tales as $tale) {
+                $taleText = "";
                 $taleImages = array();
-                foreach ($sequence->getActions() as $action) {
-                  $taleImages[] = $action->getCard()->getCardFront();
-                }
-            }
-            $talesText[] = $taleText;
+                foreach($tale->getSequences() as $sequence){
+                    $taleText .= $sequence->getSeqText();
+                    $taleText .= " ";
+                    foreach ($sequence->getActions() as $action) {
+                      $taleImages[] = $action->getCard()->getCardFront();
+                    }
+                  }
             $talesImages[] = $taleImages;
-        }
+            $talesText[] = $taleText;
+
+            }
 
 
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
-
+        //var_dump($talesImages);
         return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesText' => $talesText, 'talesImages' => $talesImages));
     }
 
@@ -112,7 +113,7 @@ class TaleController extends Controller
             //Li separo con lo spazio
             $taleText .= " ";
             //creo l'array che associa le sequenze ai fronti delle proprie carte
-            $sequenceImages = array()
+            $sequenceImages = array();
             foreach ($sequence->getActions() as $action) {
                 $sequenceImages[] = $action->getCard()->getCardFront();
               }

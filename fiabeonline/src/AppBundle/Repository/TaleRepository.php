@@ -313,6 +313,19 @@ class TaleRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findLastPublicTale()
+    {
+      return $this->getEntityManager()
+        ->createQuery(
+          'SELECT t
+          FROM AppBundle:Tale t
+          ORDER BY t.taleDate DESC'
+        )->setMaxResults(1)
+        ->getResult();
+    }
+
+
+
     public function findById($id)
     {
         return $this->getEntityManager()

@@ -13,8 +13,11 @@ class TaleController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $tale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+
         return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
+            "lastTale" => $tale[0]
         ));
     }
 

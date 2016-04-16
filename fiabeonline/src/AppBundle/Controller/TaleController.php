@@ -15,20 +15,35 @@ class TaleController extends Controller
     {
         $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
         $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+        $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
 
         $bestTaleText = "";
-
         foreach ($bestTale->getSequences() as $sequence) {
             $bestTaleText .= $sequence->getSeqText();
             $bestTaleText .= " ";
+        }
+
+        $correctTaleText = "";
+        foreach ($correctTale[0]->getSequences() as $sequence) {
+            $correctTaleText .= $sequence->getSeqText();
+            $correctTaleText .= " ";
+        }
+
+        $lastTaleText = "";
+        foreach ($lastTale[0]->getSequences() as $sequence) {
+            $correctTaleText .= $sequence->getSeqText();
+            $correctTaleText .= " ";
         }
 
 
         return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
             "lastTale" => $lastTale[0],
+            "lastTaleText" => $lastTaleText,
             "bestTale" => $bestTale,
-            "bestTaleText" => $bestTaleText
+            "bestTaleText" => $bestTaleText,
+            "correctTale" => $correctTale[0],
+            "correctTaleText" => $correctTaleText
         ));
     }
 

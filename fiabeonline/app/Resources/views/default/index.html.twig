@@ -68,7 +68,7 @@
           <div class="thumbnail">
             <img src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
             <div class="caption">
-              <h4><a href="{{path('tale', { idTale: bestTale.id }) }}">{{bestTale.taleTitle}}</a></h4>
+              <h4><a >{{bestTale.taleTitle}}</a></h4>
               <p>{{bestTaleText | truncate(150 , false)}}</p>
             </div>
           </div>
@@ -79,7 +79,14 @@
       </div>
       <div class="section last">
         <div class="well well-lg">
-          <p> L'ultima fiaba scritta: <b>{{lastTale.taleTitle}} </b></p>
+          <p> L'ultima fiaba scritta </p>
+          <div class="thumbnail">
+            <img src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
+            <div class="caption">
+              <h4><a href="{{path('tale', {idTale: lastTale.id })}}">{{lastTale.taleTitle}}</a></h4>
+              <p>{{lastTaleText | truncate(150 , false)}}</p>
+            </div>
+          </div>
           <p>
             <a class="btn btn-primary btn-sm" onclick="location.href='{{path('tale', { idTale: lastTale.id }) }}'">
               <span class="fa fa-fort-awesome" aria-hidden="true"></span> Visualizza
@@ -91,14 +98,16 @@
       <div class="section your">
         <div class="well well-lg">
           <div class="media">
-            <div class="media-left media-middle">
-              <a href="#">
-                <img class="media-object" src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
-              </a>
-            </div>
             <div class="media-body">
-              <h4 class="media-heading">Titolo della fiaba</h4>
-              sintesi
+              <h4 class="media-heading">La fiaba migliore</h4>
+              <div class="thumbnail">
+                <img src="bundles/framework/images/ceraunavolta.jpg" alt="fiaba">
+                <div class="caption">
+                  <h4><a href="{{path('tale', { idTale: correctTale.id })}}">{{correctTale.taleTitle}}</a></h4>
+                  <p>{{correctTaleText | truncate(150 , false)}}</p>
+                </div>
+              </div>
+
             </div>
           </div>
           <p> <a class="btn btn-primary btn-sm" href="#">

@@ -286,7 +286,8 @@ class TaleRepository extends EntityRepository
         $tales = $this->getEntityManager()
             ->createQuery(
                 'SELECT t
-                  FROM AppBundle:Tale t'
+                  FROM AppBundle:Tale t
+                  WHERE t.isPublic = TRUE'
             )
             ->getResult();
 

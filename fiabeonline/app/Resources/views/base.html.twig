@@ -8,7 +8,9 @@
             <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
             <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         {% endblock %}
+        <!-- cambiata icona title -->
         <link rel="icon" type="image/x-icon" href="{{ asset('logo_32_64.ico') }}" />
+        <!-- fine modifica -->
     </head>
     <body id="{% block body_id %}{% endblock %}">
             {% block header %}
@@ -30,6 +32,7 @@
                                     <span class="icon-bar"></span>
                                 </button>
                             </div>
+                            <!-- modificato navabar per navigazione utente -->
                             <div class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav navbar-right">
                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
@@ -37,9 +40,10 @@
                                         <li class="dropdown">
                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ '%username%'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} <span class="caret"></span></a>
                                       <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ path('userInsert') }}"><span class="glyphicon glyphicon-pencil"></span> Gioca ora</a></li>
+                                        <li><a href="{{ path('userIndex') }}"><span class="glyphicon glyphicon-book"></span> Le mie fiabe</a></li>
+                                        <li class="divider">
                                         <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Visualizza</a></li>
-                                        <li><a href="{{ path('user_index') }}"><span class="glyphicon glyphicon-book"></span> Le mie fiabe</a></li>
-                                        <li class="divider"></li>
                                         <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-cog"></span> Modifica</a></li>
                                         <li>
                                             <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout
@@ -57,13 +61,14 @@
                                 </ul>
 
                             </div>
+                            <!-- fine modifica -->
                         </div>
                     </div>
 
                 </header> 
             {% endblock %}
             
-            <!--gestione sessione -->
+            <!--gestione sessione e messaggi-->
             {% block session %}
                 {% if app.request.hasPreviousSession %}
                     {% for type, messages in app.session.flashbag.all() %}
@@ -81,20 +86,21 @@
             <footer>
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- aggiugnere logo -->
-                        <div id="footer-copyright" class="col-md-6">
+                         <div id="footer-copyright" class="col-md-6">
                             <div>
-                                <p>&copy; {{ 'now'|date('Y') }} - <a href="http://www.avolta.pg.it" target="_blank">ITTS A. Volta</p></a><p>Licenza MIT</p>
+                                
+                                <p><img src="{{ asset('logo_32_64.ico') }}"> <a href="http://www.avolta.pg.it" target="_blank">ITTS A. Volta</p></a><p>Licenza MIT</p>
                             </div>
                         </div>
-                        <!-- aggiungere boostrap social o altro-->
+                        <!-- aggiungere boostrap social o altro colorati-->
                         <div id="footer-resources" class="col-md-5">
                             <p>
                                 <a href="https://twitter.com/symfony"><i class="fa fa-twitter"></i></a>
                                 <a href="https://www.facebook.com/SensioLabs"><i class="fa fa-facebook"></i></a>
                                 <a href="http://symfony.com/blog"><i class="fa fa-rss"></i></a>
                             </p>
-                        </div>
+                         </div>
+                         <!-- fine modifica -->
                     </div>
                 </div>
             </footer>

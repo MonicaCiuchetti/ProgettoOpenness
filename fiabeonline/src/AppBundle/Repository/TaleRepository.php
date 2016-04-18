@@ -12,11 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaleRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t'
+            )
+            ->getResult();
+    }
+
     public function findAllOrderedByTitleAsc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleTitle ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleTitle ASC'
             )
             ->getResult();
     }
@@ -25,7 +37,9 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleTilte DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleTitle DESC'
             )
             ->getResult();
     }
@@ -35,7 +49,9 @@ class TaleRepository extends EntityRepository
 
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleDate ASC'
             )
             ->getResult();
     }
@@ -44,16 +60,38 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleDate DESC'
             )
             ->getResult();
+    }
+
+    public function findAllPublicOrderByTaleDateDesc()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT t
+            FROM AppBundle:Tale t
+            WHERE t.isPublic = TRUE ORDER BY t.taleDate DESC'
+        )->getResult();
+    }
+
+    public function findAllPublicOrderByTaleDateAsc()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT t
+            FROM AppBundle:Tale t
+            WHERE t.isPublic = TRUE ORDER BY t.taleDate ASC'
+        )->getResult();
     }
 
     public function findAllOrderedByTaleScoreAsc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleScore ASC'
             )
             ->getResult();
     }
@@ -62,7 +100,9 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleScore DESC'
             )
             ->getResult();
     }
@@ -71,7 +111,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l GROUP BY t ORDER BY likes ASC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l
+                  GROUP BY t
+                  ORDER BY likes ASC'
             )
             ->getResult();
     }
@@ -80,7 +123,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->getResult();
     }
@@ -89,7 +135,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.user u WHERE u.id = :userId ORDER BY t.taleTitle ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.user u
+                  WHERE u.id = :userId
+                  ORDER BY t.taleTitle ASC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -99,7 +148,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.user u WHERE u.id = :userId ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.user u
+                  WHERE u.id = :userId
+                  ORDER BY t.taleDate DESC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -109,7 +161,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.user u WHERE u.id = :userId ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.user u
+                  WHERE u.id = :userId
+                  ORDER BY t.taleScore DESC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -119,7 +174,11 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l JOIN t.user u WHERE u.id = :userId GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l JOIN t.user u
+                  WHERE u.id = :userId
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->setParameter('userId', $userId)
             ->getResult();
@@ -129,7 +188,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId ORDER BY t.taleTitle ASC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  ORDER BY t.taleTitle ASC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
@@ -139,7 +201,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  ORDER BY t.taleDate DESC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
@@ -149,7 +214,10 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  ORDER BY t.taleScore DESC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
@@ -159,49 +227,195 @@ class TaleRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l JOIN t.taleGenres tG JOIN tG.genre g WHERE g.id = :genreId GROUP BY t ORDER BY likes DESC'
+                'SELECT t, COUNT(t) AS likes
+                  FROM AppBundle:Tale t JOIN t.likes l JOIN t.taleGenres tG JOIN tG.genre g
+                  WHERE g.id = :genreId
+                  GROUP BY t
+                  ORDER BY likes DESC'
             )
             ->setParameter('genreId', $genreId)
             ->getResult();
     }
 
-    public function findOneByDateDesc()
+    public function findByDateDesc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleDate DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleDate DESC'
             )
             ->setMaxResults(1)
             ->getResult();
     }
 
-    public function findOneByScoreDesc()
+    public function findByScoreDesc()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Tale t ORDER BY t.taleScore DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  ORDER BY t.taleScore DESC'
             )
             ->setMaxResults(1)
             ->getResult();
     }
 
-    public function findOneByLikesDesc()
+    public function findByLikesDesc()
     {
-        return $this->getEntityManager()
+        /*return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, COUNT(t) AS likes FROM AppBundle:Tale t JOIN t.likes l GROUP BY t ORDER BY likes DESC'
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :taleId'
             )
-            ->setMaxResults(1)
+            ->setParameter('taleId', $this->getEntityManager()
+                ->createQuery(
+                    'SELECT t, COUNT(t) AS likes
+                      FROM AppBundle:Tale t JOIN t.likes l
+                      GROUP BY t
+                      ORDER BY likes DESC'
+                )
+                ->setMaxResults(1)
+                ->getSingleResult()[0]
+                ->getId()
+            )
+            ->getResult()[0];
+        */
+
+        $tales = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  WHERE t.isPublic = TRUE'
+            )
             ->getResult();
+
+        $result = null;
+
+        foreach ($tales as $tale) {
+            if (!isset($result) || $tale->getLikes()->count() > $result->getLikes()->count()) {
+                $result = $tale;
+            }
+        }
+
+        return $result;
     }
 
-    public function deleteOneById($id)
+    public function deleteById($id)
     {
         $this->getEntityManager()
             ->createQuery(
-                'DELETE FROM AppBundle:Tale t WHERE t.id = :id'
+                'DELETE
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :id'
             )
             ->setParameter('id', $id)
             ->getResult();
+    }
+
+    public function findLastPublicTale()
+    {
+      return $this->getEntityManager()
+        ->createQuery(
+          'SELECT t
+          FROM AppBundle:Tale t
+          ORDER BY t.taleDate DESC'
+        )->setMaxResults(1)
+        ->getResult();
+    }
+
+
+
+    public function findById($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :id'
+            )
+            ->setParameter('id', $id)
+            ->getResult();
+    }
+
+    public function findCloserByTaleScore($id)
+    {
+        $tales = $this->findById($id);
+        $score = $tales[0]->getTaleScore();
+
+        $bestTales = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t
+                    WHERE t.taleScore >= :score
+                    ORDER BY t.taleScore ASC'
+            )
+            ->setMaxResults(6)
+            ->setParameter('score', $score)
+            ->getResult();
+
+        $worstTale = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t
+                    WHERE t.taleScore < :score
+                    ORDER BY t.taleScore DESC'
+            )
+            ->setMaxResults(5)
+            ->setParameter('score', $score)
+            ->getResult();
+
+        $bestTales = array_reverse($bestTales);
+
+        foreach ($worstTale as $tale) {
+            $bestTales[] = $tale;
+        }
+
+        return $bestTales;
+    }
+
+    public function findCloserByTaleLikes($id)
+    {
+        $tales = $this->findById($id);
+        $score = $tales[0]->getLikes()->count();
+
+        $bestTales = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t JOIN t.likes l
+                    GROUP BY t
+                    HAVING COUNT(l) >= :score'
+            )
+            ->setMaxResults(6)
+            ->setParameter('score', $score)
+            ->getResult();
+
+        $worstTale = $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                    FROM AppBundle:Tale t JOIN t.likes l
+                    GROUP BY t
+                    HAVING COUNT(l) < :score'
+            )
+            ->setMaxResults(5)
+            ->setParameter('score', $score)
+            ->getResult();
+
+
+        foreach ($worstTale as $tale) {
+            $bestTales[] = $tale;
+        }
+
+        usort($bestTales, function ($a, $b) {
+            if ($a->getLikes()->count() == $b->getLikes()->count()) {
+                return 0;
+            }
+            return ($a->getLikes()->count() < $b->getLikes()->count()) ? -1 : 1;
+        });
+
+        array_reverse($tales);
+
+        return $bestTales;
     }
 }

@@ -1,0 +1,11 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+        {% for actionPropp in actionsPropp %}
+            <p>ActionPropp Id: {{ actionPropp.id }}</p>
+            <br/>
+        {% endfor %}
+    </div>
+{% endblock %}

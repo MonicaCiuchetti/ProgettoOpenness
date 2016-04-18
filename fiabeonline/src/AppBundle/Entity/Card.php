@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -24,14 +23,21 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="cardDescription", type="string", length=25)
+     * @ORM\Column(name="cardName", type="string", length=50)
+     */
+    private $cardName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cardDescription", type="string", length=250, nullable=true)
      */
     private $cardDescription;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cardFront", type="string", length=40)
+     * @ORM\Column(name="cardFront", type="string", length=50)
      */
     private $cardFront;
 
@@ -59,6 +65,29 @@ class Card
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set cardName
+     *
+     * @param string $cardName
+     * @return Card
+     */
+    public function setCardName($cardName)
+    {
+        $this->cardName = $cardName;
+
+        return $this;
+    }
+
+    /**
+     * Get cardName
+     *
+     * @return string 
+     */
+    public function getCardName()
+    {
+        return $this->cardName;
     }
 
     /**

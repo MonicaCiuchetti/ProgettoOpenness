@@ -13,8 +13,37 @@ class TaleController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+        $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+        $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+
+        $bestTaleText = "";
+        foreach ($bestTale->getSequences() as $sequence) {
+            $bestTaleText .= $sequence->getSeqText();
+            $bestTaleText .= " ";
+        }
+
+        $correctTaleText = "";
+        foreach ($correctTale[0]->getSequences() as $sequence) {
+            $correctTaleText .= $sequence->getSeqText();
+            $correctTaleText .= " ";
+        }
+
+        $lastTaleText = "";
+        foreach ($lastTale[0]->getSequences() as $sequence) {
+            $correctTaleText .= $sequence->getSeqText();
+            $correctTaleText .= " ";
+        }
+
+
         return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
+            "lastTale" => $lastTale[0],
+            "lastTaleText" => $lastTaleText,
+            "bestTale" => $bestTale,
+            "bestTaleText" => $bestTaleText,
+            "correctTale" => $correctTale[0],
+            "correctTaleText" => $correctTaleText
         ));
     }
 
@@ -26,26 +55,106 @@ class TaleController extends Controller
     public function talesAction($page)
     {
         $paginator = $this->get('knp_paginator');
-       
+
         $em = $this->getDoctrine()->getManager();
-        $tales = $em->getRepository('AppBundle:Tale')->findAllOrderedByTaleDateAsc();
+        $tales = $em->getRepository('AppBundle:Tale')->findAllPublicOrderByTaleDateDesc();
 
-        $tales = $paginator->paginate($tales, $page, 2);
+        $talesImages =  array();
+        $talesText = array();
+
+            foreach ($tales as $tale) {
+                $taleText = "";
+                $taleImages = array();
+                foreach($tale->getSequences() as $sequence){
+                    $taleText .= $sequence->getSeqText();
+                    $taleText .= " ";
+                    foreach ($sequence->getActions() as $action) {
+                      $taleImages[] = $action->getCard()->getCardFront();
+                    }
+                  }
+            $talesImages[] = $taleImages;
+            $talesText[] = $taleText;
+
+            }
+
+
+        $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
-
-        return $this->render('game/index.html.twig', array('tales' => $tales));
+        //var_dump($talesImages);
+        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesText' => $talesText, 'talesImages' => $talesImages));
     }
 
     /**
-     * @Route("/tales/{slug}", name="tale", defaults={"id" = 1})
+     * @Route("/tales/find", name="findAllTales")
      */
-    public function taleShowAction($id)
+    public function findAll()
     {
-        return $this->render('game/tale_show.html.twig', array('id' => $id));
+        $tales = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Tale')
+            ->findAll();
+        return $this->render('test/tale.html.twig', array(
+                'tales' => $tales)
+        );
     }
 
     /**
-     * @Route("/tales/title/asc", name="findAllTalesOrderedByTitleAsc")
+     * @Route("/tales/insert", name="inserttale")
+     */
+    public function viewInsertTaleAction(){
+      $genres = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:Genre')
+          ->findAll();
+
+      $types = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:Type')
+          ->findAll();
+
+      $sequenceTypes = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:SequenceType')
+          ->findAll();
+
+      return $this->render('test/tale.html.twig', array("genres" => $genres, "types" => $types, "sequenceTypes" => $sequenceTypes));
+      //cambiare la vista da renderizzare
+    }
+
+
+
+    /**
+     * @Route("/tales/{idTale}", name="tale")
+     */
+    public function taleShowAction($idTale)
+    {
+        $tale = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Tale')
+            ->findById($idTale);
+
+        $taleText = "";
+
+        $sequencesImages = array();
+        foreach ($tale[0]->getSequences() as $sequence) {
+           //Concateno testi di ogni sequenza
+            $taleText .= $sequence->getSeqText();
+            //Li separo con lo spazio
+            $taleText .= " ";
+            //creo l'array che associa le sequenze ai fronti delle proprie carte
+            $sequenceImages = array();
+            foreach ($sequence->getActions() as $action) {
+                $sequenceImages[] = $action->getCard()->getCardFront();
+              }
+            $sequencesImages[] = $sequenceImages;
+        }
+
+
+        return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+    }
+
+    /**
+     * @Route("/tales/find/title/asc", name="findAllTalesOrderedByTitleAsc")
      */
     public function findAllOrderedByTitleAsc()
     {
@@ -53,13 +162,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByTitleAsc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/title/desc", name="findAllTalesOrderedByTitleDesc")
+     * @Route("/tales/find/title/desc", name="findAllTalesOrderedByTitleDesc")
      */
     public function findAllOrderedByTitleDesc()
     {
@@ -67,13 +176,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByTitleDesc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/date/asc", name="findAllTalesOrderedByTaleDateAsc")
+     * @Route("/tales/find/date/asc", name="findAllTalesOrderedByTaleDateAsc")
      */
     public function findAllOrderedByTaleDateAsc()
     {
@@ -81,13 +190,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByTaleDateAsc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/date/desc", name="findAllTalesOrderedByTaleDateDesc")
+     * @Route("/tales/find/date/desc", name="findAllTalesOrderedByTaleDateDesc")
      */
     public function findAllOrderedByTaleDateDesc()
     {
@@ -95,13 +204,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByTaleDateDesc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/score/asc", name="findAllTalesOrderedByTaleScoreAsc")
+     * @Route("/tales/find/score/asc", name="findAllTalesOrderedByTaleScoreAsc")
      */
     public function findAllOrderedByTaleScoreAsc()
     {
@@ -109,13 +218,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByTaleScoreAsc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/score/desc", name="findAllTalesOrderedByTaleScoreDesc")
+     * @Route("/tales/find/score/desc", name="findAllTalesOrderedByTaleScoreDesc")
      */
     public function findAllOrderedByTaleScoreDesc()
     {
@@ -123,13 +232,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByTaleScoreDesc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/likes/asc", name="findAllTalesOrderedByLikesAsc")
+     * @Route("/tales/find/likes/asc", name="findAllTalesOrderedByLikesAsc")
      */
     public function findAllOrderedByLikesAsc()
     {
@@ -137,13 +246,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByLikesAsc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/likes/desc", name="findAllTalesOrderedByLikesDesc")
+     * @Route("/tales/find/likes/desc", name="findAllTalesOrderedByLikesDesc")
      */
     public function findAllOrderedByLikesDesc()
     {
@@ -151,13 +260,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllOrderedByLikesDesc();
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/title/asc/user/id/{userId}", name="findAllTalesByUserIdOrderedByTitleAsc")
+     * @Route("/tales/find/title/asc/user/id/{userId}", name="findAllTalesByUserIdOrderedByTitleAsc")
      */
     public function findAllByUserIdOrderedByTitleAsc($userId)
     {
@@ -165,13 +274,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllByUserIdOrderedByTitleAsc($userId);
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/date/desc/user/id/{userId}", name="findAllTalesByUserIdOrderedByTaleDateDesc")
+     * @Route("/tales/find/date/desc/user/id/{userId}", name="findAllTalesByUserIdOrderedByTaleDateDesc")
      */
     public function findAllByUserIdOrderedByTaleDateDesc($userId)
     {
@@ -179,13 +288,13 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllByUserIdOrderedByTaleDateDesc($userId);
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/score/desc/user/id/{userId}", name="findAllTaleByUserIdOrderedByTaleScoreDesc")
+     * @Route("/tales/find/score/desc/user/id/{userId}", name="findAllTaleByUserIdOrderedByTaleScoreDesc")
      */
     public function findAllByUserIdOrderedByTaleScoreDesc($userId)
     {
@@ -193,69 +302,69 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllByUserIdOrderedByTaleScoreDesc($userId);
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/likes/desc/user/{user}", name="findAllTalesByUserIdOrderedByLikesDesc")
+     * @Route("/tales/find/likes/desc/user/{user}", name="findAllTalesByUserIdOrderedByLikesDesc")
      */
-    public function findAllByUserIdOrderedByLikesDesc($user)
+    public function findAllByUserIdOrderedByLikesDesc($userId)
     {
         $tales = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->findAllByUserIdOrderedByLikesDesc($user);
-        return $this->render('tales/index.html.twig', array(
+            ->findAllByUserIdOrderedByLikesDesc($userId);
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/title/asc/genre/{genre}", name="findAllTalesByGenreIdOrderedByTitleAsc")
+     * @Route("/tales/find/title/asc/genre/{genreId}", name="findAllTalesByGenreIdOrderedByTitleAsc")
      */
-    public function findAllByGenreIdOrderedByTitleAsc($genre)
+    public function findAllByGenreIdOrderedByTitleAsc($genreId)
     {
         $tales = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->findAllByGenreIdOrderedByTitleAsc($genre);
-        return $this->render('tales/index.html.twig', array(
+            ->findAllByGenreIdOrderedByTitleAsc($genreId);
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/date/desc/user/{user}", name="findAllTalesByGenreOrderedByTaleDateDesc")
+     * @Route("/tales/find/date/desc/genre/{genreId}", name="findAllTalesByGenreIdOrderedByTaleDateDesc")
      */
-    public function findAllByGenreIdOrderedByTaleDateDesc($genre)
+    public function findAllByGenreIdOrderedByTaleDateDesc($genreId)
     {
         $tales = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->findAllByGenreIdOrderedByTaleDateDesc($genre);
-        return $this->render('tales/index.html.twig', array(
+            ->findAllByGenreIdOrderedByTaleDateDesc($genreId);
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/score/desc/user/{user}", name="findAllTalesByGenreOrderedByTaleScoreDesc")
+     * @Route("/tales/find/score/desc/user/{genreId}", name="findAllTalesByGenreIdOrderedByTaleScoreDesc")
      */
-    public function findAllByGenreIdOrderedByTaleScoreDesc($genre)
+    public function findAllByGenreIdOrderedByTaleScoreDesc($genreId)
     {
         $tales = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->findAllByGenreIdOrderedByTaleScoreDesc($genre);
-        return $this->render('tales/index.html.twig', array(
+            ->findAllByGenreIdOrderedByTaleScoreDesc($genreId);
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/likes/desc/genre/{genre}", name="findAllTalesByGenreOrderedByLikesDesc")
+     * @Route("/tales/find/likes/desc/genre/{genre}", name="findAllTalesByGenreIdOrderedByLikesDesc")
      */
     public function findAllByGenreIdOrderedByLikesDesc($genre)
     {
@@ -263,33 +372,33 @@ class TaleController extends Controller
             ->getManager()
             ->getRepository('AppBundle:Tale')
             ->findAllByGenreIdOrderedByLikesDesc($genre);
-        return $this->render('tales/index.html.twig', array(
+        return $this->render('test/tale.html.twig', array(
                 'tales' => $tales)
         );
     }
 
     /**
-     * @Route("/tales/one/like/desc", name="findOneByLikesDesc")
+     * @Route("/tale/find/like/", name="findTaleByLikesDesc")
      */
-    public function findOneByLikesDesc()
+    public function findByLikesDesc()
     {
-        $tales = $this->getDoctrine()
+        $tale = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->findOneByLikesDesc();
+            ->findByLikesDesc();
         return $this->render('tales/detail.html.twig', array(
-                'tales' => $tales)
+                'tale' => $tale)
         );
     }
 
     /**
-     * @Route("/tales/delete/id/{id}", name="deleteTailById")
+     * @Route("/tale/delete/{taleId}", name="deleteTailById")
      */
-    public function deleteOneById($id)
+    public function deleteOneById($taleId)
     {
         $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Tale')
-            ->deleteOneById($id);
+            ->deleteById($taleId);
     }
 }

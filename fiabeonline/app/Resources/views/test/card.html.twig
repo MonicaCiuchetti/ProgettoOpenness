@@ -1,0 +1,14 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-container">
+        {% for card in cards %}
+            <p>Card Id: {{ card.id }}</p>
+            <p>Card Description: {{ card.cardDescription }}</p>
+            <p>Card Front: {{ card.cardFront }}</p>
+            <p>Card Back: {{ card.cardType.ctBack }}</p>
+            <br/>
+        {% endfor %}
+    </div>
+{% endblock %}

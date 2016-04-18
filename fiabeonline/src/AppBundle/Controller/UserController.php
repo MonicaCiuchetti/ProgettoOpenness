@@ -9,27 +9,60 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/user/tale/id/{taleId}", name="findOneByTaleId")
+     * @Route("/user/find/log/id/{logId}", name="findUserByLogId")
      */
-    public function findOneByTaleId($taleId)
+    public function findByLogId($logId)
     {
         $users = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:User')
-            ->findOneByTaleId($taleId);
-        return $this->render('user/index.html.twig', array(
+            ->findByTaleId($logId);
+        return $this->render('test/user.html.twig', array(
                 'users' => $users)
         );
     }
 
     /**
-     * @Route("/users/delete/id/{id}", name="deleteUserById")
+     * @Route("/user/find/tale/id/{taleId}", name="findUserByTaleId")
      */
-    public function deleteOneById($id)
+    public function findByTaleId($taleId)
+    {
+        $users = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User')
+            ->findByTaleId($taleId);
+        return $this->render('test/user.html.twig', array(
+                'users' => $users)
+        );
+    }
+
+
+    /**
+     * @Route("/user/tales", name="usertales")
+     * @Route("/user/tales/page/{page}", name="user_tales_paginated", defaults={"page" = 1})
+     */
+    public function findUserTalesAction($page)
+    {
+        $paginator = $this->get('knp_paginator');
+        $tales = $this->getUser()->getTales();
+
+        $tales = $paginator->paginate($tales, $page, 12);
+        $tales->setUsedRoute('user_tales_paginated');
+
+
+        return $this->render('test/view_userindex.html.twig', array('tales' => $tales));//Da testare, in attesa della vista
+    }
+
+
+
+    /**
+     * @Route("/user/delete/id/{userId}", name="deleteUserById")
+     */
+    public function deleteById($userId)
     {
         $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:User')
-            ->deleteOneById($id);
+            ->deleteOneById($userId);
     }
 }

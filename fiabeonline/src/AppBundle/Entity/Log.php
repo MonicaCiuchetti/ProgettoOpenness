@@ -22,18 +22,18 @@ class Log
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="logDescription", type="string", length=50)
+     */
+    private $logDescription;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="logTime", type="datetime")
      */
     private $logTime;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="logDescription", type="string", length=30)
-     */
-    private $logDescription;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="logs")
@@ -44,34 +44,11 @@ class Log
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set logTime
-     *
-     * @param \DateTime $logTime
-     * @return Log
-     */
-    public function setLogTime($logTime)
-    {
-        $this->logTime = $logTime;
-
-        return $this;
-    }
-
-    /**
-     * Get logTime
-     *
-     * @return \DateTime
-     */
-    public function getLogTime()
-    {
-        return $this->logTime;
     }
 
     /**
@@ -90,7 +67,7 @@ class Log
     /**
      * Get logDescription
      *
-     * @return string
+     * @return string 
      */
     public function getLogDescription()
     {
@@ -98,26 +75,26 @@ class Log
     }
 
     /**
-     * Set userId
+     * Set logTime
      *
-     * @param \AppBundle\Entity\User $userId
+     * @param \DateTime $logTime
      * @return Log
      */
-    public function setUserId(\AppBundle\Entity\User $userId = null)
+    public function setLogTime($logTime)
     {
-        $this->userId = $userId;
+        $this->logTime = $logTime;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get logTime
      *
-     * @return \AppBundle\Entity\User
+     * @return \DateTime 
      */
-    public function getUserId()
+    public function getLogTime()
     {
-        return $this->userId;
+        return $this->logTime;
     }
 
     /**
@@ -136,7 +113,7 @@ class Log
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\User 
      */
     public function getUser()
     {

@@ -22,13 +22,6 @@ class Sequence
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="seqText", type="text")
-     */
-    private $seqText;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="seqOrder", type="integer")
@@ -36,16 +29,23 @@ class Sequence
     private $seqOrder;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tale", inversedBy="sequences")
-     * @ORM\JoinColumn(name="tale", referencedColumnName="id", onDelete="CASCADE")
+     * @var string
+     *
+     * @ORM\Column(name="seqText", type="text")
      */
-    private $tale;
+    private $seqText;
 
     /**
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="sequences")
      * @ORM\JoinColumn(name="sequenceType", referencedColumnName="id")
      */
     private $sequenceType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tale", inversedBy="sequences")
+     * @ORM\JoinColumn(name="tale", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $tale;
 
     /**
      * @ORM\OneToMany(targetEntity="Action", mappedBy="sequence", orphanRemoval=true)
@@ -65,29 +65,6 @@ class Sequence
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set seqText
-     *
-     * @param string $seqText
-     * @return Sequence
-     */
-    public function setSeqText($seqText)
-    {
-        $this->seqText = $seqText;
-
-        return $this;
-    }
-
-    /**
-     * Get seqText
-     *
-     * @return string 
-     */
-    public function getSeqText()
-    {
-        return $this->seqText;
     }
 
     /**
@@ -114,26 +91,26 @@ class Sequence
     }
 
     /**
-     * Set tale
+     * Set seqText
      *
-     * @param \AppBundle\Entity\Tale $tale
+     * @param string $seqText
      * @return Sequence
      */
-    public function setTale(\AppBundle\Entity\Tale $tale = null)
+    public function setSeqText($seqText)
     {
-        $this->tale = $tale;
+        $this->seqText = $seqText;
 
         return $this;
     }
 
     /**
-     * Get tale
+     * Get seqText
      *
-     * @return \AppBundle\Entity\Tale 
+     * @return string 
      */
-    public function getTale()
+    public function getSeqText()
     {
-        return $this->tale;
+        return $this->seqText;
     }
 
     /**
@@ -157,6 +134,29 @@ class Sequence
     public function getSequenceType()
     {
         return $this->sequenceType;
+    }
+
+    /**
+     * Set tale
+     *
+     * @param \AppBundle\Entity\Tale $tale
+     * @return Sequence
+     */
+    public function setTale(\AppBundle\Entity\Tale $tale = null)
+    {
+        $this->tale = $tale;
+
+        return $this;
+    }
+
+    /**
+     * Get tale
+     *
+     * @return \AppBundle\Entity\Tale 
+     */
+    public function getTale()
+    {
+        return $this->tale;
     }
 
     /**

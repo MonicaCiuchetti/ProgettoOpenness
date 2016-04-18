@@ -37,11 +37,11 @@ class Tale
     private $taleAuthor;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="taleVersion", type="string", length=15, nullable=true)
+     * @ORM\Column(name="taleScore", type="integer")
      */
-    private $taleVersion;
+    private $taleScore;
 
     /**
      * @var \DateTime
@@ -58,24 +58,11 @@ class Tale
     private $taleUpdate;
 
     /**
-     * @var string
+     * @var bool
      *
-     * @ORM\Column(name="taleNotes", type="string", length=30, nullable=true)
+     * @ORM\Column(name="isPublic", type="boolean")
      */
-    private $taleNotes;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="taleScore", type="integer")
-     */
-    private $taleScore;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="tales")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $user;
+    private $isPublic;
 
     /**
      * @ORM\ManyToOne(targetEntity="Type", inversedBy="tales")
@@ -84,31 +71,37 @@ class Tale
     private $type;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tales")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $user;
+
+    /**
      * @ORM\OneToMany(targetEntity="UserLike", mappedBy="tale", orphanRemoval=true)
      */
     private $likes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="tale")
-     */
-    private $taleGenres;
 
     /**
      * @ORM\OneToMany(targetEntity="Sequence", mappedBy="tale", orphanRemoval=true)
      */
     private $sequences;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TaleGenre", mappedBy="tale")
+     */
+    private $taleGenres;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
-        $this->taleGenres = new ArrayCollection();
         $this->sequences = new ArrayCollection();
+        $this->taleGenres = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -131,7 +124,7 @@ class Tale
     /**
      * Get taleTitle
      *
-     * @return string 
+     * @return string
      */
     public function getTaleTitle()
     {
@@ -154,7 +147,7 @@ class Tale
     /**
      * Get taleAuthor
      *
-     * @return string 
+     * @return string
      */
     public function getTaleAuthor()
     {
@@ -162,26 +155,26 @@ class Tale
     }
 
     /**
-     * Set taleVersion
+     * Set taleScore
      *
-     * @param string $taleVersion
+     * @param integer $taleScore
      * @return Tale
      */
-    public function setTaleVersion($taleVersion)
+    public function setTaleScore($taleScore)
     {
-        $this->taleVersion = $taleVersion;
+        $this->taleScore = $taleScore;
 
         return $this;
     }
 
     /**
-     * Get taleVersion
+     * Get taleScore
      *
-     * @return string 
+     * @return integer
      */
-    public function getTaleVersion()
+    public function getTaleScore()
     {
-        return $this->taleVersion;
+        return $this->taleScore;
     }
 
     /**
@@ -200,7 +193,7 @@ class Tale
     /**
      * Get taleDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTaleDate()
     {
@@ -223,7 +216,7 @@ class Tale
     /**
      * Get taleUpdate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTaleUpdate()
     {
@@ -231,72 +224,26 @@ class Tale
     }
 
     /**
-     * Set taleNotes
+     * Set isPublic
      *
-     * @param string $taleNotes
+     * @param boolean $isPublic
      * @return Tale
      */
-    public function setTaleNotes($taleNotes)
+    public function setIsPublic($isPublic)
     {
-        $this->taleNotes = $taleNotes;
+        $this->isPublic = $isPublic;
 
         return $this;
     }
 
     /**
-     * Get taleNotes
+     * Get isPublic
      *
-     * @return string 
+     * @return boolean
      */
-    public function getTaleNotes()
+    public function getIsPublic()
     {
-        return $this->taleNotes;
-    }
-
-    /**
-     * Set taleScore
-     *
-     * @param integer $taleScore
-     * @return Tale
-     */
-    public function setTaleScore($taleScore)
-    {
-        $this->taleScore = $taleScore;
-
-        return $this;
-    }
-
-    /**
-     * Get taleScore
-     *
-     * @return integer 
-     */
-    public function getTaleScore()
-    {
-        return $this->taleScore;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     * @return Tale
-     */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
+        return $this->isPublic;
     }
 
     /**
@@ -315,11 +262,34 @@ class Tale
     /**
      * Get type
      *
-     * @return \AppBundle\Entity\Type 
+     * @return \AppBundle\Entity\Type
      */
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Tale
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**
@@ -348,44 +318,11 @@ class Tale
     /**
      * Get likes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLikes()
     {
         return $this->likes;
-    }
-
-    /**
-     * Add taleGenres
-     *
-     * @param \AppBundle\Entity\TaleGenre $taleGenres
-     * @return Tale
-     */
-    public function addTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
-    {
-        $this->taleGenres[] = $taleGenres;
-
-        return $this;
-    }
-
-    /**
-     * Remove taleGenres
-     *
-     * @param \AppBundle\Entity\TaleGenre $taleGenres
-     */
-    public function removeTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
-    {
-        $this->taleGenres->removeElement($taleGenres);
-    }
-
-    /**
-     * Get taleGenres
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTaleGenres()
-    {
-        return $this->taleGenres;
     }
 
     /**
@@ -414,10 +351,43 @@ class Tale
     /**
      * Get sequences
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSequences()
     {
         return $this->sequences;
+    }
+
+    /**
+     * Add taleGenres
+     *
+     * @param \AppBundle\Entity\TaleGenre $taleGenres
+     * @return Tale
+     */
+    public function addTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
+    {
+        $this->taleGenres[] = $taleGenres;
+
+        return $this;
+    }
+
+    /**
+     * Remove taleGenres
+     *
+     * @param \AppBundle\Entity\TaleGenre $taleGenres
+     */
+    public function removeTaleGenre(\AppBundle\Entity\TaleGenre $taleGenres)
+    {
+        $this->taleGenres->removeElement($taleGenres);
+    }
+
+    /**
+     * Get taleGenres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTaleGenres()
+    {
+        return $this->taleGenres;
     }
 }

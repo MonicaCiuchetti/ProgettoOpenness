@@ -2,23 +2,125 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container body-container">
-        {% if tales[0].0.id is defined %}
-            {% for tale in tales %}
-                <p>Tale Id: {{ tale.0.id }}</p>
-                <p>Tale Title: {{ tale.0.taleTitle }}</p>
-                <p>Tale Likes: {{ tale.0.likes.count() }}</p>
-                <p>Tale Username: {{ tale.0.user.username }}</p>
-                <br/>
-            {% endfor %}
-        {% else %}
-            {% for tale in tales %}
-                <p>Tale Id: {{ tale.id }}</p>
-                <p>Tale Title: {{ tale.taleTile }}</p>
-                <p>Tale Likes: {{ tale.likes.count() }}</p>
-                <p>Tale Username: {{ tale.user.username }}</p>
-                <br/>
-            {% endfor %}
-        {% endif %}
+
+<style>
+.slideshow {
+    padding-top: 6%;
+    padding-bottom: 0px;
+    margin-bottom: -6%;
+    color: inherit;
+    margin-top: -6%;
+}
+</style>
+
+<div class="container body-container">
+
+    {% set ciclo = false %}
+
+    {% for tale in tales %}
+      {% set ciclo = true %}
+      {% if loop.index0 == 0 %}
+        <div class="row">
+      {% elseif loop.index0%3 == 0 %}
+        </div>
+        <div class="row">
+      {% endif %}
+
+      <div class="col col-sm-4">
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                <h1>{{tale.taleTitle}}</h1>
+                {% if tale.taleAuthor is not null  %}
+                  <h6>{{tale.taleAuthor}}</h6>
+                {% else %}
+                  <h6>Autore non specificato</h6>
+                {% endif %}
+                <p>{{talesText[loop.index0] | truncate(150 , false) }}</p>
+                <p><button type="button" class="btn btn-primary btn-sm pull-right" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'">Leggi la fiaba completa</button></p>
+            </div>
+          </div>
+        </div>
+          <div class="panel-footer" style="padding:0, 0, 0, 0!important">
+            <div id="cardDiv" class="slideshow">
+              <div id="{{loop.index0}}" class="carousel slide">
+
+                  <ol class="carousel-indicators">
+                      {% if talesImages[loop.index0]|length%3 == 0 %}
+                          {% for i in 0..talesImages[loop.index0]|length/3-1 %}
+                              {% if loop.index0 == 0 %}
+                                  <li data-target="#Carousel{{ tale.id }}" data-slide-to="{{ i }}" class="active"></li>
+                              {% else %}
+                                  <li data-target="#Carousel{{ tale.id }}" data-slide-to="{{ i }}"></li>
+                              {% endif %}
+                          {% endfor %}
+                      {% elseif talesImages[loop.index0]|length <= 3 %}
+                          <li data-target="#Carousel{{ tale.id }}" data-slide-to="0" class="active"></li>
+                      {% else %}
+                          {% for i in 0..talesImages[loop.index0]|length/3 %}
+                              {% if loop.index0 == 0 %}
+                                  <li data-target="#{{ tale.id }}" data-slide-to="{{ i }}" class="active"></li>
+                              {% else %}
+                                  <li data-target="#{{ tale.id }}" data-slide-to="{{ i }}"></li>
+                              {% endif %}
+                          {% endfor %}
+                      {% endif %}
+                  </ol>
+
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                  {% for image in talesImages[loop.index0] %}
+                    {% if loop.index0%3 == 0 and loop.index0 != 0 %}
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="row">
+                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
+                    {% elseif loop.index0 == 0 %}
+                      <div class="item active">
+                        <div class="row">
+                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
+                    {% else %}
+                      <div class="col-sm-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
+                    {% endif %}
+                  {% endfor %}
+                  </div><!-- row -->
+                  </div><!-- item -->
+                </div><!--.carousel-inner-->
+
+                <a data-slide="prev" href="#{{loop.index0}}" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#{{loop.index0}}" class="right carousel-control">›</a>
+              </div><!--.Carousel-->
+
+
+
+              <script>
+              $(document).ready(function() {
+                $("#{{loop.index0}}").carousel({
+                  interval: 5000
+                })
+              });
+              </script>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    {% else %}
+        <div class="well">Nessuna fiaba</div>
+    {% endfor %}
+
+
+
+    {% if ciclo == true %}
+      </div>
+    {% endif %}
+
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(tales) }}
     </div>
 {% endblock %}

@@ -24,7 +24,14 @@ class CardType
     /**
      * @var string
      *
-     * @ORM\Column(name="ctDescription", type="string", length=25)
+     * @ORM\Column(name="ctName", type="string", length=50)
+     */
+    private $ctName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ctDescription", type="string", length=250, nullable=true)
      */
     private $ctDescription;
 
@@ -36,19 +43,19 @@ class CardType
     private $ctBack;
 
     /**
-     * @ORM\OneToMany(targetEntity="Card", mappedBy="cardType")
-     */
-    private $cards;
-
-    /**
      * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="cardType")
      */
     private $actionsPropp;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Card", mappedBy="cardType")
+     */
+    private $cards;
+
     public function __construct()
     {
-        $this->cards = new ArrayCollection();
         $this->actionsPropp = new ArrayCollection();
+        $this->cards = new ArrayCollection();
     }
 
     /**
@@ -59,6 +66,29 @@ class CardType
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set ctName
+     *
+     * @param string $ctName
+     * @return CardType
+     */
+    public function setCtName($ctName)
+    {
+        $this->ctName = $ctName;
+
+        return $this;
+    }
+
+    /**
+     * Get ctName
+     *
+     * @return string 
+     */
+    public function getCtName()
+    {
+        return $this->ctName;
     }
 
     /**
@@ -108,39 +138,6 @@ class CardType
     }
 
     /**
-     * Add cards
-     *
-     * @param \AppBundle\Entity\Card $cards
-     * @return CardType
-     */
-    public function addCard(\AppBundle\Entity\Card $cards)
-    {
-        $this->cards[] = $cards;
-
-        return $this;
-    }
-
-    /**
-     * Remove cards
-     *
-     * @param \AppBundle\Entity\Card $cards
-     */
-    public function removeCard(\AppBundle\Entity\Card $cards)
-    {
-        $this->cards->removeElement($cards);
-    }
-
-    /**
-     * Get cards
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCards()
-    {
-        return $this->cards;
-    }
-
-    /**
      * Add actionsPropp
      *
      * @param \AppBundle\Entity\ActionPropp $actionsPropp
@@ -171,5 +168,38 @@ class CardType
     public function getActionsPropp()
     {
         return $this->actionsPropp;
+    }
+
+    /**
+     * Add cards
+     *
+     * @param \AppBundle\Entity\Card $cards
+     * @return CardType
+     */
+    public function addCard(\AppBundle\Entity\Card $cards)
+    {
+        $this->cards[] = $cards;
+
+        return $this;
+    }
+
+    /**
+     * Remove cards
+     *
+     * @param \AppBundle\Entity\Card $cards
+     */
+    public function removeCard(\AppBundle\Entity\Card $cards)
+    {
+        $this->cards->removeElement($cards);
+    }
+
+    /**
+     * Get cards
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCards()
+    {
+        return $this->cards;
     }
 }

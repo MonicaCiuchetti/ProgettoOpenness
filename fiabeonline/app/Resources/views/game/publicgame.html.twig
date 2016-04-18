@@ -8,32 +8,50 @@
       <div class="row">
 
         <div class="col-sm-4">
-        <div class="panel panel-primary">
-          <div class="panel-heading"> <!--Da modificare con il css -->
-          <div class="radio">
-            <label><input type="radio" name="optradio">Option 1</label>
+          <div class="panel panel-primary">
+            <div class="panel-heading"> <!--Da modificare con il css -->
+              {% for type in types %}
+              <div class="radio">
+                <label><input type="radio" name="optradio">{{type.typeDescription}}</label>
+              </div>
+              {% endfor %}
+            </div>
           </div>
-          <div class="radio">
-            <label><input type="radio" name="optradio">Option 2</label>
-          </div>
-          </div>
-        </div>
 
         </div>
         <div class="col-sm-8">
           <div class="panel panel-primary">
             <div class="panel-heading"> <!--Da modificare con il css -->
-          <div class="checkbox">
-            <label><input type="checkbox" value="">Option 1</label>
+              {% set ciclo = false %}
+              {% for genre in genres %}
+              {% set ciclo = true %}
+              {% if loop.index0 == 0 %}
+              <div class="row">
+                {% elseif loop.index0%3 == 0 %}
+              </div>
+              <div class="row">
+                {% endif %}
+                <div class="col-sm-4">
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="">{{genre.genreDescription}}</label>
+                  </div>
+                </div>
+                {% else %}
+                <div class="well">Nessuna genere</div>
+                {% endfor %}
+              </div>
+            </div>
           </div>
-</div>
-</div>
         </div>
       </div>
+      <div class="row">
+      </div>
     </div>
-    <div class="col-sm-7">
-      peppe
-    </div>
+      <div class="col-sm-7" style="background-color: red;">
+        <div id="fixedwell">
+          prova
+        </div>
+      </div>
   </div>
 </div>
 {% endblock %}

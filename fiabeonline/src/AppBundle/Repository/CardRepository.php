@@ -12,15 +12,107 @@ use Doctrine\ORM\EntityRepository;
  */
 class CardRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c'
+            )
+            ->getResult();
+    }
+
+    public function findAllByGenresId($genresId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t JOIN t.taleGenres tG
+                  WHERE tG.genre IN (:genresId)'
+            )
+            ->setParameter('genresId', $genresId)
+            ->getResult();
+    }
+
+    public function findAllByGenresIdAndByTypeId($genresId, $typeId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t JOIN t.taleGenres tG
+                  WHERE tG.genre IN (:genresId) AND t.type = :typeId'
+            )
+            ->setParameter('genresId', $genresId)
+            ->setParameter('typeId', $typeId)
+            ->getResult();
+    }
+
+    public function findAllByTypeId($typeId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t JOIN t.type ty
+                  WHERE ty.id = :typeId'
+            )
+            ->setParameter('typeId', $typeId)
+            ->getResult();
+    }
+
     public function findAllByTaleId($taleId)
     {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT c
-                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s JOIN s.tale t
-                  WHERE t.id = :taleId'
+                  FROM AppBundle:Card c JOIN c.cardType ct JOIN c.actions a JOIN a.sequence s
+                  WHERE s.tale = :taleId
+                  ORDER BY s.seqOrder ASC'
             )
             ->setParameter('taleId', $taleId)
+            ->getResult();
+    }
+
+    public function findAllFunctions()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Funzione\''
+            )
+            ->getResult();
+    }
+
+    public function findAllCharacters()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Roulo/Personaggio\''
+            )
+            ->getResult();
+    }
+
+    public function findAllPlaces()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Luogo\''
+            )
+            ->getResult();
+    }
+
+    public function findAllObjectsOfDesire()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c
+                  FROM AppBundle:Card c JOIN c.cardType ct
+                  WHERE ct.ctName = \'Elemento magico\''
+            )
             ->getResult();
     }
 }

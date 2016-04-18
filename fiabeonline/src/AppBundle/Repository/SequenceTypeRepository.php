@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class SequenceTypeRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT sT
+                  FROM AppBundle:SequenceType sT'
+            )
+            ->getResult();
+    }
 }

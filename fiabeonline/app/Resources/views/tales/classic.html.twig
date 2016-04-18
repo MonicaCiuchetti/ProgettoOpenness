@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <h3 align="center">Titolo</h3>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="container-fluid">
+                    <button class="btn btn-link"><a href="detail.html.twig">Mostra sequenze</a></button>
+                    <h3>Dettagli</h3>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Autore:</p>
+                            <p>Likes:</p>
+                            <p>Data Creazione:</p>
+                            <p>Punteggio:</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-8">
+                <div class="container-fluid">
+                    <div class="jumbotron">
+                        tutta la storia
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

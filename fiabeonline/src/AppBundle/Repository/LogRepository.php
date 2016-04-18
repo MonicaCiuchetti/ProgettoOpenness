@@ -12,13 +12,59 @@ use Doctrine\ORM\EntityRepository;
  */
 class LogRepository extends EntityRepository
 {
-    public function deleteOneById($id)
+    public function findAll()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT l
+                  FROM AppBundle:Log l'
+            )
+            ->getResult();
+    }
+
+    public function findAllOrderByLogTimeDesc()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT l
+                  FROM AppBundle:Log l
+                  ORDER BY l.logTime DESC'
+            )
+            ->getResult();
+    }
+
+    public function findAllByUserId($userId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT l
+                  FROM AppBundle:Log l JOIN l.user u
+                  WHERE u.id = :userId'
+            )
+            ->setParameter('userId', $userId)
+            ->getResult();
+    }
+
+    public function findAllByUserIdOrderByLogTimeDesc($userId)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT l
+                  FROM AppBundle:Log l JOIN l.user u
+                  WHERE u.id = :userId
+                  ORDER BY l.logTime DESC'
+            )
+            ->setParameter('userId', $userId)
+            ->getResult();
+    }
+
+    public function deleteById($logId)
     {
         $this->getEntityManager()
             ->createQuery(
-                'DELETE FROM AppBundle:Log l WHERE l.id = :id'
+                'DELETE FROM AppBundle:Log l WHERE l.id = :logId'
             )
-            ->setParameter('id', $id)
+            ->setParameter('logId', $logId)
             ->getResult();
     }
 }

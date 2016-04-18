@@ -24,26 +24,33 @@ class SequenceType
     /**
      * @var string
      *
-     * @ORM\Column(name="stDescription", type="string", length=20)
+     * @ORM\Column(name="stName", type="string", length=50)
+     */
+    private $stName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="stDescription", type="string", length=250, nullable=true)
      */
     private $stDescription;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="stColor", type="string", length=8)
+     * @ORM\Column(name="stColor", type="string", length=7)
      */
     private $stColor;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="sequenceType")
-     */
-    private $sequences;
 
     /**
      * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="sequenceType")
      */
     private $actionsPropp;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="sequenceType")
+     */
+    private $sequences;
 
     public function __construct()
     {
@@ -59,6 +66,29 @@ class SequenceType
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set stName
+     *
+     * @param string $stName
+     * @return SequenceType
+     */
+    public function setStName($stName)
+    {
+        $this->stName = $stName;
+
+        return $this;
+    }
+
+    /**
+     * Get stName
+     *
+     * @return string 
+     */
+    public function getStName()
+    {
+        return $this->stName;
     }
 
     /**
@@ -108,39 +138,6 @@ class SequenceType
     }
 
     /**
-     * Add sequences
-     *
-     * @param \AppBundle\Entity\Sequence $sequences
-     * @return SequenceType
-     */
-    public function addSequence(\AppBundle\Entity\Sequence $sequences)
-    {
-        $this->sequences[] = $sequences;
-
-        return $this;
-    }
-
-    /**
-     * Remove sequences
-     *
-     * @param \AppBundle\Entity\Sequence $sequences
-     */
-    public function removeSequence(\AppBundle\Entity\Sequence $sequences)
-    {
-        $this->sequences->removeElement($sequences);
-    }
-
-    /**
-     * Get sequences
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSequences()
-    {
-        return $this->sequences;
-    }
-
-    /**
      * Add actionsPropp
      *
      * @param \AppBundle\Entity\ActionPropp $actionsPropp
@@ -171,5 +168,38 @@ class SequenceType
     public function getActionsPropp()
     {
         return $this->actionsPropp;
+    }
+
+    /**
+     * Add sequences
+     *
+     * @param \AppBundle\Entity\Sequence $sequences
+     * @return SequenceType
+     */
+    public function addSequence(\AppBundle\Entity\Sequence $sequences)
+    {
+        $this->sequences[] = $sequences;
+
+        return $this;
+    }
+
+    /**
+     * Remove sequences
+     *
+     * @param \AppBundle\Entity\Sequence $sequences
+     */
+    public function removeSequence(\AppBundle\Entity\Sequence $sequences)
+    {
+        $this->sequences->removeElement($sequences);
+    }
+
+    /**
+     * Get sequences
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSequences()
+    {
+        return $this->sequences;
     }
 }

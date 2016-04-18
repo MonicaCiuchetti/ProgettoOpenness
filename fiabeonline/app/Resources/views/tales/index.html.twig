@@ -77,13 +77,13 @@
                       </div>
                       <div class="item">
                         <div class="row">
-                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
                     {% elseif loop.index0 == 0 %}
                       <div class="item active">
                         <div class="row">
-                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+                          <div class="col-sm-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
                     {% else %}
-                      <div class="col-sm-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+                      <div class="col-sm-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
                     {% endif %}
                   {% endfor %}
                   </div><!-- row -->

@@ -1,0 +1,57 @@
+{# app/Resources/views/admin/game/index.html.twig #}
+
+{% extends 'admin/layout.html.twig' %}
+
+{% block body_id 'admin_tale_index' %}
+
+{% block main %}
+    <h1>Elenco delle fiabe</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titolo</th>
+                <th><i class="fa fa-user"></i>Autore</th>
+                <th><i class="fa fa-calendar"></i>Data pubblicazione</th>
+                <th><i class="fa fa-cogs"></i>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tale in tales %}
+            <tr>
+                <td>{{ tale.titleTale }}</td>
+                <td>{{ tale.taleAuthor }}</td>
+                <td>{% if tale.taleDate %}{{ tale.taleDate }}{% endif %}</td>
+                <td>
+                <div class="item-actions">
+                        <a href="#" class="btn btn-sm btn-default">
+                            {{ 'action.show' }}
+                        </a>
+
+                        {% if tale.isAuthor(app.user) %}
+                            <a href="#" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit"></i> {{ 'action.edit' }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" align="center">Nessuna fiaba trovata</td>
+           </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        <a href="{{ path('admin_tale_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus"></i> {{ 'action.create_tale' }}
+        </a>
+    </div>
+
+    {{ parent() }}
+ 
+{% endblock %}

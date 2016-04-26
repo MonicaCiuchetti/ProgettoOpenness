@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * UserRepository

@@ -8,7 +8,6 @@
             <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
             <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         {% endblock %}
-
         {% block javascripts %}
             <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
             <script src="{{ asset('js/jquery.js') }}"></script>
@@ -24,9 +23,8 @@
                      <div class="navbar navbar-default navbar-static-top" role="navigation">
                         <div class="container">
                             <div class="navbar-header">
-                                 <!-- aggiugnere logo -->
-                                <a class="navbar-brand" href="{{ path('homepage') }}">
-                                    FiabeOnLine
+                                 <a class="navbar-brand" href="{{ path('homepage') }}">
+                                 <i class="fa fa-home"></i> FiabeOnLine
                                 </a>
 
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -38,48 +36,78 @@
                             </div>
                             <div class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav navbar-right">
-                                    <!--sezione registrazione e login-->
-                                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                                     <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                                     <!--fine login-->
-                                    <!--da rivdere dopo la gestione degli utenti-->
-                                    {% if app.user %}
+                                   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                                   
+                                        <li class="dropdown">
+                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ '%username%'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} <span class="caret"></span></a>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ path('userInsertTale') }}"><span class="glyphicon glyphicon-pencil"></span> Gioca ora</a></li>
+                                        <li><a href="{{ path('userTales') }}"><span class="glyphicon glyphicon-book"></span> Le mie fiabe</a></li>
+                                        <li class="divider">
+                                        <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Visualizza</a></li>
+                                        <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-cog"></span> Modifica</a></li>
                                         <li>
-                                            <a href="{{ path('security_logout') }}">
-                                                <i class="fa fa-sign-out"></i> {{ 'menu.logout'|trans }}
+                                            <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout
                                             </a>
                                         </li>
+                                      </ul>
+                                    </li>
+                                    {% else %}
+                                        {% block header_navigation_links %}
+                                            <li><a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                                        {% endblock %}
+                                        <li><a href="{{ path('fos_user_security_login')}} "><span class="glyphicon glyphicon-log-in"></span> Login</a></li></a>
                                     {% endif %}
+
                                 </ul>
+
                             </div>
                         </div>
                     </div>
 
                 </header>
             {% endblock %}
+
+            {% block session %}
+                {% if app.request.hasPreviousSession %}
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for message in messages %}
+                            <div class="flash-{{ type }}"><p class="text-warning">{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endblock %}
+            {% block message %}{% endblock message%}
+
             {% block body %}{% endblock %}
             {% block footer %}
             <br><br><br>
             <footer class="footer navbar-fixed-bottom">
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- aggiugnere logo -->
+
                         <div id="footer-copyright" class="col-sm-6">
                             <div>
-                                <p>&copy; {{ 'now'|date('Y') }} - <a href="http://www.avolta.pg.it" target="_blank">ITTS A. Volta</p></a><p>Licenza MIT</p>
+                                
+                                <p><img src="{{ asset('logo_32_64.ico') }}"> <a href="http://www.avolta.pg.it" target="_blank">ITTS A. Volta</p></a><p>Licenza MIT</p>
                             </div>
                         </div>
-                        <!-- aggiungere boostrap social o altro-->
-                        <div id="footer-resources" class="col-sm-5">
+
+                        <!-- aggiungere boostrap social o altro colorati-->
+                        <div id="footer-resources" class="col-md-5">
                             <p>
                                 <a href="https://twitter.com/symfony"><i class="fa fa-twitter"></i></a>
                                 <a href="https://www.facebook.com/SensioLabs"><i class="fa fa-facebook"></i></a>
                                 <a href="http://symfony.com/blog"><i class="fa fa-rss"></i></a>
                             </p>
-                        </div>
+                         </div>
+                         <!-- fine modifica -->
                     </div>
                 </div>
             </footer>
         {% endblock %}
+
+
     </body>
 </html>

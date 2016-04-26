@@ -1,0 +1,55 @@
+{# app/Resources/FOSUserBundle/views/Profile/edit.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+   <div class="container">    
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Modifica il profilo di {{ app.user.username }}</h3>
+            </div>
+             <div style="padding-top:30px" class="panel-body" >
+              <div class="row">
+                <div class="col-md-4 col-lg-4 col-xs-3 col-sm-3" align="center"> <img alt="Immagine utente" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+                       <div class=" col-md-8 col-lg-8 col-xs-9 col-sm-9">
+                            <form id="signupform" class="form-horizontal" action="{{ path("fos_user_profile_edit") }}" method="post" role="form">
+                            	<div class="form-group">
+                                    <label for="fos_user_profile_form" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">           {{ form_widget(form.email, {'attr': {'class': 'form-control' } }) }}
+                                    </div>
+                                    {{ form_errors(form.email) }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="fos_user_profile_form" class="col-md-3 control-label">Username</label>
+                                    <div class="col-md-9">           {{ form_widget(form.username, {'attr': {'class': 'form-control' } }) }}
+                                    </div>
+                                    {{ form_errors(form.username) }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="fos_user_profile_form" class="col-md-3 control-label">Password corrente</label>
+                                    <div class="col-md-9">           {{ form_widget(form.current_password, {'attr': {'class': 'form-control' } }) }}
+                                    </div>
+                                    {{ form_errors(form.current_password) }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="fos_user_profile_form" class="col-md-3 control-label">Data di nascita</label>
+                                    <div class="col-md-9">           {{ form_widget(form.birthday, {'attr': {'class': 'form-control' } }) }}
+                                    </div>
+                                    {{ form_errors(form.birthday) }}
+                                </div>
+                            	{{ form_widget(form) }}
+							    
+							         <button id="btn-signup" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> Modifica</button>
+							    </div>
+
+    						</form>
+                         </div>
+
+                    </div>
+
+                </div>
+                
+        </div>
+    </div>
+{{ form_end(form) }}
+{% endblock %}

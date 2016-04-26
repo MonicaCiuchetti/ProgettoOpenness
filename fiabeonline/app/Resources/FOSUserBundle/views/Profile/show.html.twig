@@ -1,0 +1,68 @@
+{# app/Resources/FOSUserBundle/views/Profile/show.html.twig #}
+
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+<div class="fos_user_user_show">
+    <div class="container body-container">
+    <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ app.user.username }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-4 col-lg-4" align="center"> <img alt="Immagine utente" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+                
+                <div class="col-xs-10 col-sm-10 hidden-md hidden-lg"> <br>
+                  <dl>
+                    <dt>{{ 'security.login.username'|trans }}:</dt>
+                    <dd>{{ app.user.username }}</dd>
+                    <dt>{{ 'profile.show.birthday'|trans }}:</dt>
+                    <dd>{{ app.user.birthday|date('d/m/Y') }}</dd>
+                    <dt>{{ 'profile.show.score'|trans }}:</dt>
+                    <dd>{{ app.user.score }}</dd>
+                    <dt>{{ 'profile.show.level'|trans }}:</dt>
+                    <dd>{{ app.user.level }}</dd>
+                  </dl>
+                </div>
+                <div class=" col-md-8 col-lg-8 hidden-xs hidden-sm"> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Squadra:</td>
+                        <td>ITTS</td>
+                      </tr>
+                      <tr>
+                        <td>{{ 'profile.show.birthday'|trans }}:</td>
+                        <td>{{ app.user.birthday|date('d/m/Y') }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ 'profile.show.score'|trans }}:</td>
+                        <td>{{ app.user.score }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ 'profile.show.level'|trans }}:</td>
+                        <td>{{ app.user.level }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ 'profile.show.email'|trans }}:</td>
+                        <td><a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a></td>
+                      </tr>
+                  
+                    </tbody>
+                  </table>
+                  
+                  <a href="#" class="btn btn-primary">Classifica</a>
+                </div>
+              </div>
+            </div>
+                 <div class="panel-footer">
+                        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" href="mailto:{{ app.user.email }}"><i class="glyphicon glyphicon-envelope"></i></a>
+                        <span class="pull-right">
+                            <a href="{{ path('fos_user_profile_edit') }}" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                        </span>
+                    </div>
+                </div>
+</div>
+</div>
+{% endblock %}

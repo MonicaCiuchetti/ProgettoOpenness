@@ -1,0 +1,72 @@
+{# app/Resources/FOSUserBundle/views/Registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">    
+        <div id="signupbox" style="margin-top:50px" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">Registrati</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="{{ path('fos_user_security_login') }} }} ">Sign In</a></div>
+                        </div>
+
+                        <div style="padding-top:30px" class="panel-body" >
+                            <form id="signupform" class="form-horizontal" action="{{ path("fos_user_registration_register") }}" method="post" role="form">
+                                <!-- modificare stile help-block o sistemare alert controllando l'oggetto form_errors()  -->
+                                <div class="form-group">
+                                    <label for="fos_user_registration_form_email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">           {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': "Email"} }) }}
+                                    </div>
+                                    {{ form_errors(form.email) }}
+                                </div>
+                                                             
+                                <div class="form-group">
+                                    <label for="fos_user_registration_form_username" class="col-md-3 control-label">Username</label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': "Username"} }) }}
+                                    </div>
+                                    {{ form_errors(form.username) }}
+                                </div>
+                          
+                                <div class="form-group">
+                                    <label for="fos_user_registration_form_plainPassword_first" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': "Password"} }) }}
+                                    </div>
+                                    {{ form_errors(form.plainPassword.first) }}
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="fos_user_registration_form_plainPassword_second" class="col-md-3 control-label">Ripeti Password</label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': "Password"} }) }}
+                                    </div>
+                                    {{ form_errors(form.plainPassword.second) }}
+                                </div>
+                                {{ form_widget(form) }}
+                                <div class="form-group">                                  
+                                    <div class="col-md-offset-2 col-md-8">
+                                        <button id="btn-signup" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> Sign Up</button>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-1 col-md-10 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:100%" >
+                                            Sei già registrato! 
+                                        <a href="{{ path('fos_user_security_login') }}">
+                                            Login
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                         </div>
+                    </div>
+                
+         </div> 
+    </div>
+
+
+{% endblock %}

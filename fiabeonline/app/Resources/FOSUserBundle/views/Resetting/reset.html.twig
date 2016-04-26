@@ -1,0 +1,28 @@
+{# app/Resources/FOSUserBundle/views/Resetting/reset.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+<div class="container">    
+        <div id="resetbox" style="margin-top:50px" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">Modifica la password!</div>
+                        </div>
+
+                        <div style="padding-top:30px" class="panel-body" >
+						    {{ form_widget(form) }}
+						     <div class="form-group">                                  
+                                    <div class="col-md-offset-2 col-md-8">
+                                        <button id="btn-signup" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> Modifica</button>
+
+                                    </div>
+                                </div>
+						</div>
+					</div>
+		</div>
+</div>
+
+
+
+{% endblock %}

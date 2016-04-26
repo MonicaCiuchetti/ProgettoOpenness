@@ -24,6 +24,6 @@ class GameController extends Controller
           ->getRepository('AppBundle:Type')
           ->findAll();
 
-      return $this->render('game/publicGame.html.twig', array('genres' => $genres, 'types' => $types));
+      return $this->render('game/publicgame.html.twig', array('genres' => $genres, 'types' => $types));
   }
 }

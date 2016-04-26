@@ -2,13 +2,79 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container body-container">
-        {% for user in users %}
-            <p>User Id: {{ user.id }}</p>
-            <p>User Username: {{ user.username }}</p>
-            <p>User Email: {{ user.email }}</p>
-            <p>User Level: {{ user.level }}</p>
-            <p>User Score: {{ user.score }}</p>
-        {% endfor %}
+<div class="container">    
+   	
+		<div class="col-md-10 col-md-offset-1">
+
+            <div class="panel panel-primary panel-table">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col col-xs-6">
+                    <h3 class="panel-title">Le fiabe di {{ app.user.username }}</h3>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="panel-body">
+                <table class="table table-striped table-bordered table-list">
+                  <thead>
+                    <tr>
+                        <th class="hidden-xs">ID</th>
+                        <th>Tipologia</th>
+                        <th>Genere</th>
+                        <th>Titolo</th>
+                        <th>Punteggio</th>
+                        <th>Voto</th>
+                        <th>Visibilità</th>
+                        <th>Azioni <em class="fa fa-cog"></em></th>
+                    </tr> 
+                  </thead>
+              {% for tale in tales %}
+                    {% if tales.count() == 0 %}
+                      <tbody>
+                          <tr>
+                            <td>Nessuna fiaba presente</td>
+                          </tr>
+                      </tbody>
+                    {% else %}
+                      <tbody>
+                          <tr>
+                            <td class="hidden-xs">{{ tale.id }}</td>
+                            <td>{{ tale.type.typeName }}</td>
+                            <td>{% for genre in tale.taleGenres %}
+                              {{ genre.genre.genreName }} {% endfor %}</td>
+                            <td>{{ tale.taleTitle }}</td>
+                            <td align="center">{{ tale.taleScore }}</td>
+                            <td align="center">{{ tale.likes.count() }}</td>
+                            {% if tale.isPublic == 1 %} <td align="center"><span class="glyphicon glyphicon-eye-open"></span></td>
+                            {% else %} 
+                            <td align="center"><span class="glyphicon glyphicon-eye-close"></span></td>
+                            {% endif %}
+                            <td align="center">
+                              <a class="btn-sm btn-primary" href="{{ path('userShowTale', {idTale: tale.id }) }}"><em class="fa fa-map"></em></a>
+                              <a class="btn-sm btn-warning" href="{{ path('userEditTale', {idTale: tale.id }) }}"><em class="fa fa-pencil"></em></a>
+                              <a class="btn-sm btn-danger" href="#"><em class="fa fa-trash"></em></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                     
+                    {% endif %}
+                 {% endfor %}
+                </table>
+            	<div class="col col-xs-4">
+                    <a class="btn btn-sm btn-success" href="{{ path('userInsertTale') }}">Inserisci</a>
+                  </div>
+              </div>
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col col-xs-12">
+                    {{ knp_pagination_render(tales) }}
+                  </div>
+                </div>
+             </div>
+            </div>
     </div>
+</div>
+
+
 {% endblock %}

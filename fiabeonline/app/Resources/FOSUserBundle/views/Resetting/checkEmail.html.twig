@@ -1,0 +1,14 @@
+{# app/Resources/FOSUserBundle/views/Resetting/checkEmail.html.twig #}
+{% extends 'base.html.twig' %}
+{% block message %}
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="row">
+	<div id="changepassword" style="margin-top:20px" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+			     <div class="alert alert-dismissible alert-success">
+		             <button type="button" class="close" data-dismiss="alert">&times;</button>
+					<p>{{ 'resetting.check_email'|trans({'%email%': email}) }}</p>
+				</div>
+	</div>
+</div>
+{% endblock %}
+{% block body %}{% endblock %}

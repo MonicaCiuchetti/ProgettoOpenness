@@ -3,8 +3,12 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Entity\Tale;
 
 class UserController extends Controller
 {
@@ -38,31 +42,104 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/user/tales", name="usertales")
-     * @Route("/user/tales/page/{page}", name="user_tales_paginated", defaults={"page" = 1})
+     * @Route("/user/tales", name="userTales", defaults={"page" = 1})
+     * @Route("/user/tales/page/{page}", name="userTalesPaginated", defaults={"page" = 1})
      */
     public function findUserTalesAction($page)
     {
         $paginator = $this->get('knp_paginator');
         $tales = $this->getUser()->getTales();
-
-        $tales = $paginator->paginate($tales, $page, 12);
-        $tales->setUsedRoute('user_tales_paginated');
-
-
-        return $this->render('test/view_userindex.html.twig', array('tales' => $tales));//Da testare, in attesa della vista
+        $tales = $paginator->paginate($tales, $page, 5);
+        $tales->setUsedRoute('userTalesPaginated');
+        return $this->render('user/index.html.twig', array('tales' => $tales));
     }
-
-
 
     /**
-     * @Route("/user/delete/id/{userId}", name="deleteUserById")
+     * @Route("/user/tale/insert", name="userInsertTale")
      */
-    public function deleteById($userId)
+    public function insertAction()
     {
-        $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:User')
-            ->deleteOneById($userId);
+       $genres = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:Genre')
+          ->findAll();
+
+      $types = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:Type')
+          ->findAll();
+
+      $sequenceTypes = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('AppBundle:SequenceType')
+          ->findAll();
+
+      return $this->render('user/insert.html.twig', array("genres" => $genres, "types" => $types, "sequenceTypes" => $sequenceTypes));
+   
     }
+
+    /**
+     * @Route("/user/tale/{idTale}", name="userShowTale")
+     */
+    public function taleShowAction($idTale)
+    {
+        $tale = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Tale')
+            ->findById($idTale);
+
+        $taleText = "";
+
+        $sequencesImages = array();
+        foreach ($tale[0]->getSequences() as $sequence) {
+           //Concateno testi di ogni sequenza
+            $taleText .= $sequence->getSeqText();
+            //Li separo con lo spazio
+            $taleText .= " ";
+            //creo l'array che associa le sequenze ai fronti delle proprie carte
+            $sequenceImages = array();
+            foreach ($sequence->getActions() as $action) {
+                $sequenceImages[] = $action->getCard()->getCardFront();
+              }
+            $sequencesImages[] = $sequenceImages;
+        }
+
+
+        return $this->render('user/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+    }
+
+    /**
+     * Displays a form to edit an existing Tale entity.
+     *
+     * @Route("/user/tale/{idTale}/edit", name="userEditTale")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction($idTale)
+    {
+        $tale = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Tale')
+            ->findById($idTale);
+
+        $taleText = "";
+
+        $sequencesImages = array();
+        foreach ($tale[0]->getSequences() as $sequence) {
+           //Concateno testi di ogni sequenza
+            $taleText .= $sequence->getSeqText();
+            //Li separo con lo spazio
+            $taleText .= " ";
+            //creo l'array che associa le sequenze ai fronti delle proprie carte
+            $sequenceImages = array();
+            foreach ($sequence->getActions() as $action) {
+                $sequenceImages[] = $action->getCard()->getCardFront();
+              }
+            $sequencesImages[] = $sequenceImages;
+        }
+
+
+        return $this->render('user/edit.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+    }
+
+   
 }

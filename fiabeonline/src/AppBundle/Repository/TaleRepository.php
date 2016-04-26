@@ -255,6 +255,7 @@ class TaleRepository extends EntityRepository
             ->createQuery(
                 'SELECT t
                   FROM AppBundle:Tale t
+                  WHERE t.isPublic = TRUE
                   ORDER BY t.taleScore DESC'
             )
             ->setMaxResults(1)

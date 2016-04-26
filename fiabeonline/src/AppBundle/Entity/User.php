@@ -2,100 +2,75 @@
 
 namespace AppBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="`user`")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User extends BaseUser
 {
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="AUTO") 
      */
-    private $id;
+    protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=25, unique=true)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=60, unique=true)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=64)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=40)
-     */
-    private $salt;
-
-    /**
+     /**
      * @var \DateTime
      *
      * @ORM\Column(name="birthday", type="date")
      */
-    private $birthday;
+    protected $birthday;
 
     /**
      * @var int
      *
      * @ORM\Column(name="level", type="integer")
      */
-    private $level;
+    protected $level;
 
     /**
      * @var int
      *
      * @ORM\Column(name="score", type="integer")
      */
-    private $score;
+    protected $score;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="isActive", type="boolean")
      */
-    private $isActive;
+
+    protected $isActive;
 
     /**
      * @ORM\OneToMany(targetEntity="Log", mappedBy="user", orphanRemoval=true)
      */
-    private $logs;
+    protected $logs;
 
     /**
      * @ORM\OneToMany(targetEntity="UserLike", mappedBy="user", orphanRemoval=true)
      */
-    private $likes;
+    protected $likes;
 
     /**
      * @ORM\OneToMany(targetEntity="Tale", mappedBy="user", orphanRemoval=true)
      */
-    private $tales;
+    protected $tales;
 
     public function __construct()
     {
+        parent::__construct();
         $this->isActive = true;
         $this->logs = new ArrayCollection();
         $this->likes = new ArrayCollection();
@@ -112,76 +87,8 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return User
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
 
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
+        /**
      * Set isActive
      *
      * @param boolean $isActive
@@ -204,30 +111,8 @@ class User implements UserInterface, \Serializable
         return $this->isActive;
     }
 
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string
-     */
-    public function getSalt()
-    {
-        return mb_substr(md5($this->getUsername()), 3, 3);
-    }
-
-    /**
+   
+     /**
      * Set level
      *
      * @param integer $level
@@ -395,62 +280,5 @@ class User implements UserInterface, \Serializable
         return $this->tales;
     }
 
-    /**
-     * Returns the roles or permissions granted to the user for security.
-     * @return $roles
-     */
-    public function getRoles()
-    {
-        $roles = $this->roles;
-
-        // guarantees that a user always has at least one role for security
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles)
-    {
-        $this->roles = $roles;
-    }
-
-    /**
-     * @return credentials
-     */
-    public function eraseCredentials()
-    {
-        return true;
-    }
-
-    /**
-     * Serialize user
-     * @return string
-     */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->getId(),
-            $this->getUsername(),
-            $this->getPassword()
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /**
-     * Unserialize user
-     * @see \Serializable::unserialize()
-     */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-            ) = unserialize($serialized);
-    }
+  
 }

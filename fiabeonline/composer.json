@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "AlgortimoDellaFiabe",
+    "license": "AOL",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "www.fiabeonline.com/adf",
     "autoload": {
         "psr-4": { "": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
@@ -38,7 +38,9 @@
         "components/jquery": "^2.2",
         "knplabs/knp-menu-bundle": "^2.0",
         "knplabs/knp-paginator-bundle": "^2.5",
-        "twig/extensions": "^1.3"
+        "twig/extensions": "^1.3",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
+
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

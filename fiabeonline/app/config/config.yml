@@ -13,7 +13,7 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
-   
+
 framework:
     #esi:             ~
     translator:      ~
@@ -137,7 +137,7 @@ fos_user:
             enabled: true
             template:   FOSUserBundle:Registration:email.txt.twig
             from_email:
-                address:        monica@barbadori.com
+                address:        "%mailer_user%"
                 sender_name:    FiabeOnLine Registration
     service:
         mailer: fos_user.mailer.twig_swift
@@ -145,8 +145,8 @@ fos_user:
         email:
             template: FOSUserBundle:Resetting:email.txt.twig
             from_email:
-                address:        monica@barbadori.com
+                address:        "%mailer_user%"
                 sender_name:    FiabeOnLine Resetting
     from_email:
-        address:        monica@barbadori.com
+        address:        "%mailer_user%"
         sender_name:    FiabeOnLine Application

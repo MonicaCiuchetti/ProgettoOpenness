@@ -34,7 +34,12 @@
                       </tr>
                       <tr>
                         <td>{{ 'profile.show.birthday'|trans }}:</td>
-                        <td>{{ app.user.birthday|date('d/m/Y') }}</td>
+                        <td>{% if app.user.birthday is not null %}
+                          {{ app.user.birthday|date('d/m/Y') }}
+                          {% else %}
+                          Non inserita
+                          {% endif %}
+                        </td>
                       </tr>
                       <tr>
                         <td>{{ 'profile.show.score'|trans }}:</td>

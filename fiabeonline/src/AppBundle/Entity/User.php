@@ -27,14 +27,14 @@ class User extends BaseUser
      /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthday", type="date")
+     * @ORM\Column(name="birthday", type="date", nullable=true)
      */
     protected $birthday;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="level", type="integer")
+     * @ORM\Column(name="level", type="integer", nullable=true)
      */
     protected $level;
 
@@ -72,6 +72,8 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->isActive = true;
+        $this->score = 0;
+        $this->level = 0;
         $this->logs = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->tales = new ArrayCollection();

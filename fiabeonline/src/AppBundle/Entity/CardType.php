@@ -43,18 +43,12 @@ class CardType
     private $ctBack;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="cardType")
-     */
-    private $actionsPropp;
-
-    /**
      * @ORM\OneToMany(targetEntity="Card", mappedBy="cardType")
      */
     private $cards;
 
     public function __construct()
     {
-        $this->actionsPropp = new ArrayCollection();
         $this->cards = new ArrayCollection();
     }
 

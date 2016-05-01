@@ -1,0 +1,39 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Partecipate
+ *
+ * @ORM\Table(name="partecipate")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PartecipateRepository")
+ */
+class Partecipate
+{
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="cards")
+     * @ORM\JoinColumn(name="character", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $character;
+
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="cards")
+     * @ORM\JoinColumn(name="function", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $function;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="score", type="integer", options={"default" = 5})
+     */
+    private $score;
+}

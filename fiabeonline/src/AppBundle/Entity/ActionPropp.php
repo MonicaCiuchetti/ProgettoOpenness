@@ -12,43 +12,29 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ActionPropp
 {
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var int
      *
-     * @ORM\Column(name="score", type="integer")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="actionsPropp")
+     * @ORM\JoinColumn(name="card", referencedColumnName="id")
      */
-    private $score;
+    private $card;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CardType", inversedBy="actionsPropp")
-     * @ORM\JoinColumn(name="cardType", referencedColumnName="id")
-     */
-    private $cardType;
-
-    /**
+     * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="SequenceType", inversedBy="actionsPropp")
      * @ORM\JoinColumn(name="sequenceType", referencedColumnName="id")
      */
     private $sequenceType;
 
     /**
-     * Get id
+     * @var int
      *
-     * @return integer 
+     * @ORM\Column(name="score", type="integer", options={"default" = 5})
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $score;
 
     /**
      * Set score
@@ -74,26 +60,26 @@ class ActionPropp
     }
 
     /**
-     * Set cardType
+     * Set card
      *
-     * @param \AppBundle\Entity\CardType $cardType
+     * @param \AppBundle\Entity\Card $card
      * @return ActionPropp
      */
-    public function setCardType(\AppBundle\Entity\CardType $cardType = null)
+    public function setCard(\AppBundle\Entity\Card $card)
     {
-        $this->cardType = $cardType;
+        $this->card = $card;
 
         return $this;
     }
 
     /**
-     * Get cardType
+     * Get card
      *
-     * @return \AppBundle\Entity\CardType 
+     * @return \AppBundle\Entity\Card 
      */
-    public function getCardType()
+    public function getCard()
     {
-        return $this->cardType;
+        return $this->card;
     }
 
     /**
@@ -102,7 +88,7 @@ class ActionPropp
      * @param \AppBundle\Entity\SequenceType $sequenceType
      * @return ActionPropp
      */
-    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType = null)
+    public function setSequenceType(\AppBundle\Entity\SequenceType $sequenceType)
     {
         $this->sequenceType = $sequenceType;
 

@@ -52,9 +52,15 @@ class Card
      */
     private $actions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ActionPropp", mappedBy="cardType")
+     */
+    private $actionsPropp;
+
     public function __construct()
     {
         $this->actions = new ArrayCollection();
+        $this->actionsPropp = new ArrayCollection();
     }
 
     /**
@@ -190,5 +196,38 @@ class Card
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Add actionsPropp
+     *
+     * @param \AppBundle\Entity\ActionPropp $actionsPropp
+     * @return Card
+     */
+    public function addActionsPropp(\AppBundle\Entity\ActionPropp $actionsPropp)
+    {
+        $this->actionsPropp[] = $actionsPropp;
+
+        return $this;
+    }
+
+    /**
+     * Remove actionsPropp
+     *
+     * @param \AppBundle\Entity\ActionPropp $actionsPropp
+     */
+    public function removeActionsPropp(\AppBundle\Entity\ActionPropp $actionsPropp)
+    {
+        $this->actionsPropp->removeElement($actionsPropp);
+    }
+
+    /**
+     * Get actionsPropp
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActionsPropp()
+    {
+        return $this->actionsPropp;
     }
 }

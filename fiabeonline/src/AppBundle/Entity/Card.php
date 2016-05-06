@@ -57,16 +57,28 @@ class Card
      */
     private $actionsPropp;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Partecipation", mappedBy="character")
+     */
+    private $partecipations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PartecipationDefault", mappedBy="character")
+     */
+    private $partecipationsDefault;
+
     public function __construct()
     {
         $this->actions = new ArrayCollection();
         $this->actionsPropp = new ArrayCollection();
+        $this->partecipations = new ArrayCollection();
+        $this->partecipationsDefault = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -89,7 +101,7 @@ class Card
     /**
      * Get cardName
      *
-     * @return string 
+     * @return string
      */
     public function getCardName()
     {
@@ -112,7 +124,7 @@ class Card
     /**
      * Get cardDescription
      *
-     * @return string 
+     * @return string
      */
     public function getCardDescription()
     {
@@ -135,7 +147,7 @@ class Card
     /**
      * Get cardFront
      *
-     * @return string 
+     * @return string
      */
     public function getCardFront()
     {
@@ -158,7 +170,7 @@ class Card
     /**
      * Get cardType
      *
-     * @return \AppBundle\Entity\CardType 
+     * @return \AppBundle\Entity\CardType
      */
     public function getCardType()
     {
@@ -191,7 +203,7 @@ class Card
     /**
      * Get actions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActions()
     {
@@ -224,10 +236,142 @@ class Card
     /**
      * Get actionsPropp
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActionsPropp()
     {
         return $this->actionsPropp;
+    }
+
+    /**
+     * Add partecipates
+     *
+     * @param \AppBundle\Entity\Partecipate $partecipates
+     * @return Card
+     */
+    public function addPartecipate(\AppBundle\Entity\Partecipate $partecipates)
+    {
+        $this->partecipates[] = $partecipates;
+
+        return $this;
+    }
+
+    /**
+     * Remove partecipates
+     *
+     * @param \AppBundle\Entity\Partecipate $partecipates
+     */
+    public function removePartecipate(\AppBundle\Entity\Partecipate $partecipates)
+    {
+        $this->partecipates->removeElement($partecipates);
+    }
+
+    /**
+     * Get partecipates
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartecipates()
+    {
+        return $this->partecipates;
+    }
+
+    /**
+     * Add partecipatesDefault
+     *
+     * @param \AppBundle\Entity\Partecipate $partecipatesDefault
+     * @return Card
+     */
+    public function addPartecipatesDefault(\AppBundle\Entity\Partecipate $partecipatesDefault)
+    {
+        $this->partecipatesDefault[] = $partecipatesDefault;
+
+        return $this;
+    }
+
+    /**
+     * Remove partecipatesDefault
+     *
+     * @param \AppBundle\Entity\Partecipate $partecipatesDefault
+     */
+    public function removePartecipatesDefault(\AppBundle\Entity\Partecipate $partecipatesDefault)
+    {
+        $this->partecipatesDefault->removeElement($partecipatesDefault);
+    }
+
+    /**
+     * Get partecipatesDefault
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartecipatesDefault()
+    {
+        return $this->partecipatesDefault;
+    }
+
+    /**
+     * Add partecipations
+     *
+     * @param \AppBundle\Entity\Partecipation $partecipations
+     * @return Card
+     */
+    public function addPartecipation(\AppBundle\Entity\Partecipation $partecipations)
+    {
+        $this->partecipations[] = $partecipations;
+
+        return $this;
+    }
+
+    /**
+     * Remove partecipations
+     *
+     * @param \AppBundle\Entity\Partecipation $partecipations
+     */
+    public function removePartecipation(\AppBundle\Entity\Partecipation $partecipations)
+    {
+        $this->partecipations->removeElement($partecipations);
+    }
+
+    /**
+     * Get partecipations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartecipations()
+    {
+        return $this->partecipations;
+    }
+
+    /**
+     * Add partecipationsDefault
+     *
+     * @param \AppBundle\Entity\PartecipationDefault $partecipationsDefault
+     * @return Card
+     */
+    public function addPartecipationsDefault(\AppBundle\Entity\PartecipationDefault $partecipationsDefault)
+    {
+        $this->partecipationsDefault[] = $partecipationsDefault;
+
+        return $this;
+    }
+
+    /**
+     * Remove partecipationsDefault
+     *
+     * @param \AppBundle\Entity\PartecipationDefault $partecipationsDefault
+     */
+    public function removePartecipationsDefault(\AppBundle\Entity\PartecipationDefault $partecipationsDefault)
+    {
+        $this->partecipationsDefault->removeElement($partecipationsDefault);
+    }
+
+    /**
+     * Get partecipationsDefault
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartecipationsDefault()
+    {
+        return $this->partecipationsDefault;
     }
 }

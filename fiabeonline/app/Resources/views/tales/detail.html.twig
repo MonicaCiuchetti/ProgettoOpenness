@@ -93,14 +93,33 @@
                                     });
                                 });
                                 $(function() {
-                                $('#like').click(function(){
-                                  $(this).toggleClass('clicked');
+                                  $('#like').click(function(){
+                                    $.ajax('{{ path('addLike') }}', {
+                                          type: "POST",
+                                          data: {
+                                              taleId: {{ tale[0].id }}
+                                          },
+                                          success: function(data) {
+                                              $(this).toggleClass('clicked');
+                                          },
+                                          error: function() {
+                                              console.log("non funge") // show alert or something
+                                          }
+                                    });
+                                      return false; // this stops normal button behaviour from executing;
+                                  });
                                 });
+
                                 $("#like").hover(function(){
-                                }, function(){
                                     $(this).blur();
                                 });
-                              });
+                                $("#like").mouseout(function(){
+                                    $(this).off("blur");
+                                });
+                                /*
+                                $("#like").mouseup(function(){
+                                    $(this).off("blur");
+                                });*/
 
                             </script>
                         </div>

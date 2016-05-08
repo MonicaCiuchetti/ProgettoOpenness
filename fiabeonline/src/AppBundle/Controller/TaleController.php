@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 class TaleController extends Controller
 {
@@ -402,17 +403,19 @@ class TaleController extends Controller
             ->deleteById($taleId);
     }
     /**
-     * @Route("/tale/addLike/{taleId}", name="addLike")
+     * @Route("/tale/addLike", name="addLike")
      */
      //da verificare
-    public function addLike($taleId){
+    public function addLike(Request $request){
 
+          //var_dump($request);
           $user=$this->getUser();
           /*
             Verifico che l'utente sia loggato
           */
           if($user!=null){
-
+                  //dump($request);
+                  $taleId = $request->request->get('taleId') ;
                   $em=$this->getDoctrine()->getManager();
 
                   $result = $em->getRepository('AppBundle:UserLike')->findByIds($taleId,$user->getId());
@@ -438,6 +441,11 @@ class TaleController extends Controller
                       $userLike = $em->merge($userLike);
                       $em->remove($userLike);
                       $em->flush();
+                      /*
+                      $tale[0]->removeLike($userLike);
+                      $em->persist()
+                      $em->flush();
+                      */
                   }
 
                   return $this->redirectToRoute('tale',array('idTale' => $tale[0]->getId()),301);

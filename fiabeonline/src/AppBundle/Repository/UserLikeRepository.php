@@ -34,4 +34,17 @@ class UserLikeRepository extends EntityRepository
             ->setParameter('userId', $userId)
             ->getResult();
     }
+
+    public function findByIds($taleId,$userId){
+
+        return $this->getEntityManager()->createQuery(
+                'SELECT uL
+                  FROM AppBundle:UserLike uL
+                  WHERE uL.tale = :taleId AND uL.user = :userId'
+                  )
+                  ->setParameter('taleId', $taleId)
+                  ->setParameter('userId', $userId)
+                  ->getResult();
+
+    }
 }

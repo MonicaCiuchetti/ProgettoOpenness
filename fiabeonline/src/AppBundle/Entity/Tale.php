@@ -77,12 +77,12 @@ class Tale
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="tale", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="UserLike", mappedBy="tale", orphanRemoval=true, cascade={"persist"})
      */
     private $likes;
 
     /**
-     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="tale", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Sequence", mappedBy="tale", orphanRemoval=true, cascade={"persist"})
      */
     private $sequences;
 

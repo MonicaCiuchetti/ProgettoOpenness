@@ -401,4 +401,52 @@ class TaleController extends Controller
             ->getRepository('AppBundle:Tale')
             ->deleteById($taleId);
     }
+    /**
+     * @Route("/tale/addLike/{taleId}", name="addLike")
+     */
+     //da verificare
+    public function addLike($taleId){
+
+          $user=$this->getUser();
+          /*
+            Verifico che l'utente sia loggato
+          */
+          if($user!=null){
+
+                  $em=$this->getDoctrine()->getManager();
+
+                  $result = $em->getRepository('AppBundle:UserLike')->findByIds($taleId,$user->getId());
+                  /*var_dump($result);
+                  $ciao=$ciccio;*/
+                  $tale = $em->getRepository('AppBundle:Tale')->findById($taleId);
+                  if (!$tale) {
+                      throw $this->createNotFoundException(
+                          'No tale found for id '.$taleId);
+                  }
+
+                  $userLike = new \AppBundle\Entity\UserLike();
+                  $userLike->setUser($user);
+                  $userLike->setTale($tale[0]);
+
+                  if(empty($result)){
+                        //return $this->redirectToRoute('fos_user_security_login');
+                        $tale[0]->addLike($userLike);
+                        $em->persist($tale[0]);
+                        $em->flush();
+
+                  }else{
+                      $userLike = $em->merge($userLike);
+                      $em->remove($userLike);
+                      $em->flush();
+                  }
+
+                  return $this->redirectToRoute('tale',array('idTale' => $tale[0]->getId()),301);
+        }
+        else {
+              return $this->redirectToRoute('fos_user_security_login');
+        }
+    }
+
+
+
 }

@@ -5,43 +5,34 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Partecipate
+ * Partecipation
  *
- * @ORM\Table(name="partecipate")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PartecipateRepository")
+ * @ORM\Table(name="partecipation")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PartecipationRepository")
  */
-class Partecipate
+class Partecipation
 {
     /**
-     * @var int
-     *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="Card", inversedBy="cards")
-     * @ORM\JoinColumn(name="character", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="character", referencedColumnName="id")
      */
     private $character;
 
     /**
-     * @var int
-     *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="Card", inversedBy="cards")
-     * @ORM\JoinColumn(name="function", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="function", referencedColumnName="id")
      */
     private $function;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="score", type="integer", options={"default" = 5})
-     */
-    private $score;
 
     /**
      * Set character
      *
      * @param \AppBundle\Entity\Card $character
-     * @return Partecipate
+     * @return Partecipation
      */
     public function setCharacter(\AppBundle\Entity\Card $character)
     {
@@ -53,7 +44,7 @@ class Partecipate
     /**
      * Get character
      *
-     * @return \AppBundle\Entity\Card
+     * @return \AppBundle\Entity\Card 
      */
     public function getCharacter()
     {
@@ -64,7 +55,7 @@ class Partecipate
      * Set function
      *
      * @param \AppBundle\Entity\Card $function
-     * @return Partecipate
+     * @return Partecipation
      */
     public function setFunction(\AppBundle\Entity\Card $function)
     {
@@ -76,33 +67,10 @@ class Partecipate
     /**
      * Get function
      *
-     * @return \AppBundle\Entity\Card
+     * @return \AppBundle\Entity\Card 
      */
     public function getFunction()
     {
         return $this->function;
-    }
-
-    /**
-     * Set score
-     *
-     * @param integer $score
-     * @return Partecipate
-     */
-    public function setScore($score)
-    {
-        $this->score = $score;
-
-        return $this;
-    }
-
-    /**
-     * Get score
-     *
-     * @return integer 
-     */
-    public function getScore()
-    {
-        return $this->score;
     }
 }

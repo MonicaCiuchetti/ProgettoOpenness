@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Tale;
+use AppBundle\Form\Type\TaleType;
 
 class UserController extends Controller
 {
@@ -56,9 +57,12 @@ class UserController extends Controller
 
     /**
      * @Route("/user/tale/insert", name="userInsertTale")
+     * @Method({"GET", "POST"})
      */
-    public function insertAction()
+    public function insertAction(Request $request)
     {
+       $tale = new Tale();
+
        $genres = $this->getDoctrine()
           ->getManager()
           ->getRepository('AppBundle:Genre')
@@ -73,8 +77,18 @@ class UserController extends Controller
           ->getManager()
           ->getRepository('AppBundle:SequenceType')
           ->findAll();
+      
+      $form = $this->createForm(new TaleType(), $tale);
 
-      return $this->render('user/insert.html.twig', array("genres" => $genres, "types" => $types, "sequenceTypes" => $sequenceTypes));
+      $form->handleRequest($request);
+
+      return $this->render('user/insert.html.twig', array(
+          "genres" => $genres, 
+          "types" => $types, 
+          "sequenceTypes" => $sequenceTypes,
+          'tale' => $tale,
+          'form' => $form->createView(),
+          ));
    
     }
 

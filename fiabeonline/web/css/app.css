@@ -1,1 +1,6 @@
 footer{background:#ecf0f1;margin-top:2em;padding-top:2em;padding-bottom:2em}footer p{color:#7b8a8b;font-size:13px;margin-bottom:0.25em}footer #footer-resources{text-align:right}footer #footer-resources i{color:#7b8a8b;font-size:28.5px;margin-left:0.5em}
+button.info{
+text-align:center;
+top:0;
+position:absolute;
+right:0;}

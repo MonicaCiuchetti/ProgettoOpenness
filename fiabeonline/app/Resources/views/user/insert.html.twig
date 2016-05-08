@@ -5,7 +5,91 @@
     <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
 {% endblock %}
+{% block javascripts %}
+            <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+            <script src="{{ asset('js/jquery.js') }}"></script>
+            <!-- Include all JavaScripts, compiled by Assetic -->
+            <script src="{{ asset('js/bootstrap.js') }}"></script>
+            <script src="{{ asset('js/activate_step.js') }}"></script>
+            <script src="{{ asset('js/custom.js') }}"></script>
+        {% endblock %}
 {% block body %}
-insert tale
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-8"><h1 class="animated zoomIn">Inserisci la tua fiaba</h1></div>
+        </div>
+        <div class="row form-group">
+        <div class="col-sm-offset-1 col-xs-10">
+            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                <li class="active"><a href="#step-1">
+                    <h4 class="list-group-item-heading">Fase 1</h4>
+                    <p class="list-group-item-text">Scegli titolo, tipologia e genere</p>
+                </a></li>
+                <li class="disabled"><a href="#step-2">
+                    <h4 class="list-group-item-heading">Step 2</h4>
+                    <p class="list-group-item-text">Second step description</p>
+                </a></li>
+                <li class="disabled"><a href="#step-3">
+                    <h4 class="list-group-item-heading">Step 3</h4>
+                    <p class="list-group-item-text">Third step description</p>
+                </a></li>
+            </ul>
+        </div>
+	</div>
+    <div class="row setup-content" id="step-1">
+    	<form id="step1-form" class="form-horizontal" action="{{ path("userInsertTale") }}" method="post" role="form">
+    	<div class="col-sm-offset-1 col-xs-10">
+        	<div class="col-sm-12 well">
+			    <button class="btn btn-warning btn-xs info info-title "><span class='glyphicon glyphicon-info-sign'></span></button>
+			    <input type="text" name="taleTitle" class="form-control" required>
+		    </div>
+		</div>
+        <div class="col-sm-offset-1 col-xs-10">
+        	<div class="col-sm-4 well">
+        		<button class="btn btn-warning btn-xs info info-type"><span class='glyphicon glyphicon-info-sign'></span></button>
+
+             {% for type in types %}
+              <div class="radio">
+                <label><input type="radio" name="optradio" value="{{ type.id }}" required>{{type.typeName}}</label>
+              </div>
+              {% endfor %}
+              
+            </div>
+            <div class="col-sm-7 col-sm-offset-1 well">
+            	<button class="btn btn-warning btn-xs info info-genre"><span class='glyphicon glyphicon-info-sign'></span></button>
+              {% for genre in genres %}
+                           
+                <div class="col-sm-4">
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="{{ genre.id }}">{{genre.genreName}}</label>
+                  </div>
+                </div>
+               {% endfor %}
+            </div>
+        
+        	   <div  class="col-sm-12"> 
+                    {{ form_widget(form) }}
+	           </div>
+	        </div>
+        </div>
+      </form>
+    </div>
+    <div class="row setup-content" id="step-2">
+        <div class="col-xs-12">
+            <div class="col-md-12 well">
+                <h1 class="text-center"> STEP 2</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row setup-content" id="step-3">
+        <div class="col-xs-12">
+            <div class="col-md-12 well">
+                <h1 class="text-center"> STEP 3</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -141,7 +141,8 @@ class TaleController extends Controller
            //Concateno testi di ogni sequenza
             $taleText .= $sequence->getSeqText();
             //Li separo con lo spazio
-            $taleText .= " ";
+            //$taleText .= " ";
+            $taleText .= "\n";
             //creo l'array che associa le sequenze ai fronti delle proprie carte
             $sequenceImages = array();
             foreach ($sequence->getActions() as $action) {

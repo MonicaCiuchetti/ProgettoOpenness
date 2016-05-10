@@ -305,14 +305,28 @@ class TaleRepository extends EntityRepository
 
     public function deleteById($id)
     {
-        $this->getEntityManager()
-            ->createQuery(
-                'DELETE
-                  FROM AppBundle:Tale t
-                  WHERE t.id = :id'
-            )
-            ->setParameter('id', $id)
-            ->getResult();
+      return  $this->getEntityManager()
+              ->createQuery(
+                  'DELETE
+                    FROM AppBundle:Tale t
+                    WHERE t.id = :id'
+              )
+              ->setParameter('id', $id)
+              ->getResult();
+
+    }
+
+    public function deleteUserTaleById($idTale,$idUser)
+    {
+      return $this->getEntityManager()
+              ->createQuery(
+                  'DELETE
+                    FROM AppBundle:Tale t
+                    WHERE t.id = :idTale AND t.user = :idUser'
+              )
+              ->setParameter('idTale', $idTale)
+              ->setParameter('idUser', $idUser)
+              ->getResult();
     }
 
     public function findLastPublicTale()
@@ -334,9 +348,22 @@ class TaleRepository extends EntityRepository
             ->createQuery(
                 'SELECT t
                   FROM AppBundle:Tale t
-                  WHERE t.id = :id'
+                  WHERE t.id = :id AND t.isPublic = TRUE'
             )
             ->setParameter('id', $id)
+            ->getResult();
+    }
+
+    public function findUserTaleById($idTale,$idUser)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+                  FROM AppBundle:Tale t
+                  WHERE t.id = :idTale AND t.user = :idUser'
+            )
+            ->setParameter('idTale', $idTale)
+            ->setParameter('idUser', $idUser)
             ->getResult();
     }
 

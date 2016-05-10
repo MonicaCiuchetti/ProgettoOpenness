@@ -2,8 +2,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">    
-   	
+<div class="container">
+
 		<div class="col-md-10 col-md-offset-1">
 
             <div class="panel panel-primary panel-table">
@@ -12,7 +12,7 @@
                   <div class="col col-xs-6">
                     <h3 class="panel-title">Le fiabe di {{ app.user.username }}</h3>
                   </div>
-                  
+
                 </div>
               </div>
               <div class="panel-body">
@@ -27,7 +27,7 @@
                         <th>Voto</th>
                         <th>Visibilità</th>
                         <th>Azioni <em class="fa fa-cog"></em></th>
-                    </tr> 
+                    </tr>
                   </thead>
               {% for tale in tales %}
                     {% if tales.count() == 0 %}
@@ -47,17 +47,37 @@
                             <td align="center">{{ tale.taleScore }}</td>
                             <td align="center">{{ tale.likes.count() }}</td>
                             {% if tale.isPublic == 1 %} <td align="center"><span class="glyphicon glyphicon-eye-open"></span></td>
-                            {% else %} 
+                            {% else %}
                             <td align="center"><span class="glyphicon glyphicon-eye-close"></span></td>
                             {% endif %}
                             <td align="center">
-                              <a class="btn-sm btn-primary" href="{{ path('userShowTale', {idTale: tale.id }) }}"><em class="fa fa-map"></em></a>
-                              <a class="btn-sm btn-warning" href="{{ path('userEditTale', {idTale: tale.id }) }}"><em class="fa fa-pencil"></em></a>
-                              <a class="btn-sm btn-danger" href="#"><em class="fa fa-trash"></em></a>
+                              <button class="btn-sm btn-primary" href="{{ path('userShowTale', {idTale: tale.id }) }}"><em class="fa fa-map"></em></button>
+                              <button class="btn-sm btn-warning" href="{{ path('userEditTale', {idTale: tale.id }) }}"><em class="fa fa-pencil"></em></button>
+                              <button class="btn-sm btn-danger" id="deleteButton"><em class="fa fa-trash"></em></button>
                             </td>
                           </tr>
                         </tbody>
-                     
+                        <script>
+                        $(function() {
+                          $('#deleteButton').click(function(){
+                            $.ajax('{{ path('userRemoveTale') }}', {
+                                  type: "POST",
+                                  data: {
+                                      taleId: {{ tale.id }}
+                                  },
+                                  success: function(data) {
+                                    console.log("funge");
+
+                                  },
+                                  error: function() {
+                                      console.log("non funge") // show alert or something
+                                  }
+                            });
+                              return false; // this stops normal button behaviour from executing;
+                          });
+                        });
+                    </script>
+
                     {% endif %}
                  {% endfor %}
                 </table>

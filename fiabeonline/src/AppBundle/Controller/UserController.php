@@ -77,19 +77,19 @@ class UserController extends Controller
           ->getManager()
           ->getRepository('AppBundle:SequenceType')
           ->findAll();
-      
+
       $form = $this->createForm(new TaleType(), $tale);
 
       $form->handleRequest($request);
 
       return $this->render('user/insert.html.twig', array(
-          "genres" => $genres, 
-          "types" => $types, 
+          "genres" => $genres,
+          "types" => $types,
           "sequenceTypes" => $sequenceTypes,
           'tale' => $tale,
           'form' => $form->createView(),
           ));
-   
+
     }
 
     /**
@@ -97,29 +97,63 @@ class UserController extends Controller
      */
     public function taleShowAction($idTale)
     {
-        $tale = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:Tale')
-            ->findById($idTale);
+        $user = $this->getUser();
+        if($user){
+            $tale = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('AppBundle:Tale')
+                ->findUserTaleById($idTale,$user->getId());
 
-        $taleText = "";
+            if(!empty($tale)){
+                $taleText = "";
 
-        $sequencesImages = array();
-        foreach ($tale[0]->getSequences() as $sequence) {
-           //Concateno testi di ogni sequenza
-            $taleText .= $sequence->getSeqText();
-            //Li separo con lo spazio
-            $taleText .= " ";
-            //creo l'array che associa le sequenze ai fronti delle proprie carte
-            $sequenceImages = array();
-            foreach ($sequence->getActions() as $action) {
-                $sequenceImages[] = $action->getCard()->getCardFront();
+                $sequencesImages = array();
+                foreach ($tale[0]->getSequences() as $sequence) {
+                   //Concateno testi di ogni sequenza
+                    $taleText .= $sequence->getSeqText();
+                    //Li separo con lo spazio
+                    $taleText .= " ";
+                    //creo l'array che associa le sequenze ai fronti delle proprie carte
+                    $sequenceImages = array();
+                    foreach ($sequence->getActions() as $action) {
+                        $sequenceImages[] = $action->getCard()->getCardFront();
+                      }
+                    $sequencesImages[] = $sequenceImages;
+                }
+                return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
               }
-            $sequencesImages[] = $sequenceImages;
-        }
+              return $this->redirectToRoute('userTales');
 
+        }else return $this->redirectToRoute('fos_user_security_login');
 
-        return $this->render('user/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+    }
+
+    /**
+     * @Route("/user/remove/tale", name="userRemoveTale")
+     */
+    public function taleRemoveAction(Request $request)
+    {
+      $idTale = $request->request->get('taleId');
+      $user = $this->getUser();
+      
+      if($idTale){
+        return $this->redirectToRoute('homepage');
+      }
+
+      if($user){
+          $result = $this->getDoctrine()
+              ->getManager()
+              ->getRepository('AppBundle:Tale')
+              ->deleteUserTaleById($idTale,$user->getId());
+
+          if($result){
+              return sfContext::getInstance()->getResponse()->setStatusCode('200');
+          }else
+              return sfContext::getInstance()->getResponse()->setStatusCode('400');
+      }else {
+          return $this->redirectToRoute('fos_user_security_login');
+      }
+
     }
 
     /**
@@ -155,5 +189,5 @@ class UserController extends Controller
         return $this->render('user/edit.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
     }
 
-   
+
 }

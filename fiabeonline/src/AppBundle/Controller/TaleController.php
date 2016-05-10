@@ -134,26 +134,30 @@ class TaleController extends Controller
             ->getRepository('AppBundle:Tale')
             ->findById($idTale);
 
-        $taleText = "";
+        if(!empty($tale)){
 
-        $sequencesImages = array();
-        foreach ($tale[0]->getSequences() as $sequence) {
-           //Concateno testi di ogni sequenza
-            $taleText .= $sequence->getSeqText();
-            //Li separo con lo spazio
-            //$taleText .= " ";
-            $taleText .= "\n";
-            //creo l'array che associa le sequenze ai fronti delle proprie carte
-            $sequenceImages = array();
-            foreach ($sequence->getActions() as $action) {
-                $sequenceImages[] = $action->getCard()->getCardFront();
-              }
-            $sequencesImages[] = $sequenceImages;
-        }
+          $taleText = "";
+
+          $sequencesImages = array();
+          foreach ($tale[0]->getSequences() as $sequence) {
+             //Concateno testi di ogni sequenza
+              $taleText .= $sequence->getSeqText();
+              //Li separo con lo spazio
+              //$taleText .= " ";
+              $taleText .= "\n";
+              //creo l'array che associa le sequenze ai fronti delle proprie carte
+              $sequenceImages = array();
+              foreach ($sequence->getActions() as $action) {
+                  $sequenceImages[] = $action->getCard()->getCardFront();
+                }
+              $sequencesImages[] = $sequenceImages;
+          }
 
 
-        return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+          return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+        }else return $this->redirectToRoute('homepage');
     }
+
 
     /**
      * @Route("/tales/find/title/asc", name="findAllTalesOrderedByTitleAsc")
@@ -394,19 +398,8 @@ class TaleController extends Controller
     }
 
     /**
-     * @Route("/tale/delete/{taleId}", name="deleteTailById")
-     */
-    public function deleteOneById($taleId)
-    {
-        $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:Tale')
-            ->deleteById($taleId);
-    }
-    /**
      * @Route("/tale/addLike", name="addLike")
      */
-     //da verificare
     public function addLike(Request $request){
 
           //var_dump($request);
@@ -442,14 +435,8 @@ class TaleController extends Controller
                       $userLike = $em->merge($userLike);
                       $em->remove($userLike);
                       $em->flush();
-                      /*
-                      $tale[0]->removeLike($userLike);
-                      $em->persist()
-                      $em->flush();
-                      */
                   }
-
-                  return $this->redirectToRoute('tale',array('idTale' => $tale[0]->getId()),301);
+                  return sfContext::getInstance()->getResponse()->setStatusCode('200');
         }
         else {
               return $this->redirectToRoute('fos_user_security_login');

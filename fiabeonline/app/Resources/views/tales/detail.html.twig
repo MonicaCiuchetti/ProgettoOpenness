@@ -14,7 +14,7 @@
             width: 100px;
             position: absolute;
         }
-        /*.btn-circle {
+        .btn-circle {
           width: 49px;
           height: 49px;
           text-align: center;
@@ -23,11 +23,9 @@
           line-height: 2.00;
           border-radius: 30px;
         }
-
         .btn:focus{
           outline: none !important;
         }
-
         .btn-circle-micro {
           width: 19px;
           height: 19px;
@@ -37,7 +35,6 @@
           line-height: 0.1;
           border-radius: 30px;
         }
-
         .btn-circle-sm {
           width: 35px;
           height: 35px;
@@ -47,7 +44,6 @@
           line-height: 1.65;
           border-radius: 30px;
         }
-
         .btn-circle-lg {
           width: 79px;
           height: 79px;
@@ -56,11 +52,11 @@
           font-size: 30px;
           line-height: 2.00;
           border-radius: 70px;
-        }*/
-      .clicked{
-          color: #317EAC;
-          border-color: #317EAC;
-      }
+        }
+        .clicked{
+            color: #317EAC;
+            border-color: #317EAC;
+        }
     </style>
     <div class="container-fluid">
         <div class="row">
@@ -101,9 +97,16 @@
                                               taleId: {{ tale[0].id }}
                                           },
                                           success: function(data) {
-
                                               $('#like').toggleClass('clicked');
-
+                                              //0 = like eliminato
+                                              //1 = like aggiunto
+                                              if(data.message == '1'){
+                                                var likes = parseInt($('#taleLikes').text());
+                                                $('#taleLikes').html(likes+1);
+                                              }else if(data.message == '0'){
+                                                var likes = parseInt($('#taleLikes').text());
+                                                $('#taleLikes').html(likes-1);
+                                              }
                                           },
                                           error: function() {
                                               console.log("non funge"); // show alert or something
@@ -124,7 +127,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p>Autore: {{ tale[0].taleAuthor }}</p>
-                            <p>Likes: {{ tale[0].likes.count() }}</p>
+                            <p>Likes: <span id="taleLikes">{{ tale[0].likes.count() }}</span></p>
                             <p>Data Creazione: {{ tale[0].taleDate | date("Y-m-d") }}</p>
                             <p>Punteggio: {{ tale[0].taleScore }}</p>
                         </div>
@@ -133,12 +136,12 @@
                       {% set pio = false %}
                       {% for like in tale.0.likes %}
                         {% if like.user.id == app.user.id %}
-                          <button id="like" class="btn btn-default btn-lg hvr-pulse clicked"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                          <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked"><span class="glyphicon glyphicon-thumbs-up"></span></button>
                           {% set pio = true %}
                         {% endif %}
                       {% endfor%}
                       {% if pio == false %}
-                        <button id="like" class="btn btn-default btn-lg hvr-pulse"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                        <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse"><span class="glyphicon glyphicon-thumbs-up"></span></button>
                       {% endif %}
                     {% endif %}
                 </div>

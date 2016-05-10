@@ -151,7 +151,7 @@ class UserController extends Controller
           if($result){
               return new JsonResponse(array('message' => "OK."), 200);
           }else {
-              return new JsonResponse(array('message' => "OK."), 400);
+              return new JsonResponse(array('message' => "Error."), 400);
           }
       }else {
           return $this->redirectToRoute('fos_user_security_login');

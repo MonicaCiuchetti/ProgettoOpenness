@@ -14,7 +14,7 @@
             width: 100px;
             position: absolute;
         }
-        .btn-circle {
+        /*.btn-circle {
           width: 49px;
           height: 49px;
           text-align: center;
@@ -56,9 +56,10 @@
           font-size: 30px;
           line-height: 2.00;
           border-radius: 70px;
-        }
+        }*/
       .clicked{
           color: #317EAC;
+          border-color: #317EAC;
       }
     </style>
     <div class="container-fluid">
@@ -100,22 +101,20 @@
                                               taleId: {{ tale[0].id }}
                                           },
                                           success: function(data) {
-                                              $(this).toggleClass('clicked');
+                                              $('#like').toggleClass('clicked');
                                           },
                                           error: function() {
-                                              console.log("non funge") // show alert or something
+                                              console.log("non funge"); // show alert or something
                                           }
                                     });
                                       return false; // this stops normal button behaviour from executing;
                                   });
+                                  $("#like").hover(function(){
+                                      $(this).blur();
+                                  });
                                 });
 
-                                $("#like").hover(function(){
-                                    $(this).blur();
-                                });
-                                $("#like").mouseout(function(){
-                                    $(this).off("blur");
-                                });
+
                                 /*
                                 $("#like").mouseup(function(){
                                     $(this).off("blur");
@@ -134,7 +133,18 @@
                             <p>Punteggio: {{ tale[0].taleScore }}</p>
                         </div>
                     </div>
-                    <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse"><span class="glyphicon glyphicon-thumbs-up"></span></button>Mi piace
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                      {% set pio = false %}
+                      {% for like in tale.0.likes %}
+                        {% if like.user.id == app.user.id %}
+                          <button id="like" class="btn btn-default btn-lg hvr-pulse clicked"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                          {% set pio = true %}
+                        {% endif %}
+                      {% endfor%}
+                      {% if pio == false %}
+                        <button id="like" class="btn btn-default btn-lg hvr-pulse"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                      {% endif %}
+                    {% endif %}
                 </div>
             </div>
 

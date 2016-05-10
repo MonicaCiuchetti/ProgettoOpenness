@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TaleController extends Controller
 {
@@ -436,7 +438,8 @@ class TaleController extends Controller
                       $em->remove($userLike);
                       $em->flush();
                   }
-                  return sfContext::getInstance()->getResponse()->setStatusCode('200');
+
+                  return new JsonResponse(array('message' => "OK."), 200);
         }
         else {
               return $this->redirectToRoute('fos_user_security_login');

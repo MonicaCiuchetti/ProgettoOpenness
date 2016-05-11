@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TaleController extends Controller
 {
@@ -425,18 +426,20 @@ class TaleController extends Controller
                   $userLike->setUser($user);
                   $userLike->setTale($tale[0]);
 
+                  $message = '';
                   if(empty($result)){
                         //return $this->redirectToRoute('fos_user_security_login');
                         $tale[0]->addLike($userLike);
                         $em->persist($tale[0]);
                         $em->flush();
-
+                        $message = "1";//Like inserito
                   }else{
                       $userLike = $em->merge($userLike);
                       $em->remove($userLike);
                       $em->flush();
+                      $message = "0";//Like eliminato
                   }
-                  return sfContext::getInstance()->getResponse()->setStatusCode('200');
+                  return new JsonResponse(array('message' => $message), 200);
         }
         else {
               return $this->redirectToRoute('fos_user_security_login');

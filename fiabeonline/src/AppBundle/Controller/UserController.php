@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Tale;
 use AppBundle\Form\Type\TaleType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
 {
@@ -135,8 +137,8 @@ class UserController extends Controller
     {
       $idTale = $request->request->get('taleId');
       $user = $this->getUser();
-      
-      if($idTale){
+
+      if(!$idTale){
         return $this->redirectToRoute('homepage');
       }
 
@@ -147,9 +149,10 @@ class UserController extends Controller
               ->deleteUserTaleById($idTale,$user->getId());
 
           if($result){
-              return sfContext::getInstance()->getResponse()->setStatusCode('200');
-          }else
-              return sfContext::getInstance()->getResponse()->setStatusCode('400');
+              return new JsonResponse(array('message' => "OK."), 200);
+          }else {
+              return new JsonResponse(array('message' => "Error."), 400);
+          }
       }else {
           return $this->redirectToRoute('fos_user_security_login');
       }

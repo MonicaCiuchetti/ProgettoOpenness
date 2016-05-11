@@ -16,7 +16,8 @@
                 </div>
               </div>
               <div class="panel-body">
-                <table class="table table-striped table-bordered table-list">
+								{% set error = false %}
+                <table class="table table-striped table-bordered table-list" id="talesTable">
                   <thead>
                     <tr>
                         <th class="hidden-xs">ID</th>
@@ -29,58 +30,63 @@
                         <th>Azioni <em class="fa fa-cog"></em></th>
                     </tr>
                   </thead>
+									<tbody>
               {% for tale in tales %}
                     {% if tales.count() == 0 %}
-                      <tbody>
                           <tr>
                             <td>Nessuna fiaba presente</td>
                           </tr>
-                      </tbody>
                     {% else %}
-                      <tbody>
-                          <tr>
+                          <tr id="{{tale.id}}">
                             <td class="hidden-xs">{{ tale.id }}</td>
-                            <td>{{ tale.type.typeName }}</td>
-                            <td>{% for genre in tale.taleGenres %}
-                              {{ genre.genre.genreName }} {% endfor %}</td>
-                            <td>{{ tale.taleTitle }}</td>
-                            <td align="center">{{ tale.taleScore }}</td>
-                            <td align="center">{{ tale.likes.count() }}</td>
-                            {% if tale.isPublic == 1 %} <td align="center"><span class="glyphicon glyphicon-eye-open"></span></td>
+                            <td class="text-center">{{ tale.type.typeName }}</td>
+                            <td class="text-center">
+															{% for genre in tale.taleGenres %}
+                              	{{ genre.genre.genreName }}
+															{% endfor %}
+														</td>
+                            <td class="text-center">{{ tale.taleTitle }}</td>
+                            <td class="text-center">{{ tale.taleScore }}</td>
+                            <td class="text-center">{{ tale.likes.count() }}</td>
+                            {% if tale.isPublic == 1 %}
+															<td class="text-center"><span class="glyphicon glyphicon-eye-open"></span></td>
                             {% else %}
-                            <td align="center"><span class="glyphicon glyphicon-eye-close"></span></td>
+                            	<td class="text-center"><span class="glyphicon glyphicon-eye-close"></span></td>
                             {% endif %}
-                            <td align="center">
-                              <button class="btn-sm btn-primary" href="{{ path('userShowTale', {idTale: tale.id }) }}"><em class="fa fa-map"></em></button>
-                              <button class="btn-sm btn-warning" href="{{ path('userEditTale', {idTale: tale.id }) }}"><em class="fa fa-pencil"></em></button>
-                              <button class="btn-sm btn-danger" id="deleteButton"><em class="fa fa-trash"></em></button>
+                            <td class="text-center">
+                              <a class="btn btn-sm btn-primary" href="{{ path('userShowTale', {idTale: tale.id }) }}"><em class="fa fa-map"></em></a>
+                              <a class="btn btn-sm btn-warning" href="{{ path('userEditTale', {idTale: tale.id }) }}"><em class="fa fa-pencil"></em></a>
+                              <a class="btn btn-sm btn-danger" id="deleteButton{{tale.id}}"><em class="fa fa-trash"></em></a>
                             </td>
                           </tr>
-                        </tbody>
                         <script>
                         $(function() {
-                          $('#deleteButton').click(function(){
+                          $('#deleteButton{{tale.id}}').click(function(){
                             $.ajax('{{ path('userRemoveTale') }}', {
                                   type: "POST",
                                   data: {
-                                      taleId: {{ tale.id }}
+                                      taleId: {{tale.id}}
                                   },
                                   success: function(data) {
-                                    console.log("funge");
-
+																		console.log(data);
+																		$('table#talesTable tr#{{tale.id}}').remove();
                                   },
                                   error: function() {
-                                      console.log("non funge") // show alert or something
+                                      //Setting error variable to true
                                   }
                             });
                               return false; // this stops normal button behaviour from executing;
                           });
                         });
-                    </script>
+                    		</script>
 
                     {% endif %}
                  {% endfor %}
+							 		</tbody>
                 </table>
+								{% if error == true %}
+									<div class="alert alert-danger" role="alert"> Eliminating error </div>
+								{% endif %}
             	<div class="col col-xs-4">
                     <a class="btn btn-sm btn-success" href="{{ path('userInsertTale') }}">Inserisci</a>
                   </div>

@@ -8,6 +8,7 @@
 {% endblock %}
 {% block body %}
     <style>
+          @import url(http://fonts.googleapis.com/css?family=Courgette);
         .verticaltext {
             transform: rotate(-90deg);
             padding-bottom: 150px;
@@ -133,17 +134,37 @@
                         </div>
                     </div>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                      {% set pio = false %}
-                      {% for like in tale.0.likes %}
-                        {% if like.user.id == app.user.id %}
-                          <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked"><span class="glyphicon glyphicon-thumbs-up"></span></button>
-                          {% set pio = true %}
-                        {% endif %}
-                      {% endfor %}
-                      {% if pio == false %}
-                        <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse"><span class="glyphicon glyphicon-thumbs-up"></span></button>
-                      {% endif %}
-                    {% endif %}
+                    {% set pio = false %}
+                     {% for like in tale.0.likes %}
+                       {% if like.user.id == app.user.id %}
+<button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked"><span class="glyphicon glyphicon-thumbs-up"></span></button>                         {% if tale[0].likes.count() > 1 and like.user.id == app.user.id %}
+                           {% set l = tale[0].likes.count() - 1 %}
+                           {% if l == 1 %}
+                             <p>Piace a te e a {{ l }} persona</p>
+                           {% else %}
+                             {% if l > 1 %}
+                               <p>Piace a te e a {{ l }} persone</p>
+                             {% endif %}
+                           {% endif %}
+                         {% else %}
+                           {% if tale[0].likes.count() == 1 and like.user.id == app.user.id %}
+                             <p>Piace a te</p>
+                           {% else %}
+                             <p>Piace a te e a {{ tale[0].likes.count() }} persona</p>
+                           {% endif %}
+                         {% endif %}
+                         {% set pio = true %}
+                       {% endif %}
+                     {% endfor%}
+                     {% if pio == false %}
+<button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>                       {% if tale[0].likes.count() > 1 %}
+                         <p>Piace a {{ tale[0].likes.count() }} persone</p>
+                       {% endif %}
+                       {% if tale[0].likes.count() == 1  %}
+                           <p>Piace a {{ tale[0].likes.count() }} persona</p>
+                       {% endif %}
+                     {% endif %}
+                     {% endif %}
                 </div>
             </div>
 
@@ -156,7 +177,7 @@
                         <div class="col-sm-6">
                             <div class="verticaltext" style="color:{{ sequence.sequenceType.stColor }}">{{ sequence.sequenceType.stName }}</div>
                             <div class="container-fluid">
-                                <div class="jumbotron" style="background:{{ sequence.sequenceType.stColor }}">
+                                <div class="jumbotron" style="background:{{ sequence.sequenceType.stColor }}; font-family: Courgette;">
                                     {{ sequence.seqText }}
                                 </div>
                             </div>
@@ -187,7 +208,6 @@
                                     </ol>
                                     <div class="carousel-inner">
                                         {% for image in sequencesImages[loop.index0] %}
-
                                             {% if loop.index0 == 0 %}
                                             <div class="item active">
                                                 <div class="row">
@@ -215,7 +235,7 @@
                     </div>
                 {% endfor %}
             <div id="classicDiv" class="col-sm-6 col-sm-offset-1">
-                <div class="jumbotron">
+                <div class="jumbotron" style="font-family: Courgette;">
                     <p>{{ taleText|nl2br }}</p>
                 </div>
             </div>

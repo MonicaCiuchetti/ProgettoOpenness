@@ -139,7 +139,7 @@
                           <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked"><span class="glyphicon glyphicon-thumbs-up"></span></button>
                           {% set pio = true %}
                         {% endif %}
-                      {% endfor%}
+                      {% endfor %}
                       {% if pio == false %}
                         <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse"><span class="glyphicon glyphicon-thumbs-up"></span></button>
                       {% endif %}
@@ -149,14 +149,11 @@
 
             <div class="col-sm-8 col-sm-offset-1" id="detailDiv">
 
-                {% set ciclo = false %}
+                {# % set ciclo = false % #}
                 {% for sequence in tale[0].sequences %}
-                    {% set ciclo = true %}
+                    {# % set ciclo = true %#}
                     <div class="row">
                         <div class="col-sm-6">
-                            {#
-                                <div class="verticaltext" style="color:{{ sequence.sequenceType.stColor }}">{{ sequence.sequenceType.stName }}</div>
-                            #}
                             <div class="verticaltext" style="color:{{ sequence.sequenceType.stColor }}">{{ sequence.sequenceType.stName }}</div>
                             <div class="container-fluid">
                                 <div class="jumbotron" style="background:{{ sequence.sequenceType.stColor }}">
@@ -164,67 +161,59 @@
                                 </div>
                             </div>
                         </div>
-                        {% if sequence.actions.count() != 0 %}
-                            <div class="col-sm-6">
-                                <div id="Carousel{{ sequence.seqOrder }}" class="carousel slide">
+                        {% if sequencesImages[loop.index0] is not empty %}
+                          <div class="col-sm-6">
+                                <div id="Carousel{{ loop.index0 }}" class="carousel slide">
                                     <ol class="carousel-indicators">
-                                        {% if sequence.actions.count()%3 == 0 %}
-                                            {% for i in 0..sequence.actions.count()/3-1 %}
-                                                {% if loop.index0 == 0 %}
-                                                    <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}" class="active"></li>
+                                        {% if sequencesImages[loop.index0]|length %3 == 0 %}
+                                            {% for i in 0..sequencesImages[loop.index0]|length /3-1 %} {# #}
+                                                {% if loop.index0 == 0 %} {# se è la prima immagine #}
+                                                    <li data-target="#Carousel{{ loop.parent.loop.index0 }}" data-slide-to="{{ i }}" class="active"></li>
                                                 {% else %}
-                                                    <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}"></li>
+                                                    <li data-target="#Carousel{{ loop.parent.loop.index0 }}" data-slide-to="{{ i }}"></li>
                                                 {% endif %}
                                             {% endfor %}
-                                        {% elseif sequence.actions.count() <= 3 %}
-                                            <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="0" class="active"></li>
+                                        {% elseif sequencesImages[loop.index0]|length < 3 %}
+                                            <li data-target="#Carousel{{ loop.index0 }}" data-slide-to="0" class="active"></li>
                                         {% else %}
-                                            {% for i in 0..sequence.actions.count()/3 %}
+                                            {% for i in 0..sequencesImages[loop.index0]|length /3 %}
                                                 {% if loop.index0 == 0 %}
-                                                    <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}" class="active"></li>
+                                                    <li data-target="#Carousel{{ loop.parent.loop.index0 }}" data-slide-to="{{ i }}" class="active"></li>
                                                 {% else %}
-                                                    <li data-target="#Carousel{{ sequence.seqOrder }}" data-slide-to="{{ i }}"></li>
+                                                    <li data-target="#Carousel{{ loop.parent.loop.index0 }}" data-slide-to="{{ i }}"></li>
                                                 {% endif %}
                                             {% endfor %}
                                         {% endif %}
                                     </ol>
-
-
-                                    <!-- Carousel items -->
                                     <div class="carousel-inner">
-                                        {% for action in sequence.actions %}
+                                        {% for image in sequencesImages[loop.index0] %}
 
-                                        {% if loop.index0 == 0 %}
-                                        <div class="item active">
-                                            <div class="row">
-                                                <div class="col-xs-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+                                            {% if loop.index0 == 0 %}
+                                            <div class="item active">
+                                                <div class="row">
+                                                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image )}}" alt="Image" style="max-width:100%;"></a></div>
 
-                                                {% elseif loop.index%4 == 0 and loop.index0 != 0 %}
+                                                    {% elseif loop.index0%3 == 0 %}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="row">
-                                                <div class="col-xs-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+                                            <div class="item">
+                                                <div class="row">
+                                                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
 
-                                                {% else %}
-                                                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="http://i265.photobucket.com/albums/ii235/realgoodeal/Back-EN.jpg" alt="Image" style="max-width:100%;"></a></div>
+                                                    {% else %}
+                                                        <div class="col-xs-4"><a href="#" class="thumbnail"><img src="{{ asset('images/'~image) }}" alt="Image" style="max-width:100%;"></a></div>
 
-                                                {% endif %}
+                                            {% endif %}
 
-                                                {% endfor %}
+                                        {% endfor %}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div><!--.carousel-inner-->
-
-
-                                    <a data-slide="prev" href="#Carousel{{ sequence.seqOrder }}" class="left carousel-control">‹</a>
-                                    <a data-slide="next" href="#Carousel{{ sequence.seqOrder }}" class="right carousel-control">›</a>
-                                </div><!--.Carousel-->
-                            </div>
-                        {% endif %}
+                                  </div><!--.carousel-inner-->
+                              </div>
+                        </div>
+                      {% endif %}
                     </div>
                 {% endfor %}
-            </div>
             <div id="classicDiv" class="col-sm-6 col-sm-offset-1">
                 <div class="jumbotron">
                     <p>{{ taleText|nl2br }}</p>
@@ -232,4 +221,6 @@
             </div>
         </div>
     </div>
+  </div>
+</div>
 {% endblock %}

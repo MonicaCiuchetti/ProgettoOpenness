@@ -1,0 +1,40 @@
+{% extends 'detail.html.twig' %}
+
+{% block button %}
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{% set pio = false %}
+ {% for like in tale.0.likes %}
+   {% if like.user.id == app.user.id %}
+      <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+      </button>
+      {% if tale[0].likes.count() > 1 and like.user.id == app.user.id %}
+       {% set l = tale[0].likes.count() - 1 %}
+       {% if l == 1 %}
+         <p>Piace a te e a {{ l }} persona</p>
+       {% else %}
+         {% if l > 1 %}
+           <p>Piace a te e a {{ l }} persone</p>
+         {% endif %}
+       {% endif %}
+     {% else %}
+       {% if tale[0].likes.count() == 1 and like.user.id == app.user.id %}
+         <p>Piace a te</p>
+       {% else %}
+         <p>Piace a te e a {{ tale[0].likes.count() }} persona</p>
+       {% endif %}
+     {% endif %}
+     {% set pio = true %}
+   {% endif %}
+ {% endfor%}
+ {% if pio == false %}
+<button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>                       {% if tale[0].likes.count() > 1 %}
+     <p>Piace a {{ tale[0].likes.count() }} persone</p>
+   {% endif %}
+   {% if tale[0].likes.count() == 1  %}
+       <p>Piace a {{ tale[0].likes.count() }} persona</p>
+   {% endif %}
+ {% endif %}
+ {% endif %}
+ {% endblock %}

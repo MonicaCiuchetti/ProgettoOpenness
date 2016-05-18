@@ -1,40 +1,76 @@
-{% extends 'detail.html.twig' %}
-
 {% block button %}
+  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {% set thumbsUp=false %}
+    {% for like in tale.0.likes %}
+      {% if like.user.id == app.user.id and thumbsUp == false %}
+        {% set thumbsUp=true %}
+        <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+        </button>
+      {% endif %}
+    {% endfor%}
+    {% if thumbsUp == false %}
+        <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>
+    {% endif %}
+    <p id="textButtonLike"></p>
+  {% endif %}
+  <script>
+    $(document).ready(function () {
+      var haMessoLike = false;
+      var tale = {{tale[0]|json_encode|raw}};
+      var user = {{app.user.id}};
+      tale.likes.forEach(function(like){
+        if(like.user.id == user){
+          haMessoLike = true;
+        }
+      });
 
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-{% set pio = false %}
- {% for like in tale.0.likes %}
-   {% if like.user.id == app.user.id %}
-      <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked">
-        <span class="glyphicon glyphicon-thumbs-up"></span>
-      </button>
-      {% if tale[0].likes.count() > 1 and like.user.id == app.user.id %}
-       {% set l = tale[0].likes.count() - 1 %}
-       {% if l == 1 %}
-         <p>Piace a te e a {{ l }} persona</p>
-       {% else %}
-         {% if l > 1 %}
-           <p>Piace a te e a {{ l }} persone</p>
-         {% endif %}
-       {% endif %}
-     {% else %}
-       {% if tale[0].likes.count() == 1 and like.user.id == app.user.id %}
-         <p>Piace a te</p>
-       {% else %}
-         <p>Piace a te e a {{ tale[0].likes.count() }} persona</p>
-       {% endif %}
-     {% endif %}
-     {% set pio = true %}
-   {% endif %}
- {% endfor%}
- {% if pio == false %}
-<button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>                       {% if tale[0].likes.count() > 1 %}
-     <p>Piace a {{ tale[0].likes.count() }} persone</p>
-   {% endif %}
-   {% if tale[0].likes.count() == 1  %}
-       <p>Piace a {{ tale[0].likes.count() }} persona</p>
-   {% endif %}
- {% endif %}
- {% endif %}
- {% endblock %}
+      if(haMessoLike){
+        $('#textButtonLike').html("Piace a te e a " + {{tale[0].likes|length -1 }} +" persone");
+      }else{
+        $('#textButtonLike').html("Piace a " +  {{tale[0].likes|length -1 }} + " persone");
+      }
+
+      /*if(thumbsUp){
+        $('#textButtonLike').html("Piace a te e a " + {{tale[0].likes|length -1 }} +" persone");
+      }else{
+        $('#textButtonLike').html("Piace a " +  {{tale[0].likes|length -1 }} + " persone");
+      }*/
+
+    });
+
+
+    $(function() {
+      $('#like').click(function(){
+        console.log({{thumbsUp|raw}});
+        $.ajax('{{ path('addLike') }}', {
+              type: "POST",
+              data: {
+                  taleId: {{ tale[0].id }}
+              },
+              success: function(data) {
+                  $('#like').toggleClass('clicked');
+                  //0 = like eliminato
+                  //1 = like aggiunto
+                  if(data.message == '1'){
+                    var likes = parseInt($('#taleLikes').text());
+                    $('#taleLikes').html(likes+1);
+                    $('#textButtonLike').html("Piace a te e a " + {{tale[0].likes|length -1 }} +" persone");
+                  } else if(data.message == '0'){
+                    var likes = parseInt($('#taleLikes').text());
+                    $('#taleLikes').html(likes-1);
+                    $('#textButtonLike').html("Piace a " +  {{tale[0].likes|length -1 }} + " persone");
+                  }
+              },
+              error: function() {
+                  console.log("non funge"); // show alert or something
+              }
+        });
+          return false; // this stops normal button behaviour from executing;
+      });
+      $("#like").hover(function(){
+          $(this).blur();
+      });
+    });
+</script>
+{% endblock %}

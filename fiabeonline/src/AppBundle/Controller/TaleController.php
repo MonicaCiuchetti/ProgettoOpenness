@@ -446,6 +446,162 @@ class TaleController extends Controller
         }
     }
 
+    /**
+     * @Route("/abcdef/{taleId}", name="abcdef")
+     */
+    public function findAll($taleId)
+    {
+        $tale = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Tale')
+            ->findById($taleId);
 
+        $tale = $tale[0];
 
+        $maxCards = 8;
+
+        $sequenceTypes = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:SequenceType')
+            ->findAll();
+
+        $score = 0;
+        $taleSequenceType = array();
+
+        foreach ($tale->getSequences() as $sequence) {
+
+            $taleSequenceType[] = $sequence->getSequenceType()->getId();
+
+            $cards = 0;
+            $magicElement = false;
+            $hero = false;
+            $opponent = false;
+            $place = false;
+
+            foreach ($sequence->getActions() as $action) {
+                $card = $action->getCard();
+
+                $cards++;
+
+                //Controlla se la carta è nel giusto tipo di sequenza
+                foreach ($sequenceTypes as $sequenceType) {
+                    if ($sequenceType->getId() == $sequence->getSequenceType()->getId()) {
+                        foreach ($sequenceType->getActionsPropp() as $actionPropp) {
+                            if ($actionPropp->getCard()->getId() == $actionPropp->getCard()->getId()) {
+                                $score += $actionPropp->getScore();
+                            }
+                        }
+                    }
+                }
+
+                //Controlla se la carta personaggio svolge la giusta funzione
+                if ($card->getCardType()->getId() == 2) {
+                    foreach ($card->getPartecipationsDefault() as $partecipationDefault) {
+                        foreach ($card->getPartecipations() as $partecipation) {
+                            if ($partecipationDefault->getId() == $partecipation->getId()) {
+                                $score += $partecipationDefault->getScore();
+                            }
+                        }
+                    }
+                }
+
+                //Controlla se la carta elemento magico compare nel giusto tipo di sequenza
+                if ($card->getCardType()->getId() == 4) {
+                    if ($sequence->getSequenceType()->getId() >= 3) {
+                        $magicElement = true;
+                        $score += 5;
+                    }
+                }
+
+                //Controlla se la carta luogo compare almeno una volta nella sequenza
+                if (!$place) {
+                    if ($card->getCardType()->getId() == 3) {
+                        $place = true;
+                        $score += 5;
+                    }
+                }
+
+                //Controlla se la carta luogo compare almeno una volta nella sequenza
+                if (!$hero) {
+                    if ($card->getCardType()->getId() == 32) {
+                        $hero = true;
+                        $score += 5;
+                    }
+                }
+
+                //Controlla se la carta antagonista compare almeno una volta nella sequenza
+                if (!$opponent) {
+                    if ($card->getCardType()->getId() == 34) {
+                        $opponent = true;
+                        $score += 5;
+                    }
+                }
+            }
+
+            //Controlla se il numero di carte è eccessivo
+            if ($cards > $maxCards) {
+                $diff = $cards - $maxCards;
+                $score -= $diff * 3;
+            }
+
+            //Controlla se l'elemento magio è presente nelle sequenze 4,8
+            if (!$magicElement) {
+                if ($sequence->getSequenceType()->getId() == 4
+                    || $sequence->getSequenceType()->getId() == 8
+                ) {
+                    $score -= 5;
+                }
+            }
+            //Controlla se l'eroe è presente nelle sequenze 3,4,5,7,8,9
+            if (!$hero) {
+                if ($sequence->getSequenceType()->getId() == 3
+                    || $sequence->getSequenceType()->getId() == 4
+                    || $sequence->getSequenceType()->getId() == 5
+                    || $sequence->getSequenceType()->getId() == 7
+                    || $sequence->getSequenceType()->getId() == 8
+                    || $sequence->getSequenceType()->getId() == 9
+                ) {
+                    $score -= 5;
+                }
+            }
+
+            //Controlla se l'antagonista è presente nelle sequenze 2,4,6,8
+            if (!$opponent) {
+                if ($sequence->getSequenceType()->getId() == 2
+                    || $sequence->getSequenceType()->getId() == 4
+                    || $sequence->getSequenceType()->getId() == 6
+                    || $sequence->getSequenceType()->getId() == 8
+                ) {
+                    $score -= 5;
+                }
+            }
+        }
+
+        //Controlla se la fiaba ha il minimo numero di sequenze
+        if (in_array("1", $taleSequenceType) && in_array("2", $taleSequenceType) && in_array("3", $taleSequenceType) && in_array("5", $taleSequenceType)) {
+            $score += 5;
+        } else
+            if (in_array("1", $taleSequenceType) && in_array("2", $taleSequenceType) && in_array("4", $taleSequenceType) && in_array("5", $taleSequenceType)) {
+                $score += 5;
+            }
+
+        $taleSequenceTypeUnsorted = $taleSequenceType;
+
+        usort($taleSequenceType, function ($a, $b) {
+            if ($a == $b) {
+                return 0;
+            }
+            return ($a < $b) ? -1 : 1;
+        });
+
+        //Controlla se i tipi di sequenza sono nell'ordine corretto
+        if ($taleSequenceTypeUnsorted == $taleSequenceType) {
+            $score += 5;
+        }
+
+        //Vista da modificare
+        return $this->render('test/score.html.twig', array(
+                'score' => $score)
+        );
+    }
 }

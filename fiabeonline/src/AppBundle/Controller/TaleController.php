@@ -447,9 +447,9 @@ class TaleController extends Controller
     }
 
     /**
-     * @Route("/abcdef/{taleId}", name="abcdef")
+     * @Route("/score/{taleId}", name="score")
      */
-    public function findAll($taleId)
+    public function getScore($taleId)
     {
         $tale = $this->getDoctrine()
             ->getManager()

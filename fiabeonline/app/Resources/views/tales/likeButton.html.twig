@@ -1,48 +1,125 @@
 {% block button %}
+  <style>
+    div.button{
+      float:left;
+      text-align:center;
+      color:#666;
+  }
+  </style>
+  {% set thumbsUp=false %}
   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    {% set thumbsUp=false %}
     {% for like in tale.0.likes %}
       {% if like.user.id == app.user.id and thumbsUp == false %}
         {% set thumbsUp=true %}
-        <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked">
-          <span class="glyphicon glyphicon-thumbs-up"></span>
-        </button>
+        <div class="button">
+          <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+          </button>
+          <br>
+          <p id="textButtonLike"></p>
+        </div>
+
       {% endif %}
     {% endfor%}
     {% if thumbsUp == false %}
-        <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>
+        <div class="button">
+          <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>
+          <br>
+          <p id="textButtonLike"></p>
+        </div>
     {% endif %}
-    <p id="textButtonLike"></p>
+
   {% endif %}
   <script>
     $(document).ready(function () {
-      var haMessoLike = false;
-      var tale = {{tale[0]|json_encode|raw}};
-      var user = {{app.user.id}};
-      tale.likes.forEach(function(like){
-        if(like.user.id == user){
-          haMessoLike = true;
-        }
-      });
-
-      if(haMessoLike){
-        $('#textButtonLike').html("Piace a te e a " + {{tale[0].likes|length -1 }} +" persone");
-      }else{
-        $('#textButtonLike').html("Piace a " +  {{tale[0].likes|length -1 }} + " persone");
-      }
-
-      /*if(thumbsUp){
-        $('#textButtonLike').html("Piace a te e a " + {{tale[0].likes|length -1 }} +" persone");
-      }else{
-        $('#textButtonLike').html("Piace a " +  {{tale[0].likes|length -1 }} + " persone");
-      }*/
+      setListener();
+      {% if (thumbsUp) %}
+        printLikes(true, parseInt($('#taleLikes').text()))
+      {% else %}
+        printLikes(false, parseInt($('#taleLikes').text()))
+      {% endif %}
 
     });
 
+    /**
+    * @description
+    * This function shows the number of likes
+    *
+    *
+    * @param {Boolean} userLike Flag which shows if the user pressed like
+    * @param {Number} taleLikes The number of likes
+    */
+    function printLikes(userLike, taleLikes){
+      if(userLike){
+        if(taleLikes > 2){
+          setMultipleButtonParagraphValues("textButtonLike", "Piace a te e a " + (taleLikes-1) + " persone");
+        }else if(taleLikes == 2){
+          setMultipleButtonParagraphValues("textButtonLike", "Piace a te e a " + (taleLikes-1) + " persona");
+        }else{
+          setMultipleButtonParagraphValues("textButtonLike", "Piace a te");
+        }
+      }else{
+        if(taleLikes > 1){
+          setMultipleButtonParagraphValues("textButtonLike", "Piace a " + taleLikes +" persone");
+        }else if(taleLikes == 1){
+          setMultipleButtonParagraphValues("textButtonLike", "Piace a " + taleLikes +" persona");
+        }else{
+          setMultipleButtonParagraphValues("textButtonLike", "");
+        }
+      }
+    }
 
-    $(function() {
-      $('#like').click(function(){
-        console.log({{thumbsUp|raw}});
+    function setMultipleButtonParagraphValues(id, value){
+      var length = $("body *").filter(function() {
+      	return (this.id == id);
+      }).length;
+
+      for(i=0; i<length; i++){
+        $("body *").filter(function() {
+        	return (this.id == id);
+        })[i].innerHTML = value;
+      }
+    }
+
+    function setListener(){
+      var length = $("body *").filter(function() {
+      	return (this.id == "like");
+      }).length;
+
+      for(i=0; i<length; i++){
+        var button = $("body *").filter(function() {
+        	return (this.id == "like");
+        })[i];
+
+        addListener(button, "click", handler);
+      }
+    }
+
+    function addListener(element, eventName, handler) {
+      if (element.addEventListener) {
+        element.addEventListener(eventName, handler, false);
+      }
+      else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, handler);
+      }
+      else {
+        element['on' + eventName] = handler;
+      }
+    }
+
+    function removeListener(element, eventName, handler) {
+      if (element.addEventListener) {
+        element.removeEventListener(eventName, handler, false);
+      }
+      else if (element.detachEvent) {
+        element.detachEvent('on' + eventName, handler);
+      }
+      else {
+        element['on' + eventName] = null;
+      }
+    }
+
+    function handler(){
         $.ajax('{{ path('addLike') }}', {
               type: "POST",
               data: {
@@ -55,22 +132,65 @@
                   if(data.message == '1'){
                     var likes = parseInt($('#taleLikes').text());
                     $('#taleLikes').html(likes+1);
-                    $('#textButtonLike').html("Piace a te e a " + {{tale[0].likes|length -1 }} +" persone");
+                    printLikes(true, parseInt($('#taleLikes').text()))
+                    changeToClicked();
                   } else if(data.message == '0'){
                     var likes = parseInt($('#taleLikes').text());
                     $('#taleLikes').html(likes-1);
-                    $('#textButtonLike').html("Piace a " +  {{tale[0].likes|length -1 }} + " persone");
+                    printLikes(false, parseInt($('#taleLikes').text()))
+                    changeToUnclicked();
                   }
               },
               error: function() {
                   console.log("non funge"); // show alert or something
               }
         });
-          return false; // this stops normal button behaviour from executing;
-      });
-      $("#like").hover(function(){
-          $(this).blur();
-      });
+        return false; // this stops normal button behaviour from executing;
+    };
+
+
+    function changeToClicked(){
+      var length = $("body *").filter(function() {
+      	return (this.id == "like");
+      }).length;
+
+      for(i=0; i<length; i++){
+        var button = $("body *").filter(function() {
+        	return (this.id == "like");
+        })[i];
+
+        addClass(button, "clicked");
+      }
+    }
+
+    function changeToUnclicked(){
+      var length = $("body *").filter(function() {
+      	return (this.id == "like");
+      }).length;
+
+      for(i=0; i<length; i++){
+        var button = $("body *").filter(function() {
+        	return (this.id == "like");
+        })[i];
+
+        removeClass(button, "clicked");
+      }
+    }
+
+    function removeClass(element, cssClass){
+      var classes = element.className;
+      var res = classes.replace(cssClass, "");
+
+      element.className = res;
+    }
+
+    function addClass(element, cssClass){
+      element.className = element.className + " " + cssClass ;
+    }
+
+    $("#like").hover(function(){
+        $(this).blur();
     });
-</script>
+
+  </script>
 {% endblock %}

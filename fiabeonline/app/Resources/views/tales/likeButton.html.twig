@@ -9,31 +9,23 @@
   {% set thumbsUp=false %}
   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
     {% for like in tale.0.likes %}
-      {% if like.user.id == app.user.id and thumbsUp == false %}
+      {% if like.user.id == app.user.id  %}
         {% set thumbsUp=true %}
-        <div class="button">
-          <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse clicked">
-            <span class="glyphicon glyphicon-thumbs-up"></span>
-          </button>
-          <br>
-          <p id="textButtonLike"></p>
-        </div>
-
       {% endif %}
-    {% endfor%}
-    {% if thumbsUp == false %}
-        <div class="button">
-          <button id="like" class="btn btn-default btn-circle btn-lg hvr-pulse "><span class="glyphicon glyphicon-thumbs-up"></span></button>
-          <br>
-          <p id="textButtonLike"></p>
-        </div>
-    {% endif %}
-
+    {% endfor %}
+    <div class="button">
+      <button id="like" class="btn btn-default btn-circle btn-lg pulse">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+      </button>
+      <br>
+      <p id="textButtonLike"></p>
+    </div>
   {% endif %}
   <script>
     $(document).ready(function () {
       setListener();
       {% if (thumbsUp) %}
+        changeToClicked();
         printLikes(true, parseInt($('#taleLikes').text()))
       {% else %}
         printLikes(false, parseInt($('#taleLikes').text()))
@@ -148,7 +140,6 @@
         return false; // this stops normal button behaviour from executing;
     };
 
-
     function changeToClicked(){
       var length = $("body *").filter(function() {
       	return (this.id == "like");
@@ -159,7 +150,9 @@
         	return (this.id == "like");
         })[i];
 
+
         addClass(button, "clicked");
+        button.blur();
       }
     }
 
@@ -188,9 +181,6 @@
       element.className = element.className + " " + cssClass ;
     }
 
-    $("#like").hover(function(){
-        $(this).blur();
-    });
 
   </script>
 {% endblock %}

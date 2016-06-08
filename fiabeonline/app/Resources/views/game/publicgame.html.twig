@@ -1,57 +1,342 @@
 {# app/Resources/views/game/publicgame.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+{% endblock %}
+
 {% block body %}
-<div class="container body-container">
-  <div class="row">
-    <div class="col-sm-5">
-      <div class="row">
+<script type="text/javascript">
+  function init() {
+    {% set maxCards = 15 %}
 
-        <div class="col-sm-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading"> <!--Da modificare con il css -->
-              {% for type in types %}
-              <div class="radio">
-                <label><input type="radio" name="optradio">{{type.typeDescription}}</label>
-              </div>
-              {% endfor %}
-            </div>
-          </div>
+    {% for character in characters %}
+      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{character.id}})
+      .attr('id', 'container' + {{ character.id }})
+      .appendTo('#cardCharacters')
+      .droppable({
+        accept: '#cardCharacters div, #cardSlots div',
+        hoverClass: 'hovered',
+        drop: handleCardDropPile
+      });
+    {% endfor %}
 
-        </div>
-        <div class="col-sm-8">
-          <div class="panel panel-primary">
-            <div class="panel-heading"> <!--Da modificare con il css -->
-              {% set ciclo = false %}
-              {% for genre in genres %}
-              {% set ciclo = true %}
-              {% if loop.index0 == 0 %}
-              <div class="row">
-                {% elseif loop.index0%3 == 0 %}
-              </div>
-              <div class="row">
-                {% endif %}
-                <div class="col-sm-4">
-                  <div class="checkbox">
-                    <label><input type="checkbox" value="">{{genre.genreDescription}}</label>
-                  </div>
-                </div>
-                {% else %}
-                <div class="well">Nessuna genere</div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>
+    {% for place in places %}
+      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{place.id}})
+      .attr('id', 'container' + {{ place.id }})
+      .appendTo('#cardPlaces')
+      .droppable({
+        accept: '#cardPlaces div, #cardSlots div',
+        hoverClass: 'hovered',
+        drop: handleCardDropPile
+      });
+    {% endfor %}
+
+    {% for magicElement in magicElements %}
+      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{magicElement.id}})
+      .attr('id', 'container' + {{ magicElement.id }})
+      .appendTo('#cardMagicElements')
+      .droppable({
+        accept: '#cardMagicElements div, #cardSlots div',
+        hoverClass: 'hovered',
+        drop: handleCardDropPile
+      });
+    {% endfor %}
+
+    {% for function in functions %}
+      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{function.id}})
+      .attr('id', 'container' + {{ function.id }})
+      .appendTo('#cardFunctions')
+      .droppable({
+        accept: '#cardFunctions div, #cardSlots div',
+        hoverClass: 'hovered',
+        drop: handleCardDropPile
+      });
+    {% endfor %}
+
+    {% for character in characters %}
+      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~character.cardFront)}}" style="max-width:100%;"></a></div>')
+      .appendTo('#container' + {{ character.id }})
+      .attr('id', {{ character.id }})
+      .data('container', 'container' + {{ character.id }})
+      .data('defaultAppendTo', '#cardCharacters')
+      .data('id', {{ character.id }})
+      .draggable({
+        containment: '#content',
+        cursor: 'move',
+        revert: true,
+      })
+      .position({
+        of: $('#container' + {{ character.id }})
+      });
+    {% endfor %}
+
+    {% for place in places %}
+      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~place.cardFront)}}" style="max-width:100%;"></a></div>')
+      .appendTo('#container' + {{ place.id }})
+      .attr('id', {{ place.id }})
+      .data('container', 'container' + {{ place.id }})
+      .data('defaultAppendtTo', '#cardPlaces')
+      .data('id', {{ place.id }})
+      .draggable({
+        containment: '#content',
+        cursor: 'move',
+        revert: true
+      })
+      .position({
+        of: $('#container' + {{ place.id }})
+      });
+    {% endfor %}
+
+    {% for magicElement in magicElements %}
+      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~magicElement.cardFront)}}" style="max-width:100%;"></a></div>')
+      .appendTo('#container' + {{ magicElement.id }})
+      .attr('id', {{ magicElement.id }})
+      .data('container', 'container' + {{ magicElement.id }})
+      .data('defaultAppendTo', '#cardMagicElements')
+      .data('id', {{ magicElement.id }})
+      .draggable({
+        containment: '#content',
+        cursor: 'move',
+        revert: true
+      })
+      .position({
+        of: $('#container' + {{ magicElement.id }})
+      });
+    {% endfor %}
+
+    {% for function in functions %}
+      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~function.cardFront)}}" style="max-width:100%;"></a></div>')
+      .appendTo('#container' + {{ function.id }})
+      .attr('id', {{ function.id }})
+      .data('container', 'container' + {{ function.id }})
+      .data('defaultAppendTo', '#cardFunctions')
+      .data('id', {{ function.id }})
+      .draggable({
+        containment: '#content',
+        cursor: 'move',
+        revert: true
+      })
+      .position({
+        of: $('#container' + {{ function.id }})
+      });
+    {% endfor %}
+
+    {% for i in 1..maxCards %}
+      $('<div class="col-xs-2"><a href="#" class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a></div>')
+      .appendTo('#cardSlots')
+      .attr('id', 'cardSlot' + {{ i-1 }})
+      .data('occupiedBy', 'nothing')
+      .droppable({
+        accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
+        hoverClass: 'hovered',
+        drop: handleCardDropSlots
+      });
+    {% endfor %}
+  }
+
+  function refreshPosition() {
+    {% for character in characters %}
+      if($("#" + {{ character.id }}).data("container")) {
+        $("#" + {{ character.id }}).position({
+          of: $("#" + $("#" + {{ character.id }}).data("container"))
+        });
+      }
+    {% endfor %}
+
+    {% for place in places %}
+      $("#" + {{ place.id }}).position({
+        of: $("#" + $("#" + {{ place.id }}).data("container"))
+      });
+    {% endfor %}
+
+    {% for magicElement in magicElements %}
+      $("#" + {{ magicElement.id }}).position({
+        of: $("#" + $("#" + {{ magicElement.id }}).data("container"))
+      });
+    {% endfor %}
+
+    {% for function in functions %}
+      $("#" + {{ function.id }}).position({
+        of: $("#" + $("#" + {{ function.id }}).data("container"))
+      });
+    {% endfor %}
+  }
+
+  function handleCardDropPile(event, ui) {
+    var card = ui.draggable;
+    var cardId = card.attr('id');
+
+    $('#' + card.data("container")).data("occupiedBy", "nothing");
+
+    $('#container' + cardId).html($('#' + card.data("container")).html());
+    $('#' + card.data("container")).html('<a href="#" class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a>');
+
+    $("#" + cardId).appendTo("#container" + cardId)
+    .data("container", "container" + cardId)
+    .draggable({
+      revert: false
+    })
+    .position({
+      of: $('#container' + cardId)
+    });
+
+    $('#container' + cardId).data("occupiedBy", "#" + cardId);
+
+    setTimeout(function () {
+      $("#" + cardId).draggable({
+        revert: true
+      });
+    }, 100);
+
+    $(refreshPosition);
+  }
+
+  function handleCardDropSlots(event, ui) {
+    var card = ui.draggable;
+    var cardId = card.data("id");
+
+    $('#' + card.data("container")).data("occupiedBy", "nothing");
+
+    var assigned = false;
+
+    for (var i = 0; i < {{maxCards}} && !assigned; i++) {
+      if ($('#cardSlot' + i).data("occupiedBy") == "nothing") {
+
+        $('#cardSlot' + i).html($('#' + card.data("container")).html());
+
+        $('#' + card.data("container")).html('<a href="#" class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a>');
+
+        $("#" + cardId).appendTo("#cardSlot" + i)
+        .data("container", "cardSlot" + i)
+        .draggable({
+          revert: false
+        })
+        .position({
+          of: $('#cardSlot' + i)
+        });
+
+        $('#cardSlot' + i).data("occupiedBy", cardId);
+
+        assigned = true;
+      }
+    }
+
+    setTimeout(function () {
+      $("#" + cardId).draggable({
+        revert: true
+      });
+    }, 100);
+
+    $(refreshPosition);
+  }
+
+  $(document).ready(function() {
+    $("#cardCharacters").hide();
+    $("#cardFunctions").hide();
+    $("#cardPlaces").hide();
+    $("#cardMagicElements").hide();
+
+    $(".mainCard").click(function() {
+      $("#cardCharacters").hide();
+      $("#cardFunctions").hide();
+      $("#cardPlaces").hide();
+      $("#cardMagicElements").hide();
+
+      $("#" + $(this).attr("id") + "s").show();
+
+      $(refreshPosition);
+    });
+
+    $(window).resize(function () {
+      $(refreshPosition);
+    });
+  });
+
+  $(init);
+</script>
+
+<style type="text/css">
+  #cardCharacters div,
+  #cardFunctions div,
+  #cardMagicElements div,
+  #cardPlaces div,
+  #cardSlots div {
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+  }
+
+  #cardCharacters,
+  #cardMagicElements,
+  #cardPlaces,
+  #cardFunctions,
+  #cardSlotsContainer {
+    background-image: url(http://www.homedepot.com/catalog/productImages/1000/8c/8c06b69c-10d3-4937-a86f-5e7cb258f6ac_1000.jpg);
+    background-size: cover;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+  }
+
+  #cardCharacters div.hovered,
+  #cardFunctions div.hovered,
+  #cardPlaces div.hovered,
+  #cardMagicElements div.hovered,
+  #cardSlots div.hovered {
+    background: #AAA;
+  }
+
+  .thumbnail {
+    padding: 0;
+  }
+
+  .ui-draggable {
+    z-index: 5;
+  }
+
+  #32 {
+    max-width: 49% !important;
+  }
+</style>
+<div class="row center-block">
+  <div class="col-md-6 col-xs-12">
+    <div class="row center-block">
+      <div class="col-xs-3">
+        <div class="mainCard" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/carta_Bussola.png")}}"></div>
       </div>
-      <div class="row">
+      <div class="col-xs-3">
+        <div class="mainCard" id="cardFunction"><img class="img-responsive" src="{{ asset("images/allontanamento_con_testo.png")}}"></div>
+      </div>
+      <div class="col-xs-3">
+        <div class="mainCard" id="cardPlace"><img class="img-responsive" src="{{ asset("images/carta_Cavaliere_con testo.png")}}"></div>
+      </div>
+      <div class="col-xs-3">
+        <div class="mainCard" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/fronte_4.png")}}"></div>
       </div>
     </div>
-      <div class="col-sm-7" style="background-color: red;">
-        <div id="fixedwell">
-          prova
-        </div>
+    <br/>
+    <div class="row center-block">
+      <div class="col-md-12">
+        <div class="row" id="cardCharacters"></div>
       </div>
+      <div class="col-md-12">
+        <div class="row" id="cardPlaces"></div>
+      </div>
+      <div class="col-md-12">
+        <div class="row" id="cardMagicElements"></div>
+      </div>
+      <div class="col-md-12">
+        <div class="row" id="cardFunctions"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xs-12" id="cardSlotsContainer">
+      <div id="cardSlots"></div>
   </div>
 </div>
+<br/>
+<br/>
+<br/>
 {% endblock %}

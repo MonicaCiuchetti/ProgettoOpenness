@@ -1,6 +1,12 @@
-{# app/Resources/views/game/publicgame.html.twig #}
+  {# app/Resources/views/game/publicgame.html.twig #}
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
+{% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
@@ -130,7 +136,7 @@
       .data('occupiedBy', 'nothing')
       .droppable({
         accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
-        hoverClass: 'hovered',
+        hoverClass: 'grow pic',
         drop: handleCardDropSlots
       });
     {% endfor %}
@@ -263,9 +269,9 @@
   #cardMagicElements div,
   #cardPlaces div,
   #cardSlots div {
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
   }
 
   #cardCharacters,
@@ -273,11 +279,13 @@
   #cardPlaces,
   #cardFunctions,
   #cardSlotsContainer {
-    background-image: url(http://www.homedepot.com/catalog/productImages/1000/8c/8c06b69c-10d3-4937-a86f-5e7cb258f6ac_1000.jpg);
+   
     background-size: cover;
-    border-radius: 30px;
-    -moz-border-radius: 30px;
-    -webkit-border-radius: 30px;
+    border-radius: 20px;
+    border:5px solid #1995dc;
+    padding: 10px 10px 10px 10px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
   }
 
   #cardCharacters div.hovered,
@@ -295,7 +303,7 @@
   .ui-draggable {
     z-index: 5;
   }
-
+  
   #32 {
     max-width: 49% !important;
   }
@@ -303,21 +311,32 @@
 <div class="row center-block">
   <div class="col-md-6 col-xs-12">
     <div class="row center-block">
+      <h1 class="animated zoomIn">I mazzi delle carte</h1>
       <div class="col-xs-3">
-        <div class="mainCard" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/carta_Bussola.png")}}"></div>
+        <div class="mainCard hovereffect" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/R_R.png")}}"> <div class="overlay">
+           <h2>Ruoli</h2>
+        </div>
+        </div>
+       
       </div>
       <div class="col-xs-3">
-        <div class="mainCard" id="cardFunction"><img class="img-responsive" src="{{ asset("images/allontanamento_con_testo.png")}}"></div>
+        <div class="mainCard hovereffect" id="cardFunction"><img class="img-responsive" src="{{ asset("images/R_F.png")}}"><div class="overlay">
+           <h2>Funzioni</h2>
+        </div>
+      </div>
       </div>
       <div class="col-xs-3">
-        <div class="mainCard" id="cardPlace"><img class="img-responsive" src="{{ asset("images/carta_Cavaliere_con testo.png")}}"></div>
+        <div class="mainCard hovereffect" id="cardPlace"><img class="img-responsive" src="{{ asset("images/R_L.png")}}"><div class="overlay">
+           <h2>Luoghi</h2>
+        </div></div>
       </div>
       <div class="col-xs-3">
-        <div class="mainCard" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/fronte_4.png")}}"></div>
+        <div class="mainCard hovereffect" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/R_EM.png")}}"><div class="overlay">
+           <h2>Elementi magici</h2>
+        </div></div>
       </div>
     </div>
-    <br/>
-    <div class="row center-block">
+     <div class="row center-block"><div><h1>Le carte</h1></div>
       <div class="col-md-12">
         <div class="row" id="cardCharacters"></div>
       </div>
@@ -332,7 +351,16 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 col-xs-12" id="cardSlotsContainer">
+  <div class="col-md-6 col-xs-12">
+    <h1 class="animated zoomIn">Istruzioni del gioco</h1>
+    <div class="offer offer-radius offer-info">
+      <div class="offer-content offer-info">
+          <h3>Scegli il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi degli elementi magici.<br> Seleziona la carta che desideri e trascinala sul tuo tabellone di gioco. <br>Inventa e racconta la tua storia con i tuoi amici.</h3>
+      </div>
+    </div>
+  </div>
+  <h1>Il tuo tabellone</h1>
+   <div class="col-md-6 col-xs-12" id="cardSlotsContainer">
       <div id="cardSlots"></div>
   </div>
 </div>

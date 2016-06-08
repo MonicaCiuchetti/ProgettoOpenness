@@ -47,12 +47,12 @@
                 <div class="page-header">
                 </div>
                 <div>
-                <div class="offer offer-radius offer-info">
-                <div class="offer-content offer-info">
+                <div class="offer-home offer-radius-home offer-info">
+                    <div class="offer-content offer-info">
                         <h3>
                             Come giocare
                         </h3>                       
-                        <p>Raccontare una fiaba è ancora più bello se la fiaba sei tu a crearla. Con <b>FiabeOnline</b> puoi divertirti a rincorrere la tua fantasia e riportarla dentro una storia con l'aiuto delle carte di Propp. Puoi <a href="tales">leggere le fiabe</a> create da altri utenti e votarle a tuo piacimento, oppure puoi <a href="{{ path('fos_user_registration_register') }}">creare il tuo account</a> per inserire le fiabe che vorresti che gli altri votassero. Infine puoi anche utilizzare questa piattaforma per aiutare i tuoi ragazzi a destrutturare una fiaba nota. Basta un pizzico di fantasia e di maestria con le carte di Propp che ti seguiranno passo dopo passo. Ora tocca a te.<a href="">Gioca!</a>
+                        <p>Raccontare una fiaba è ancora più bello se la fiaba sei tu a crearla. Con <b>FiabeOnline</b> puoi divertirti a rincorrere la tua fantasia e riportarla dentro una storia con l'aiuto delle carte di Propp. Puoi <a href="tales">leggere le fiabe</a> create da altri utenti e votarle a tuo piacimento, oppure puoi <a href="{{ path('fos_user_registration_register') }}">creare il tuo account</a> per inserire le fiabe che vorresti che gli altri votassero. Infine puoi anche utilizzare questa piattaforma per aiutare i tuoi ragazzi a destrutturare una fiaba nota. Basta un pizzico di fantasia e di maestria con le carte di Propp che ti seguiranno passo dopo passo. Ora tocca a te. <a href="{{ path('publicGame') }}">Gioca!</a>
                         </p>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <p>
-                                <a class="btn btn-primary btn-sm" onclick="location.href='{{ path('tale', { idTale: bestTale.id }) }}'">
+                                <a class="btn btn-primary btn-sm" onclick="location.href='{{ path('tale', { idTale: lastTale.id }) }}'">
                                     <span class="fa fa-fort-awesome" aria-hidden="true"></span> Visualizza
                                 </a>
                             </p>

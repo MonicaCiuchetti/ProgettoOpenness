@@ -88,12 +88,12 @@
                             <div class="thumbnail">
                                 <img src="{{ asset('images/fiabe bambini.jpg') }}" alt="fiaba">
                                 <div class="caption">
-                                    <h4><a href="{{ path('tale', {idTale: lastTale.id }) }}">{{ bestTale.taleTitle }}</a></h4>
+                                    <h4><a href="{{ path('tale', {idTale: bestTale.id }) }}">{{ bestTale.taleTitle }}</a></h4>
                                     <p>{{ bestTaleText | truncate(150 , false) }}</p>
                                 </div>
                             </div>
                             <p>
-                                <a class="btn btn-primary btn-sm" onclick="location.href='{{ path('tale', { idTale: lastTale.id }) }}'">
+                                <a class="btn btn-primary btn-sm" onclick="location.href='{{ path('tale', { idTale: bestTale.id }) }}'">
                                     <span class="fa fa-fort-awesome" aria-hidden="true"></span> Visualizza
                                 </a>
                             </p>

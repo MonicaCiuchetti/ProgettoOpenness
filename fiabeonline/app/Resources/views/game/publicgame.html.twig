@@ -136,7 +136,7 @@
       .data('occupiedBy', 'nothing')
       .droppable({
         accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
-        hoverClass: 'grow pic',
+        hoverClass: 'hovered',
         drop: handleCardDropSlots
       });
     {% endfor %}
@@ -303,7 +303,7 @@
   .ui-draggable {
     z-index: 5;
   }
-  
+
   #32 {
     max-width: 49% !important;
   }
@@ -355,7 +355,7 @@
     <h1 class="animated zoomIn">Istruzioni del gioco</h1>
     <div class="offer offer-radius offer-info">
       <div class="offer-content offer-info">
-          <h3>Scegli il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi degli elementi magici.<br> Seleziona la carta che desideri e trascinala sul tuo tabellone di gioco. <br>Inventa e racconta la tua storia con i tuoi amici.</h3>
+          <h3>1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
       </div>
     </div>
   </div>

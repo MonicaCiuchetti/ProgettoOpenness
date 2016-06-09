@@ -1,11 +1,11 @@
-  {# app/Resources/views/game/publicgame.html.twig #}
+{# app/Resources/views/game/publicgame.html.twig #}
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
@@ -14,256 +14,281 @@
 
 {% block body %}
 <script type="text/javascript">
-  function init() {
-    {% set maxCards = 15 %}
+function init() {
+  {% set maxCards = 15 %}
 
-    {% for character in characters %}
-      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{character.id}})
-      .attr('id', 'container' + {{ character.id }})
-      .appendTo('#cardCharacters')
-      .droppable({
-        accept: '#cardCharacters div, #cardSlots div',
-        hoverClass: 'hovered',
-        drop: handleCardDropPile
-      });
-    {% endfor %}
-
-    {% for place in places %}
-      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{place.id}})
-      .attr('id', 'container' + {{ place.id }})
-      .appendTo('#cardPlaces')
-      .droppable({
-        accept: '#cardPlaces div, #cardSlots div',
-        hoverClass: 'hovered',
-        drop: handleCardDropPile
-      });
-    {% endfor %}
-
-    {% for magicElement in magicElements %}
-      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{magicElement.id}})
-      .attr('id', 'container' + {{ magicElement.id }})
-      .appendTo('#cardMagicElements')
-      .droppable({
-        accept: '#cardMagicElements div, #cardSlots div',
-        hoverClass: 'hovered',
-        drop: handleCardDropPile
-      });
-    {% endfor %}
-
-    {% for function in functions %}
-      $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{function.id}})
-      .attr('id', 'container' + {{ function.id }})
-      .appendTo('#cardFunctions')
-      .droppable({
-        accept: '#cardFunctions div, #cardSlots div',
-        hoverClass: 'hovered',
-        drop: handleCardDropPile
-      });
-    {% endfor %}
-
-    {% for character in characters %}
-      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~character.cardFront)}}" style="max-width:100%;"></a></div>')
-      .appendTo('#container' + {{ character.id }})
-      .attr('id', {{ character.id }})
-      .data('container', 'container' + {{ character.id }})
-      .data('defaultAppendTo', '#cardCharacters')
-      .data('id', {{ character.id }})
-      .draggable({
-        containment: '#content',
-        cursor: 'move',
-        revert: true,
-      })
-      .position({
-        of: $('#container' + {{ character.id }})
-      });
-    {% endfor %}
-
-    {% for place in places %}
-      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~place.cardFront)}}" style="max-width:100%;"></a></div>')
-      .appendTo('#container' + {{ place.id }})
-      .attr('id', {{ place.id }})
-      .data('container', 'container' + {{ place.id }})
-      .data('defaultAppendtTo', '#cardPlaces')
-      .data('id', {{ place.id }})
-      .draggable({
-        containment: '#content',
-        cursor: 'move',
-        revert: true
-      })
-      .position({
-        of: $('#container' + {{ place.id }})
-      });
-    {% endfor %}
-
-    {% for magicElement in magicElements %}
-      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~magicElement.cardFront)}}" style="max-width:100%;"></a></div>')
-      .appendTo('#container' + {{ magicElement.id }})
-      .attr('id', {{ magicElement.id }})
-      .data('container', 'container' + {{ magicElement.id }})
-      .data('defaultAppendTo', '#cardMagicElements')
-      .data('id', {{ magicElement.id }})
-      .draggable({
-        containment: '#content',
-        cursor: 'move',
-        revert: true
-      })
-      .position({
-        of: $('#container' + {{ magicElement.id }})
-      });
-    {% endfor %}
-
-    {% for function in functions %}
-      $('<div><a href="#" class="thumbnail"><img src="{{ asset("images/"~function.cardFront)}}" style="max-width:100%;"></a></div>')
-      .appendTo('#container' + {{ function.id }})
-      .attr('id', {{ function.id }})
-      .data('container', 'container' + {{ function.id }})
-      .data('defaultAppendTo', '#cardFunctions')
-      .data('id', {{ function.id }})
-      .draggable({
-        containment: '#content',
-        cursor: 'move',
-        revert: true
-      })
-      .position({
-        of: $('#container' + {{ function.id }})
-      });
-    {% endfor %}
-
-    {% for i in 1..maxCards %}
-      $('<div class="col-xs-2"><a href="#" class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a></div>')
-      .appendTo('#cardSlots')
-      .attr('id', 'cardSlot' + {{ i-1 }})
-      .data('occupiedBy', 'nothing')
-      .droppable({
-        accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
-        hoverClass: 'hovered',
-        drop: handleCardDropSlots
-      });
-    {% endfor %}
-  }
-
-  function refreshPosition() {
-    {% for character in characters %}
-      if($("#" + {{ character.id }}).data("container")) {
-        $("#" + {{ character.id }}).position({
-          of: $("#" + $("#" + {{ character.id }}).data("container"))
-        });
-      }
-    {% endfor %}
-
-    {% for place in places %}
-      $("#" + {{ place.id }}).position({
-        of: $("#" + $("#" + {{ place.id }}).data("container"))
-      });
-    {% endfor %}
-
-    {% for magicElement in magicElements %}
-      $("#" + {{ magicElement.id }}).position({
-        of: $("#" + $("#" + {{ magicElement.id }}).data("container"))
-      });
-    {% endfor %}
-
-    {% for function in functions %}
-      $("#" + {{ function.id }}).position({
-        of: $("#" + $("#" + {{ function.id }}).data("container"))
-      });
-    {% endfor %}
-  }
-
-  function handleCardDropPile(event, ui) {
-    var card = ui.draggable;
-    var cardId = card.attr('id');
-
-    $('#' + card.data("container")).data("occupiedBy", "nothing");
-
-    $('#container' + cardId).html($('#' + card.data("container")).html());
-    $('#' + card.data("container")).html('<a href="#" class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a>');
-
-    $("#" + cardId).appendTo("#container" + cardId)
-    .data("container", "container" + cardId)
-    .draggable({
-      revert: false
-    })
-    .position({
-      of: $('#container' + cardId)
+  {% for character in characters %}
+    $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{character.id}})
+    .attr('id', 'container' + {{ character.id }})
+    .appendTo('#cardCharacters')
+    .droppable({
+      accept: '#cardSlots div',
+      hoverClass: 'hovered',
+      drop: handleCardDropPile
     });
 
-    $('#container' + cardId).data("occupiedBy", "#" + cardId);
+    $('<div><a class="thumbnail"><img src="{{ asset("images/"~character.cardFront)}}" style="max-width:100%;"></a></div>')
+    .appendTo('#container' + {{ character.id }})
+    .attr('id', {{ character.id }})
+    .data('container', 'container' + {{ character.id }})
+    .data('defaultAppendTo', '#cardCharacters')
+    .draggable({
+      containment: '#content',
+      cursor: 'move',
+      revert: true
+    })
+    .position({
+      of: $('#container' + {{ character.id }})
+    });
+  {% endfor %}
 
-    setTimeout(function () {
-      $("#" + cardId).draggable({
-        revert: true
+  {% for function in functions %}
+    $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{function.id}})
+    .attr('id', 'container' + {{ function.id }})
+    .appendTo('#cardFunctions')
+    .droppable({
+      accept: '#cardSlots div',
+      hoverClass: 'hovered',
+      drop: handleCardDropPile
+    });
+
+    $('<div><a class="thumbnail"><img src="{{ asset("images/"~function.cardFront)}}" style="max-width:100%;"></a></div>')
+    .appendTo('#container' + {{ function.id }})
+    .attr('id', {{ function.id }})
+    .data('container', 'container' + {{ function.id }})
+    .data('defaultAppendTo', '#cardFunctions')
+    .draggable({
+      containment: '#content',
+      cursor: 'move',
+      revert: true
+    })
+    .position({
+      of: $('#container' + {{ function.id }})
+    });
+  {% endfor %}
+
+  {% for place in places %}
+    $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{place.id}})
+    .attr('id', 'container' + {{ place.id }})
+    .appendTo('#cardPlaces')
+    .droppable({
+      accept: '#cardSlots div',
+      hoverClass: 'hovered',
+      drop: handleCardDropPile
+    });
+
+    $('<div><a class="thumbnail"><img src="{{ asset("images/"~place.cardFront)}}" style="max-width:100%;"></a></div>')
+    .appendTo('#container' + {{ place.id }})
+    .attr('id', {{ place.id }})
+    .data('container', 'container' + {{ place.id }})
+    .data('defaultAppendtTo', '#cardPlaces')
+    .draggable({
+      containment: '#content',
+      cursor: 'move',
+      revert: true
+    })
+    .position({
+      of: $('#container' + {{ place.id }})
+    });
+  {% endfor %}
+
+  {% for magicElement in magicElements %}
+    $('<div class="col-xs-2"></div>').data('occupiedBy', '#' + {{magicElement.id}})
+    .attr('id', 'container' + {{ magicElement.id }})
+    .appendTo('#cardMagicElements')
+    .droppable({
+      accept: '#cardSlots div',
+      hoverClass: 'hovered',
+      drop: handleCardDropPile
+    });
+
+    $('<div><a class="thumbnail"><img src="{{ asset("images/"~magicElement.cardFront)}}" style="max-width:100%;"></a></div>')
+    .appendTo('#container' + {{ magicElement.id }})
+    .attr('id', {{ magicElement.id }})
+    .data('container', 'container' + {{ magicElement.id }})
+    .data('defaultAppendTo', '#cardMagicElements')
+    .draggable({
+      containment: '#content',
+      cursor: 'move',
+      revert: true
+    })
+    .position({
+      of: $('#container' + {{ magicElement.id }})
+    });
+  {% endfor %}
+
+  {% for i in 1..maxCards %}
+    $('<div class="col-xs-2"><a class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a></div>')
+    .appendTo('#cardSlots')
+    .attr('id', 'cardSlot' + {{ i-1 }})
+    .data('occupiedBy', 'nothing')
+    .droppable({
+      accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
+      hoverClass: 'hovered',
+      drop: handleCardDropSlots
+    });
+  {% endfor %}
+}
+
+function refreshPosition() {
+  {% for character in characters %}
+    if($("#" + {{ character.id }}).data("container")) {
+      $("#" + {{ character.id }}).position({
+        of: $("#" + $("#" + {{ character.id }}).data("container"))
       });
-    }, 100);
+    }
+  {% endfor %}
 
-    $(refreshPosition);
-  }
+  {% for place in places %}
+    $("#" + {{ place.id }}).position({
+      of: $("#" + $("#" + {{ place.id }}).data("container"))
+    });
+  {% endfor %}
 
-  function handleCardDropSlots(event, ui) {
-    var card = ui.draggable;
-    var cardId = card.data("id");
+  {% for magicElement in magicElements %}
+    $("#" + {{ magicElement.id }}).position({
+      of: $("#" + $("#" + {{ magicElement.id }}).data("container"))
+    });
+  {% endfor %}
 
-    $('#' + card.data("container")).data("occupiedBy", "nothing");
+  {% for function in functions %}
+    $("#" + {{ function.id }}).position({
+      of: $("#" + $("#" + {{ function.id }}).data("container"))
+    });
+  {% endfor %}
+}
 
-    var assigned = false;
+function handleCardDropSlots(event, ui) {
 
-    for (var i = 0; i < {{maxCards}} && !assigned; i++) {
-      if ($('#cardSlot' + i).data("occupiedBy") == "nothing") {
+  var card = ui.draggable;
+  var cardId = card.attr("id");
 
-        $('#cardSlot' + i).html($('#' + card.data("container")).html());
+  var exit = false;
 
-        $('#' + card.data("container")).html('<a href="#" class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a>');
+  for (var i = 0; i < {{maxCards}} && !exit; i++) {
 
-        $("#" + cardId).appendTo("#cardSlot" + i)
-        .data("container", "cardSlot" + i)
-        .draggable({
-          revert: false
-        })
-        .position({
-          of: $('#cardSlot' + i)
+    if ($('#cardSlot' + i).data("occupiedBy") == "nothing") {
+
+      var html = $('#cardSlot' + i).html();
+
+      var data = $('#cardSlot' + i).data();
+      var id = $('#cardSlot' + i).attr('id');
+
+      $('#cardSlot' + i).html($('#' + card.data("container")).html()).attr('id', id).data(data);
+
+      var data = $('#' + card.data("container")).data();
+      var id = $('#' + card.data("container")).attr('id');
+
+      $('#' + card.data("container")).html(html).attr('id', id).data(data).data("occupiedBy", "nothing");
+
+      $("#" + cardId).appendTo("#cardSlot" + i)
+      .data("container", "cardSlot" + i)
+      .draggable({
+        revert: false
+      })
+      .position({
+        of: $('#cardSlot' + i)
+      })
+      .removeClass('ui-draggable-dragging');
+
+      $('#cardSlot' + i).data("occupiedBy", cardId);
+
+      setTimeout(function () {
+        $("#" + cardId).draggable({
+          revert: true
         });
+      }, 100);
 
-        $('#cardSlot' + i).data("occupiedBy", cardId);
+      $(refreshPosition);
 
-        assigned = true;
-      }
+      exit = true;
     }
 
-    setTimeout(function () {
-      $("#" + cardId).draggable({
-        revert: true
-      });
-    }, 100);
-
-    $(refreshPosition);
   }
 
-  $(document).ready(function() {
+}
+
+function handleCardDropPile(event, ui) {
+
+  var card = ui.draggable;
+  var cardId = card.attr('id');
+
+  var html = $('#container' + cardId).html();
+
+  var data = $('#container' + cardId).data();
+  var id = $('#container' + cardId).attr('id');
+
+  $('#container' + cardId).html($('#' + card.data("container")).html()).attr('id', id).data(data);
+
+  var data = $('#' + card.data("container")).data();
+  var id = $('#' + card.data("container")).attr('id');
+
+  $('#' + card.data("container")).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
+
+  $("#" + cardId).appendTo("#container" + cardId)
+  .data("container", "container" + cardId)
+  .draggable({
+    revert: false
+  })
+  .position({
+    of: $('#container' + cardId)
+  })
+  .removeClass('ui-draggable-dragging');
+
+  $('#container' + cardId).data("occupiedBy", "#" + cardId);
+
+  setTimeout(function () {
+    $("#" + cardId).draggable({
+      revert: true
+    });
+  }, 100);
+
+  $(refreshPosition);
+}
+
+$(document).ready(function() {
+  $("#cardCharacters").hide();
+  $("#cardFunctions").hide();
+  $("#cardPlaces").hide();
+  $("#cardMagicElements").hide();
+
+  $(".mainCard").click(function() {
     $("#cardCharacters").hide();
     $("#cardFunctions").hide();
     $("#cardPlaces").hide();
     $("#cardMagicElements").hide();
 
-    $(".mainCard").click(function() {
-      $("#cardCharacters").hide();
-      $("#cardFunctions").hide();
-      $("#cardPlaces").hide();
-      $("#cardMagicElements").hide();
+    $("#" + $(this).attr("id") + "s").show();
 
-      $("#" + $(this).attr("id") + "s").show();
-
-      $(refreshPosition);
-    });
-
-    $(window).resize(function () {
-      $(refreshPosition);
-    });
+    $(refreshPosition);
   });
 
-  $(init);
+  $(window).resize(function () {
+    $(refreshPosition);
+  });
+});
+
+$(init);
 </script>
 
 <style type="text/css">
+  container-fluid div:not(.ui-draggable-dragging) {
+    left: 0 !important;
+    top: 0 !important;
+  }
+
+  .cardContainer {
+    min-height: 0px !important;
+  }
+
+  .thumbnail {
+    padding: 0;
+  }
+
+  .ui-draggable {
+    z-index: 5;
+  }
+
   #cardCharacters div,
   #cardFunctions div,
   #cardMagicElements div,
@@ -274,12 +299,16 @@
     -webkit-border-radius: 20px;
   }
 
+  .container-fluid a {
+    margin-top: 18px;
+  }
+
   #cardCharacters,
   #cardMagicElements,
   #cardPlaces,
   #cardFunctions,
   #cardSlotsContainer {
-   
+    min-height: 0px !important;
     background-size: cover;
     border-radius: 20px;
     border:5px solid #1995dc;
@@ -295,63 +324,11 @@
   #cardSlots div.hovered {
     background: #AAA;
   }
-
-  .thumbnail {
-    padding: 0;
-  }
-
-  .ui-draggable {
-    z-index: 5;
-  }
-
-  #32 {
-    max-width: 49% !important;
-  }
 </style>
+<div class="container-fluid">
 <div class="row center-block">
-  <div class="col-md-6 col-xs-12">
-    <div class="row center-block">
-      <h1 class="animated zoomIn">I mazzi delle carte</h1>
-      <div class="col-xs-3">
-        <div class="mainCard hovereffect" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/R_R.png")}}"> <div class="overlay">
-           <h2>Ruoli</h2>
-        </div>
-        </div>
-       
-      </div>
-      <div class="col-xs-3">
-        <div class="mainCard hovereffect" id="cardFunction"><img class="img-responsive" src="{{ asset("images/R_F.png")}}"><div class="overlay">
-           <h2>Funzioni</h2>
-        </div>
-      </div>
-      </div>
-      <div class="col-xs-3">
-        <div class="mainCard hovereffect" id="cardPlace"><img class="img-responsive" src="{{ asset("images/R_L.png")}}"><div class="overlay">
-           <h2>Luoghi</h2>
-        </div></div>
-      </div>
-      <div class="col-xs-3">
-        <div class="mainCard hovereffect" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/R_EM.png")}}"><div class="overlay">
-           <h2>Elementi magici</h2>
-        </div></div>
-      </div>
-    </div>
-     <div class="row center-block"><div><h1>Le carte</h1></div>
-      <div class="col-md-12">
-        <div class="row" id="cardCharacters"></div>
-      </div>
-      <div class="col-md-12">
-        <div class="row" id="cardPlaces"></div>
-      </div>
-      <div class="col-md-12">
-        <div class="row" id="cardMagicElements"></div>
-      </div>
-      <div class="col-md-12">
-        <div class="row" id="cardFunctions"></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-xs-12">
+<div class="row center-block">
+  <div class="col-md-6 col-xs-12 hidden-md hidden-lg">
     <h1 class="animated zoomIn">Istruzioni del gioco</h1>
     <div class="offer offer-radius offer-info">
       <div class="offer-content offer-info">
@@ -359,12 +336,75 @@
       </div>
     </div>
   </div>
-  <h1>Il tuo tabellone</h1>
-   <div class="col-md-6 col-xs-12" id="cardSlotsContainer">
-      <div id="cardSlots"></div>
+  <div class="col-md-6 col-xs-12">
+    <div class="row center-block">
+      <h1 class="animated zoomIn">I mazzi delle carte</h1>
+      <div class="col-xs-3">
+        <div class="mainCard hovereffect" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/R_R.png")}}">
+          <div class="overlay">
+            <h2>Ruoli</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="mainCard hovereffect" id="cardFunction"><img class="img-responsive" src="{{ asset("images/R_F.png")}}">
+          <div class="overlay">
+           <h2>Funzioni</h2>
+         </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="mainCard hovereffect" id="cardPlace"><img class="img-responsive" src="{{ asset("images/R_L.png")}}">
+          <div class="overlay">
+           <h2>Luoghi</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="mainCard hovereffect" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/R_EM.png")}}">
+          <div class="overlay">
+           <h2>Elementi magici</h2>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="col-md-6 col-xs-12 hidden-sm hidden-xs">
+    <h1 class="animated zoomIn">Istruzioni del gioco</h1>
+    <div class="offer offer-radius offer-info">
+      <div class="offer-content offer-info">
+          <h3>1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<br/>
+<div class="row center-block" id="content">
+  <div class="col-md-6 col-xs-12">
+    <div><h1 class="animated zoomIn">Le carte</h1></div>
+    <div class="col-xs-12 cardContainer">
+      <div class="row" id="cardCharacters"></div>
+    </div>
+    <div class="col-xs-12 cardContainer">
+      <div class="row" id="cardPlaces"></div>
+    </div>
+    <div class="col-xs-12 cardContainer">
+      <div class="row" id="cardMagicElements"></div>
+    </div>
+    <div class="col-xs-12 cardContainer">
+      <div class="row" id="cardFunctions"></div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <h1 class="animated zoomIn">Il tuo tabellone</h1>
+     <div class="col-xs-12" id="cardSlotsContainer">
+        <div id="cardSlots"></div>
+    </div>
+  </div>
+</div>
 </div>
 <br/>
 <br/>
 <br/>
+</div>
 {% endblock %}

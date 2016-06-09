@@ -129,6 +129,24 @@ function init() {
       drop: handleCardDropSlots
     });
   {% endfor %}
+
+  $('.cardContainer').droppable({
+    accept: '#cardSlots div',
+    hoverClass: 'hovered',
+    drop: handleCardDropPile
+  });
+
+  $('#cardSlotsContainer').droppable({
+    accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
+    hoverClass: 'hovered',
+    drop: handleCardDropSlots
+  });
+
+  $('.overlay').droppable({
+    accept: '#cardSlots div',
+    hoverClass: 'hovered',
+    drop: handleCardDropPile
+  });
 }
 
 function refreshPosition() {

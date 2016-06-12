@@ -1,0 +1,94 @@
+@media (min-width: 992px) {
+  .col-md-2-5 {
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    width: 20.0%;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-sm-2-5 {
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    width: 20.0%;
+  }
+}
+
+@media (max-width: 400px) {
+  .col-xxs-6 {
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    width: 50%;
+  }
+
+  .col-xxs-4 {
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    width: 33.33333333%
+  }
+}
+
+container-fluid div:not(.ui-draggable-dragging) {
+  left: 0 !important;
+  top: 0 !important;
+}
+
+.cardContainer {
+  min-height: 0px !important;
+}
+
+.thumbnail {
+  padding: 0;
+}
+
+.ui-draggable {
+  z-index: 5;
+}
+
+#cardCharacters div,
+#cardFunctions div,
+#cardMagicElements div,
+#cardPlaces div,
+#cardSlots div {
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
+
+.container-fluid a {
+  margin-top: 18px;
+}
+
+#cardCharacters,
+#cardMagicElements,
+#cardPlaces,
+#cardFunctions,
+#cardSlotsContainer {
+  min-height: 0px !important;
+  background-size: cover;
+  border-radius: 20px;
+  border:5px solid #1995dc;
+  padding: 10px 10px 10px 10px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
+
+#cardCharacters div.hovered,
+#cardFunctions div.hovered,
+#cardPlaces div.hovered,
+#cardMagicElements div.hovered,
+#cardSlots div.hovered {
+  background: #AAA;
+}

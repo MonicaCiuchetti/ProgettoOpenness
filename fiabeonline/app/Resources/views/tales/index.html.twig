@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
 {% endblock %}
 {% block body %}
 
@@ -41,10 +42,8 @@
   margin-right: 12%;
   padding: 0
 }
-.container{
-  width: 100%;
-}
-@media (min-width: 768px) and (max-width: 991px) {
+
+@media (min-width: 768px) and (max-width: 1199px) {
   .carousel-inner{
     width: 70% !important;
     margin-left: 14% !important;
@@ -58,6 +57,22 @@
     right: 0 !important;
   }
 }
+
+@media (max-width: 767px) {
+  .carousel-inner{
+    width: 91%;
+    margin-left: 4%;
+  }
+  .carousel-control.left {
+    margin-left: -9% !important;
+    left: 0 !important;
+  }
+  .carousel-control.right{
+    margin-right: -9% !important;
+    right: 0 !important;
+  }
+
+}
 .panel-footer{
   padding-top: 2%;
   padding-left: 3%;
@@ -65,8 +80,34 @@
   padding-bottom: 3%;
 }
 </style>
+<script>
+  $(document).ready(function () {
 
-<div class="container body-container">
+    var maxSize = 0;
+
+    var elements = $( "div.panel-body")
+    for(i=0; i<elements.length; i++){
+      var elem = $(elements[i]);
+      size = elem.outerHeight();
+      padding = elem.css("padding");
+
+      padding = padding.replace("px", "");
+      padding = parseInt(padding);
+
+      size += padding;
+      if(size > maxSize){
+        maxSize = size;
+      }
+    }
+    $("div.panel-body").css("height", maxSize);
+
+  });
+
+
+</script>
+
+
+<div class="container body-container" style="width:100%;">
 
     {% set ciclo = false %}
 
@@ -93,11 +134,12 @@
                   <h5>Autore non specificato</h5>
                 {% endif %}
                 <p style="font-size:20px">{{talesText[loop.index0] | truncate(150 , false) }}</p>
-                <div class="row">
-                  <div class="col-xs-1 col-xs-offset-10">
-                    <input type="image" title="Leggi la fiaba" src="{{asset("/images/read_tale.svg")}}" style="width:60px" alt="Read tale" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'"/>
-                  </div>
-                </div>
+
+                <!--
+                  DA MODIFICARE
+
+                  <input type="image" title="Leggi la fiaba" src="{{asset("/images/read_tale.svg")}}" style="width:60px" alt="Read tale" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'"/>
+                -->
             </div>
           </div>
         </div>

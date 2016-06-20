@@ -39,8 +39,9 @@
   padding: 0 0 0 0 !important;
 }
 .thumbnail{
-  margin-right: 12%;
-  padding: 0
+  margin-right: 7%;
+  padding: 0;
+  margin-left: 7%;
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
@@ -89,12 +90,16 @@
     for(i=0; i<elements.length; i++){
       var elem = $(elements[i]);
       size = elem.outerHeight();
+      /*
       padding = elem.css("padding");
-
+      console.log(elem);
       padding = padding.replace("px", "");
       padding = parseInt(padding);
-
       size += padding;
+      */
+      // Aggiungo il padding definito da Bootstrap per ogni elemento della classe PanelBody
+      size += 15;
+
       if(size > maxSize){
         maxSize = size;
       }
@@ -127,7 +132,7 @@
           <div class="panel-body">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1">
-                <h2>{{tale.taleTitle}}</h2>
+                <a style="cursor: pointer; cursor: hand;" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'"> <h2>{{tale.taleTitle}}</h2> </a>
                 {% if tale.taleAuthor is not null  %}
                   <h5>{{tale.taleAuthor}}</h5>
                 {% else %}
@@ -135,11 +140,11 @@
                 {% endif %}
                 <p style="font-size:20px">{{talesText[loop.index0] | truncate(150 , false) }}</p>
 
-                <!--
-                  DA MODIFICARE
-
-                  <input type="image" title="Leggi la fiaba" src="{{asset("/images/read_tale.svg")}}" style="width:60px" alt="Read tale" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'"/>
-                -->
+                  <div class="row">
+                    <div class="col-xs-2 col-xs-offset-9">
+                      <input type="image" title="Leggi la fiaba" src="{{asset("/images/read_tale.svg")}}" style="width:60px" alt="Read tale" onclick="location.href='{{ path('tale', { idTale: tale.id }) }}'"/>
+                    </div>
+                  </div>
             </div>
           </div>
         </div>

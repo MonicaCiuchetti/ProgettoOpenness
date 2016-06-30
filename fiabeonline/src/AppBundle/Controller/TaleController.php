@@ -33,8 +33,8 @@ class TaleController extends Controller
 
         $lastTaleText = "";
         foreach ($lastTale[0]->getSequences() as $sequence) {
-            $correctTaleText .= $sequence->getSeqText();
-            $correctTaleText .= " ";
+            $lastTaleText .= $sequence->getSeqText();
+            $lastTaleText .= " ";
         }
 
 

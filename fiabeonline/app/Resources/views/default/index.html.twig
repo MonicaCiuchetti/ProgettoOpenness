@@ -19,50 +19,28 @@
                     <p>"La vita di ogni uomo è una favola scritta da Dio."</p>
                     <small><cite title="Source Title">Hans C. Andersen</cite></small>
                 </blockquote>
-                <div id="slideshow" class="carousel slide">
-                    <ol class="carousel-indicators">
-                        <li data-target="#slideshow" data-slide-to="0" class="active"></li>
-                        <li data-target="#Carousel" data-slide-to="1"></li>
-                        <li data-target="#slideshow" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="{{ asset('images/Logo.jpg') }}" alt="le carte di Propp">
-                            <div class="carousel-caption">Gioca ora</div>
-                        </div>
-                        
-                        <div class="item">
-                          <img src="{{ asset('images/Logo2.jpg') }}" alt="seconda">
-                          <div class="carousel-caption">Sviluppo</div>
-                        </div>
-                        <div class="item">
-                          <img src="{{ asset('images/Logo.jpg') }}" alt="terza">
-                          <div class="carousel-caption">Architettura</div>
-                        </div>
-                    </div>
-                    <a data-slide="prev" href="#slideshow" class="left carousel-control">‹</a>
-                    <a data-slide="next" href="#slideshow" class="right carousel-control">›</a>
-                </div>
-
-                <div class="page-header">
-                </div>
-                <div>
+            </div>
+            <div class="col-sm-5">
                 <div class="offer-home offer-radius-home offer-info">
                     <div class="offer-content offer-info">
                         <h3>
                             Come giocare
                         </h3>                       
-                        <p>Raccontare una fiaba è ancora più bello se la fiaba sei tu a crearla. Con <b>FiabeOnline</b> puoi divertirti a rincorrere la tua fantasia e riportarla dentro una storia con l'aiuto delle carte di Propp. Puoi <a href="tales">leggere le fiabe</a> create da altri utenti e votarle a tuo piacimento, oppure puoi <a href="{{ path('fos_user_registration_register') }}">creare il tuo account</a> per inserire le fiabe che vorresti che gli altri votassero. Infine puoi anche utilizzare questa piattaforma per aiutare i tuoi ragazzi a destrutturare una fiaba nota. Basta un pizzico di fantasia e di maestria con le carte di Propp che ti seguiranno passo dopo passo. Ora tocca a te. <a href="{{ path('publicGame') }}">Gioca!</a>
-                        </p>
+                        <h4><p>Raccontare una fiaba è ancora più bello se la fiaba sei tu a crearla. Con <b>FiabeOnline</b> puoi divertirti a rincorrere la tua fantasia e riportarla dentro una storia con l'aiuto delle carte di Propp. Puoi <a href="tales">leggere le fiabe</a> create da altri utenti e votarle a tuo piacimento, oppure puoi <a href="{{ path('fos_user_registration_register') }}">creare il tuo account</a> per inserire le fiabe che vorresti che gli altri votassero. Infine puoi anche utilizzare questa piattaforma per aiutare i tuoi ragazzi a destrutturare una fiaba nota. Basta un pizzico di fantasia e di maestria con le carte di Propp che ti seguiranno passo dopo passo. Ora tocca a te. <a href="{{ path('publicGame') }}">Gioca!</a>
+                        </p></h4>
                     </div>
                 </div>
             </div>
+        </div>
+        <div>
+                <div class="page-header">
+                </div>
+                
                 
             </div>
-            <!--da vedere class section-->
-
-            <div id="sidebar" class="col-sm-5">
-                {% block sidebar %}
+        <div class="row">
+            <div class="col-sm-4">
+             
                     <div class="section more">
                         <div class="well well-lg">
                             <p><b>
@@ -71,7 +49,7 @@
                             <div class="thumbnail">
                                 <img src="{{ asset('images/castello1.png') }}" alt="fiaba">
                                 <div class="caption">
-                                    <h4><a>{{ lastTale.taleTitle }}</a></h4>
+                                    <h4><a href="{{ path('tale', {idTale: lastTale.id }) }}">{{ lastTale.taleTitle }} </a></h4>
                                     <p>{{ lastTaleText | truncate(150 , false) }}</p>
                                 </div>
 
@@ -82,6 +60,8 @@
 
                         </div>
                     </div>
+            </div>
+            <div class="col-sm-4"> 
                     <div class="section last">
                         <div class="well well-lg">
                             <p> <b>La fiaba più votata </b></p>
@@ -99,28 +79,46 @@
                             </p>
                         </div>
                     </div>
-
+            </div>
+            <div class="col-sm-4">
                     <div class="section your">
                         <div class="well well-lg">
                             <div class="media">
                                 <div class="media-body">
-                                    <p><b>La fiaba migliore</b></p>
-                                    <div class="thumbnail">
-                                        <img src="{{ asset('images/racconti.jpg') }}" alt="fiaba">
-                                        <div class="caption">
-                                            <h4><a href="{{ path('tale', { idTale: correctTale.id }) }}">{{ correctTale.taleTitle }}</a></h4>
-                                            <p>{{ correctTaleText | truncate(150 , false) }}</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <p><a class="btn btn-primary btn-sm" href="#">
-                                    <span class="fa fa-lock" aria-hidden="true"></span> Le tue fiabe
-                                </a></p>
+                          <div id="slideshow" class="carousel slide">
+                    <ol class="carousel-indicators">
+                        <li data-target="#slideshow" data-slide-to="0" class="active"></li>
+                        <li data-target="#Carousel" data-slide-to="1"></li>
+                        <li data-target="#slideshow" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="{{ asset('images/R_EM.png') }}" alt="le carte di Propp">
+                            <div class="carousel-caption">Elementi magici</div>
+                        </div>
+                        
+                        <div class="item">
+                          <img src="{{ asset('images/R_F.png') }}" alt="le carte di Propp">
+                          <div class="carousel-caption">Funzioni</div>
+                        </div>
+                        <div class="item">
+                          <img src="{{ asset('images/R_L.png') }}" alt="le carte di Propp">
+                          <div class="carousel-caption">Luoghi</div>
+                        </div>
+                        <div class="item">
+                          <img src="{{ asset('images/R_R.png') }}" alt="le carte di Propp">
+                          <div class="carousel-caption">Luoghi</div>
                         </div>
                     </div>
-                {% endblock %}
+                    <a data-slide="prev" href="#slideshow" class="left carousel-control">‹</a>
+                    <a data-slide="next" href="#slideshow" class="right carousel-control">›</a>
+                </div>
+                                </div>
+                            </div>
+                            <h4> Sfoglia le carte </h4>
+                         </div>
+                    </div>
+        
             </div>
         </div>
 

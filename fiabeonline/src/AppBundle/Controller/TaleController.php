@@ -33,8 +33,8 @@ class TaleController extends Controller
 
         $lastTaleText = "";
         foreach ($lastTale[0]->getSequences() as $sequence) {
-            $correctTaleText .= $sequence->getSeqText();
-            $correctTaleText .= " ";
+            $lastTaleText .= $sequence->getSeqText();
+            $lastTaleText .= " ";
         }
 
 
@@ -82,8 +82,20 @@ class TaleController extends Controller
 
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
+
+        $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+        $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+        $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+
         //var_dump($talesImages);
-        return $this->render('tales/index.html.twig', array('tales' => $tales, 'talesText' => $talesText, 'talesImages' => $talesImages));
+        return $this->render('tales/index.html.twig', array(
+          'tales' => $tales, 
+          'talesText' => $talesText, 
+          'talesImages' => $talesImages, 
+          'bestTale' => $bestTale, 
+          'lastTale' => $lastTale[0], 
+          'correctTale' => $correctTale[0]
+          ));
     }
 
     /**
@@ -159,8 +171,19 @@ class TaleController extends Controller
               $sequencesImages[] = $sequenceImages;
           }
 
+          $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+          $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+          $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+  
 
-          return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+          return $this->render('tales/detail.html.twig', array(
+            'tale' => $tale, 
+            "taleText" => $taleText, 
+            'sequencesImages' => $sequencesImages,
+            'bestTale' => $bestTale, 
+            'lastTale' => $lastTale[0], 
+            'correctTale' => $correctTale[0]
+            ));
         }else return $this->redirectToRoute('homepage');
     }
 

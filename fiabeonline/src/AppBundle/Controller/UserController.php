@@ -54,7 +54,16 @@ class UserController extends Controller
         $tales = $this->getUser()->getTales();
         $tales = $paginator->paginate($tales, $page, 5);
         $tales->setUsedRoute('userTalesPaginated');
-        return $this->render('user/index.html.twig', array('tales' => $tales));
+
+       $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+       $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+       $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+  
+        return $this->render('user/index.html.twig', array(
+          'tales' => $tales,
+          'bestTale' => $bestTale, 
+          'lastTale' => $lastTale[0], 
+          'correctTale' => $correctTale[0]));
     }
 
     /**
@@ -64,6 +73,8 @@ class UserController extends Controller
     public function insertAction(Request $request)
     {
        $tale = new Tale();
+
+       $user=$this->getUser();
 
        $genres = $this->getDoctrine()
           ->getManager()
@@ -83,13 +94,73 @@ class UserController extends Controller
       $form = $this->createForm(new TaleType(), $tale);
 
       $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+            //$tale->setSlug($this->get('slugger')->slugify($tale->getTitle()));
+            //istanza fiaba con attibuti di default
+            $taleTitle = $request->request->get('taleTitle');
 
+            $tale = new \AppBundle\Entity\Tale();
+            $tale->setTaleTitle($taleTitle);
+            $tale->setTaleScore(0);
+            $tale->setTaleDate(new \DateTime("now")   );
+            $tale->setIsPublic(false);
+            $tale->setUser($user);
+
+            $taleAuthor = $request->request->get('taleAuthor');
+            if ($taleAuthor=="") {
+              $tale->setTaleAuthor($user->getUsername());
+            }
+            else {              
+              $tale->setTaleAuthor($taleAuthor);
+            }  
+            $taleTypeId = $request->request->get('taleTypeId');
+            
+            $taleGenres = $request->get('taleGenreId');
+            $entityManager = $this->getDoctrine()->getManager();
+                  
+            if($taleGenres!=0){
+              foreach($taleGenres as $taleGenresId) {
+                  $genre = $entityManager->getRepository('AppBundle:Genre')->findById($taleGenresId);
+                  $taleGenre = new \AppBundle\Entity\TaleGenre();
+                  $taleGenre->setGenre($genre[0]);
+                  $taleGenre->setTale($tale);
+                  $entityManager->persist($taleGenre);
+              }
+            }
+             
+            $taleType = $entityManager->getRepository('AppBundle:Type')->findById($taleTypeId);
+            $tale->setType($taleType[0]);
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($tale);
+            $entityManager->flush();
+
+            // Flash messages are used to notify the user about the result of the
+            // actions. They are deleted automatically from the session as soon
+            // as they are accessed.
+            // See http://symfony.com/doc/current/book/controller.html#flash-messages
+            $this->addFlash('success', 'Fiaba creata con successo!');
+
+            if ($form->get('save')->isClicked()) {
+              return $this->redirect($this->generateUrl('userInsertTale').'#step-2');
+            }
+
+            return $this->redirectToRoute('userTales');
+        }
+
+      $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+      $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+      $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+  
       return $this->render('user/insert.html.twig', array(
           "genres" => $genres,
           "types" => $types,
           "sequenceTypes" => $sequenceTypes,
           'tale' => $tale,
           'form' => $form->createView(),
+          'bestTale' => $bestTale, 
+          'lastTale' => $lastTale[0], 
+          'correctTale' => $correctTale[0]
           ));
 
     }
@@ -122,7 +193,17 @@ class UserController extends Controller
                       }
                     $sequencesImages[] = $sequenceImages;
                 }
-                return $this->render('tales/detail.html.twig', array('tale' => $tale, "taleText" => $taleText, 'sequencesImages' => $sequencesImages));
+                $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+                $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+                $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+
+                return $this->render('tales/detail.html.twig', array(
+                  'tale' => $tale, 
+                  "taleText" => $taleText, 
+                  'sequencesImages' => $sequencesImages,
+                  'bestTale' => $bestTale, 
+                  'lastTale' => $lastTale[0], 
+                  'correctTale' => $correctTale[0]));
               }
               return $this->redirectToRoute('userTales');
 

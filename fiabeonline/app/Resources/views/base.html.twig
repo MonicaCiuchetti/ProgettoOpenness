@@ -36,6 +36,18 @@
                             </div>
                             <div class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav navbar-right">
+                                    <li><a href='{{ path('talesindex') }}'>
+                                                <span class="fa fa-users" aria-hidden="true"></span> Le fiabe pubbliche</a>
+                                            </li>
+                                            <li><a href='{{ path('tale', { idTale: bestTale.id }) }}'>
+                                                <span class="fa fa-thumbs-o-up" aria-hidden="true"></span> La fiaba più votata</a>
+                                            </li>
+                                            <li><a href='{{ path('tale', { idTale: correctTale.id }) }}'>
+                                                    <span class="fa fa-trophy" aria-hidden="true"></span> La fiaba migliore</a>
+                                            </li>
+                                            <li><a href='{{ path('tale', { idTale: lastTale.id }) }}'>
+                                                    <span class="fa fa-fort-awesome" aria-hidden="true"></span> L'ultima fiaba scritta</a>
+                                            </li>       
                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
                                         <li class="dropdown">
@@ -54,6 +66,7 @@
                                     </li>
                                     {% else %}
                                         {% block header_navigation_links %}
+                                            
                                             <li><a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                                         {% endblock %}
                                         <li><a href="{{ path('fos_user_security_login')}} "><span class="glyphicon glyphicon-log-in"></span> Login</a></li></a>

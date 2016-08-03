@@ -46,11 +46,18 @@ class GameController extends Controller
           }
       }
       
+      $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
+      $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
+      $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
+  
       return $this->render('game/publicgame.html.twig', array('genres' => $genres,
           'types' => $types,
           'functions' => $functions,
           'places' => $places,
           'magicElements' => $magicElements,
-          'characters' => $characters));
+          'characters' => $characters,
+          'bestTale' => $bestTale, 
+          'lastTale' => $lastTale[0], 
+          'correctTale' => $correctTale[0]));
   }
 }

@@ -252,7 +252,7 @@ class Tale
      * @param \AppBundle\Entity\Type $type
      * @return Tale
      */
-    public function setType(\AppBundle\Entity\Type $type = null)
+    public function setType(\AppBundle\Entity\Type $type)
     {
         $this->type = $type;
 
@@ -275,7 +275,7 @@ class Tale
      * @param \AppBundle\Entity\User $user
      * @return Tale
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 

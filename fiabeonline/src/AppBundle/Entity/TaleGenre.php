@@ -15,19 +15,16 @@ class TaleGenre
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Genre", inversedBy="taleGenres")
      * @ORM\JoinColumn(name="genre", referencedColumnName="id")
      */
     private $genre;
 
     /**
+     * @var int
+     *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Tale", inversedBy="taleGenres")
      * @ORM\JoinColumn(name="tale", referencedColumnName="id")
      */
@@ -36,7 +33,7 @@ class TaleGenre
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -59,7 +56,7 @@ class TaleGenre
     /**
      * Get genre
      *
-     * @return \AppBundle\Entity\Genre 
+     * @return \AppBundle\Entity\Genre
      */
     public function getGenre()
     {
@@ -82,7 +79,7 @@ class TaleGenre
     /**
      * Get tale
      *
-     * @return \AppBundle\Entity\Tale 
+     * @return \AppBundle\Entity\Tale
      */
     public function getTale()
     {

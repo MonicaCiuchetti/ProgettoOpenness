@@ -37,6 +37,13 @@ class Card
     /**
      * @var string
      *
+     * @ORM\Column(name="cardText", type="text", nullable=true)
+     */
+    private $cardText;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="cardFront", type="string", length=50)
      */
     private $cardFront;
@@ -307,5 +314,28 @@ class Card
     public function getPartecipationsDefault()
     {
         return $this->partecipationsDefault;
+    }
+
+    /**
+     * Set cardText
+     *
+     * @param string $cardText
+     * @return Card
+     */
+    public function setCardText($cardText)
+    {
+        $this->cardText = $cardText;
+
+        return $this;
+    }
+
+    /**
+     * Get cardText
+     *
+     * @return string
+     */
+    public function getCardText()
+    {
+        return $this->cardText;
     }
 }

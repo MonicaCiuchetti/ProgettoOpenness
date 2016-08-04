@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class TaleController extends Controller
+class TaleController extends BaseController
 {
     /**
      * @Route("/", name="homepage")
@@ -40,11 +40,8 @@ class TaleController extends Controller
 
         return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
-            "lastTale" => $lastTale[0],
             "lastTaleText" => $lastTaleText,
-            "bestTale" => $bestTale,
             "bestTaleText" => $bestTaleText,
-            "correctTale" => $correctTale[0],
             "correctTaleText" => $correctTaleText
         ));
     }
@@ -83,18 +80,11 @@ class TaleController extends Controller
         $tales = $paginator->paginate($tales, $page, 12);
         $tales->setUsedRoute('tales_index_paginated');
 
-        $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
-        $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
-        $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
-
         //var_dump($talesImages);
         return $this->render('tales/index.html.twig', array(
-          'tales' => $tales, 
-          'talesText' => $talesText, 
-          'talesImages' => $talesImages, 
-          'bestTale' => $bestTale, 
-          'lastTale' => $lastTale[0], 
-          'correctTale' => $correctTale[0]
+          'tales' => $tales,
+          'talesText' => $talesText,
+          'talesImages' => $talesImages
           ));
     }
 
@@ -171,18 +161,11 @@ class TaleController extends Controller
               $sequencesImages[] = $sequenceImages;
           }
 
-          $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
-          $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
-          $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
-  
 
           return $this->render('tales/detail.html.twig', array(
-            'tale' => $tale, 
-            "taleText" => $taleText, 
-            'sequencesImages' => $sequencesImages,
-            'bestTale' => $bestTale, 
-            'lastTale' => $lastTale[0], 
-            'correctTale' => $correctTale[0]
+            'tale' => $tale,
+            "taleText" => $taleText,
+            'sequencesImages' => $sequencesImages
             ));
         }else return $this->redirectToRoute('homepage');
     }

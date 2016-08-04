@@ -13,7 +13,7 @@ use AppBundle\Form\Type\TaleType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @Route("/user/find/log/id/{logId}", name="findUserByLogId")
@@ -55,15 +55,9 @@ class UserController extends Controller
         $tales = $paginator->paginate($tales, $page, 5);
         $tales->setUsedRoute('userTalesPaginated');
 
-       $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
-       $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
-       $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
-  
         return $this->render('user/index.html.twig', array(
-          'tales' => $tales,
-          'bestTale' => $bestTale, 
-          'lastTale' => $lastTale[0], 
-          'correctTale' => $correctTale[0]));
+          'tales' => $tales
+        ));
     }
 
     /**
@@ -110,14 +104,14 @@ class UserController extends Controller
             if ($taleAuthor=="") {
               $tale->setTaleAuthor($user->getUsername());
             }
-            else {              
+            else {
               $tale->setTaleAuthor($taleAuthor);
-            }  
+            }
             $taleTypeId = $request->request->get('taleTypeId');
-            
+
             $taleGenres = $request->get('taleGenreId');
             $entityManager = $this->getDoctrine()->getManager();
-                  
+
             if($taleGenres!=0){
               foreach($taleGenres as $taleGenresId) {
                   $genre = $entityManager->getRepository('AppBundle:Genre')->findById($taleGenresId);
@@ -127,10 +121,10 @@ class UserController extends Controller
                   $entityManager->persist($taleGenre);
               }
             }
-             
+
             $taleType = $entityManager->getRepository('AppBundle:Type')->findById($taleTypeId);
             $tale->setType($taleType[0]);
-            
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tale);
             $entityManager->flush();
@@ -148,19 +142,12 @@ class UserController extends Controller
             return $this->redirectToRoute('userTales');
         }
 
-      $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
-      $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
-      $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
-  
       return $this->render('user/insert.html.twig', array(
           "genres" => $genres,
           "types" => $types,
           "sequenceTypes" => $sequenceTypes,
           'tale' => $tale,
-          'form' => $form->createView(),
-          'bestTale' => $bestTale, 
-          'lastTale' => $lastTale[0], 
-          'correctTale' => $correctTale[0]
+          'form' => $form->createView()
           ));
 
     }
@@ -193,17 +180,12 @@ class UserController extends Controller
                       }
                     $sequencesImages[] = $sequenceImages;
                 }
-                $lastTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findLastPublicTale();
-                $bestTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByLikesDesc();
-                $correctTale = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tale')->findByScoreDesc();
 
                 return $this->render('tales/detail.html.twig', array(
-                  'tale' => $tale, 
-                  "taleText" => $taleText, 
-                  'sequencesImages' => $sequencesImages,
-                  'bestTale' => $bestTale, 
-                  'lastTale' => $lastTale[0], 
-                  'correctTale' => $correctTale[0]));
+                  'tale' => $tale,
+                  "taleText" => $taleText,
+                  'sequencesImages' => $sequencesImages
+                ));
               }
               return $this->redirectToRoute('userTales');
 

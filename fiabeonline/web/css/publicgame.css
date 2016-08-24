@@ -92,3 +92,41 @@ container-fluid div:not(.ui-draggable-dragging) {
 #cardSlots div.hovered {
   background: #AAA;
 }
+
+.modal {
+  background-color: rgba(0,0,0,0.8);
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  padding-top: 100px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.modal-content {
+  animation-name: animatetop;
+  animation-duration: 0.4s
+  background-color: #fefefe;
+  border: 1px solid #888;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  margin: auto;
+  padding: 0;
+  position: relative;
+  width: 80%;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+}
+
+/* Modal animations */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}

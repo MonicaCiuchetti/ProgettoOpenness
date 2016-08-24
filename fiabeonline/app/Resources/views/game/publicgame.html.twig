@@ -1,500 +1,545 @@
 {# app/Resources/views/game/publicgame.html.twig #}
 {% extends 'base.html.twig' %}
+
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-<link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-<link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
-<link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/publicgame.css') }}">
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/publicgame.css') }}">
 {% endblock %}
+
 {% block javascripts %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-{% endblock %}
+  {{parent()}}
+  <script src="{{ asset('js/jquery-ui.js') }}"></script>
+  <script>
+    var isMobile = {
+      any: function() {
+        return navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
+      }
+    };
 
-{% block body %}
-<script type="text/javascript">
-function init() {
+    function initialize() {
+      {% set maxCards = 15 %}
 
-  {% set maxCards = 15 %}
+      {% for character in characters %}
+        $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"></div>')
+        .attr('id', 'container' + {{ character.id }})
+        .appendTo('#cardCharacters')
+        .data('occupiedBy', '#' + {{ character.id }})
+        .droppable({
+          accept: '#cardSlots div',
+          hoverClass: 'hovered',
+          drop: handleCardDropOnDefaultDeck
+        });
 
-  {% for character in characters %}
-  $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"></div>').data('occupiedBy', '#' + {{character.id}})
-  .attr('id', 'container' + {{ character.id }})
-  .appendTo('#cardCharacters')
-  .droppable({
-    accept: '#cardSlots div',
-    hoverClass: 'hovered',
-    drop: handleCardDropPile
-  });
+        $('<div class="defaultDeck"><a class="thumbnail"><img src="{{ asset('images/' ~ character.cardFront) }}" style="max-width:100%;"></a></div>')
+        .appendTo('#container' + {{ character.id }})
+        .attr('id', {{ character.id }})
+        .data('cardName', '{{ character.cardName }}')
+        .data('cardDescription', '{{ character.cardDescription }}')
+        .data('cardText', '{{ character.cardText }}')
+        .data('cardFront', '{{ asset('images/' ~ character.cardFront) }}')
+        .data('container', 'container' + {{ character.id }})
+        .data('defaultAppendTo', '#cardCharacters')
+        .draggable({
+          containment: '#content',
+          cursor: 'move',
+          revert: true
+        })
+        .position({
+          of: $('#container' + {{ character.id }})
+        });
+      {% endfor %}
 
-  $('<div><a class="thumbnail"><img onclick="handleCardPileClick(this)" src="{{ asset("images/"~character.cardFront)}}" style="max-width:100%;"></a></div>')
-  .appendTo('#container' + {{ character.id }})
-  .attr('id', {{ character.id }})
-  .data('container', 'container' + {{ character.id }})
-  .data('defaultAppendTo', '#cardCharacters')
-  .draggable({
-    containment: '#content',
-    cursor: 'move',
-    revert: true
-  })
-  .position({
-    of: $('#container' + {{ character.id }})
-  });
-  {% endfor %}
+      {% for function in functions %}
+        $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"></div>')
+        .attr('id', 'container' + {{ function.id }})
+        .appendTo('#cardFunctions')
+        .data('occupiedBy', '#' + {{ function.id }})
+        .droppable({
+          accept: '#cardSlots div',
+          hoverClass: 'hovered',
+          drop: handleCardDropOnDefaultDeck
+        });
 
-  {% for function in functions %}
-  $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"></div>').data('occupiedBy', '#' + {{function.id}})
-  .attr('id', 'container' + {{ function.id }})
-  .appendTo('#cardFunctions')
-  .droppable({
-    accept: '#cardSlots div',
-    hoverClass: 'hovered',
-    drop: handleCardDropPile
-  });
+        $('<div class="defaultDeck"><a class="thumbnail"><img src="{{ asset('images/' ~ function.cardFront) }}" style="max-width:100%;"></a></div>')
+        .appendTo('#container' + {{ function.id }})
+        .attr('id', {{ function.id }})
+        .data('cardName', '{{ function.cardName }}')
+        .data('cardDescription', '{{ function.cardDescription }}')
+        .data('cardFront', '{{ asset('images/' ~ function.cardFront) }}')
+        .data('cardText', '{{ function.cardText }}')
+        .data('container', 'container' + {{ function.id }})
+        .data('defaultAppendTo', '#cardFunctions')
+        .draggable({
+          containment: '#content',
+          cursor: 'move',
+          revert: true
+        })
+        .position({
+          of: $('#container' + {{ function.id }})
+        });
+      {% endfor %}
 
-  $('<div><a class="thumbnail"><img onclick="handleCardPileClick(this)" src="{{ asset("images/"~function.cardFront)}}" style="max-width:100%;"></a></div>')
-  .appendTo('#container' + {{ function.id }})
-  .attr('id', {{ function.id }})
-  .data('container', 'container' + {{ function.id }})
-  .data('defaultAppendTo', '#cardFunctions')
-  .draggable({
-    containment: '#content',
-    cursor: 'move',
-    revert: true
-  })
-  .position({
-    of: $('#container' + {{ function.id }})
-  });
-  {% endfor %}
+      {% for place in places %}
+        $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"></div>')
+        .attr('id', 'container' + {{ place.id }})
+        .appendTo('#cardPlaces')
+        .data('occupiedBy', '#' + {{ place.id }})
+        .droppable({
+          accept: '#cardSlots div',
+          hoverClass: 'hovered',
+          drop: handleCardDropOnDefaultDeck
+        });
 
-  {% for place in places %}
-  $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"></div>').data('occupiedBy', '#' + {{place.id}})
-  .attr('id', 'container' + {{ place.id }})
-  .appendTo('#cardPlaces')
-  .droppable({
-    accept: '#cardSlots div',
-    hoverClass: 'hovered',
-    drop: handleCardDropPile
-  });
+        $('<div class="defaultDeck"><a class="thumbnail"><img src="{{ asset('images/' ~ place.cardFront) }}" style="max-width:100%;"></a></div>')
+        .appendTo('#container' + {{ place.id }})
+        .attr('id', {{ place.id }})
+        .data('cardName', '{{ place.cardName }}')
+        .data('cardDescription', '{{ place.cardDescription }}')
+        .data('cardText', '{{ place.cardText }}')
+        .data('cardFront', '{{ asset('images/' ~ place.cardFront) }}')
+        .data('container', 'container' + {{ place.id }})
+        .data('defaultAppendtTo', '#cardPlaces')
+        .draggable({
+          containment: '#content',
+          cursor: 'move',
+          revert: true
+        })
+        .position({
+          of: $('#container' + {{ place.id }})
+        });
+      {% endfor %}
 
-  $('<div><a class="thumbnail"><img onclick="handleCardPileClick(this)" src="{{ asset("images/"~place.cardFront)}}" style="max-width:100%;"></a></div>')
-  .appendTo('#container' + {{ place.id }})
-  .attr('id', {{ place.id }})
-  .data('container', 'container' + {{ place.id }})
-  .data('defaultAppendtTo', '#cardPlaces')
-  .draggable({
-    containment: '#content',
-    cursor: 'move',
-    revert: true
-  })
-  .position({
-    of: $('#container' + {{ place.id }})
-  });
-  {% endfor %}
+      {% for magicElement in magicElements %}
+        $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4""></div>')
+        .attr('id', 'container' + {{ magicElement.id }})
+        .appendTo('#cardMagicElements')
+        .data('occupiedBy', '#' + {{ magicElement.id }})
+        .droppable({
+          accept: '#cardSlots div',
+          hoverClass: 'hovered',
+          drop: handleCardDropOnDefaultDeck
+        });
 
-  {% for magicElement in magicElements %}
-  $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4""></div>').data('occupiedBy', '#' + {{magicElement.id}})
-  .attr('id', 'container' + {{ magicElement.id }})
-  .appendTo('#cardMagicElements')
-  .droppable({
-    accept: '#cardSlots div',
-    hoverClass: 'hovered',
-    drop: handleCardDropPile
-  });
+        $('<div class="defaultDeck"><a class="thumbnail"><img src="{{ asset('images/' ~ magicElement.cardFront) }}" style="max-width:100%;"></a></div>')
+        .appendTo('#container' + {{ magicElement.id }})
+        .attr('id', {{ magicElement.id }})
+        .data('cardName', '{{ magicElement.cardName }}')
+        .data('cardDescription', '{{ magicElement.cardDescription }}')
+        .data('cardText', '{{ magicElement.cardText }}')
+        .data('cardFront', '{{ asset('images/' ~ magicElement.cardFront) }}')
+        .data('container', 'container' + {{ magicElement.id }})
+        .data('defaultAppendTo', '#cardMagicElements')
+        .draggable({
+          containment: '#content',
+          cursor: 'move',
+          revert: true
+        })
+        .position({
+          of: $('#container' + {{ magicElement.id }})
+        });
+      {% endfor %}
 
-  $('<div><a class="thumbnail"><img onclick="handleCardPileClick(this)" src="{{ asset("images/"~magicElement.cardFront)}}" style="max-width:100%;"></a></div>')
-  .appendTo('#container' + {{ magicElement.id }})
-  .attr('id', {{ magicElement.id }})
-  .data('container', 'container' + {{ magicElement.id }})
-  .data('defaultAppendTo', '#cardMagicElements')
-  .draggable({
-    containment: '#content',
-    cursor: 'move',
-    revert: true
-  })
-  .position({
-    of: $('#container' + {{ magicElement.id }})
-  });
-  {% endfor %}
+      {% for i in 1..maxCards %}
+        $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"><a class="thumbnail"><img src="{{ asset('images/empty.png') }}" style="max-width:100%;"></a></div>')
+        .appendTo('#cardSlots')
+        .attr('id', 'cardSlot' + {{ i-1 }})
+        .data('occupiedBy', 'nothing')
+        .droppable({
+          accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
+          hoverClass: 'hovered',
+          drop: handleCardDropOnGameDeck
+        });
+      {% endfor %}
 
-  {% for i in 1..maxCards %}
-  $('<div class="col-md-2-5 col-sm-2-5 col-xs-3 col-xxs-4"><a class="thumbnail"><img src="{{ asset("images/empty.png")}}" style="max-width:100%;"></a></div>')
-  .appendTo('#cardSlots')
-  .attr('id', 'cardSlot' + {{ i-1 }})
-  .data('occupiedBy', 'nothing')
-  .droppable({
-    accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
-    hoverClass: 'hovered',
-    drop: handleCardDropSlots
-  });
-  {% endfor %}
+      $('.cardContainer').droppable({
+        accept: '#cardSlots div',
+        hoverClass: 'hovered',
+        drop: handleCardDropOnDefaultDeck
+      });
 
-  $('.cardContainer').droppable({
-    accept: '#cardSlots div',
-    hoverClass: 'hovered',
-    drop: handleCardDropPile
-  });
+      $('#cardSlotsContainer').droppable({
+        accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
+        hoverClass: 'hovered',
+        drop: handleCardDropOnGameDeck
+      });
 
-  $('#cardSlotsContainer').droppable({
-    accept: '#cardCharacters div, #cardFunctions div, #cardMagicElements div, #cardPlaces div',
-    hoverClass: 'hovered',
-    drop: handleCardDropSlots
-  });
+      $('.overlay').droppable({
+        accept: '#cardSlots div',
+        hoverClass: 'hovered',
+        drop: handleCardDropOnDefaultDeck
+      });
+    }
 
-  $('.overlay').droppable({
-    accept: '#cardSlots div',
-    hoverClass: 'hovered',
-    drop: handleCardDropPile
-  });
-}
+    function refreshPosition() {
+      {% for character in characters %}
+        $('#' + {{ character.id }}).position({
+          of: $('#' + $('#' + {{ character.id }}).data('container'))
+        });
+      {% endfor %}
 
-function refreshPosition() {
-  {% for character in characters %}
-  if($("#" + {{ character.id }}).data("container")) {
-    $("#" + {{ character.id }}).position({
-      of: $("#" + $("#" + {{ character.id }}).data("container"))
-    });
-  }
-  {% endfor %}
+      {% for place in places %}
+        $('#' + {{ place.id }}).position({
+          of: $('#' + $('#' + {{ place.id }}).data('container'))
+        });
+      {% endfor %}
 
-  {% for place in places %}
-  $("#" + {{ place.id }}).position({
-    of: $("#" + $("#" + {{ place.id }}).data("container"))
-  });
-  {% endfor %}
+      {% for magicElement in magicElements %}
+        $('#' + {{ magicElement.id }}).position({
+          of: $('#' + $('#' + {{ magicElement.id }}).data('container'))
+        });
+      {% endfor %}
 
-  {% for magicElement in magicElements %}
-  $("#" + {{ magicElement.id }}).position({
-    of: $("#" + $("#" + {{ magicElement.id }}).data("container"))
-  });
-  {% endfor %}
+      {% for function in functions %}
+        $('#' + {{ function.id }}).position({
+          of: $('#' + $('#' + {{ function.id }}).data('container'))
+        });
+      {% endfor %}
+    }
 
-  {% for function in functions %}
-  $("#" + {{ function.id }}).position({
-    of: $("#" + $("#" + {{ function.id }}).data("container"))
-  });
-  {% endfor %}
-}
+    function handleCardDropOnGameDeck(event, ui) {
+      var card = ui.draggable;
+      var cardId = card.attr('id');
 
-function handleCardDropSlots(event, ui) {
-  var card = ui.draggable;
-  var cardId = card.attr("id");
+      var exit = false;
 
-  var exit = false;
+      for(var i = 0; i < {{ maxCards }} && !exit; i++) {
+        if($('#cardSlot' + i).data('occupiedBy') == 'nothing') {
+          var html = $('#cardSlot' + i).html();
+          var data = $('#cardSlot' + i).data();
+          var id = $('#cardSlot' + i).attr('id');
 
-  for (var i = 0; i < {{maxCards}} && !exit; i++) {
+          $('#cardSlot' + i).html($('#' + card.data('container')).html()).attr('id', id).data(data);
 
-    if ($('#cardSlot' + i).data("occupiedBy") == "nothing") {
+          data = $('#' + card.data('container')).data();
+          id = $('#' + card.data('container')).attr('id');
 
-      var html = $('#cardSlot' + i).html();
+          $('#' + card.data('container')).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
 
-      var data = $('#cardSlot' + i).data();
-      var id = $('#cardSlot' + i).attr('id');
+          $('#' + cardId).appendTo('#cardSlot' + i)
+          .data('container', 'cardSlot' + i)
+          .draggable({
+            revert: false
+          })
+          .position({
+            of: $('#cardSlot' + i)
+          })
+          .removeClass('defaultDeck ui-draggable-dragging')
+          .addClass('gameDeck');
 
-      $('#cardSlot' + i).html($('#' + card.data("container")).html()).attr('id', id).data(data);
+          $('#cardSlot' + i).data('occupiedBy', cardId);
 
-      var data = $('#' + card.data("container")).data();
-      var id = $('#' + card.data("container")).attr('id');
+          setTimeout(function () {
+            $('#' + cardId).draggable({
+              revert: true
+            });
+          }, 100);
 
-      $('#' + card.data("container")).html(html).attr('id', id).data(data).data("occupiedBy", "nothing");
+          $(refreshPosition);
 
-      $("#" + cardId).appendTo("#cardSlot" + i)
-      .data("container", "cardSlot" + i)
+          exit = true;
+        }
+      }
+    }
+
+    function handleCardDropOnDefaultDeck(event, ui) {
+      var card = ui.draggable;
+      var cardId = card.attr('id');
+
+      var html = $('#container' + cardId).html();
+      var data = $('#container' + cardId).data();
+      var id = $('#container' + cardId).attr('id');
+
+      $('#container' + cardId).html($('#' + card.data('container')).html()).attr('id', id).data(data);
+
+      data = $('#' + card.data('container')).data();
+      id = $('#' + card.data('container')).attr('id');
+
+      $('#' + card.data('container')).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
+
+      $('#' + cardId).appendTo('#container' + cardId)
+      .data('container', 'container' + cardId)
       .draggable({
         revert: false
       })
       .position({
-        of: $('#cardSlot' + i)
+        of: $('#container' + cardId)
       })
-      .removeClass('ui-draggable-dragging');
+      .removeClass('gameDeck ui-draggable-dragging')
+      .addClass('defaultDeck');
 
-      $('#cardSlot' + i).data("occupiedBy", cardId);
+      $('#container' + cardId).data('occupiedBy', '#' + cardId);
 
       setTimeout(function () {
-        $("#" + cardId).draggable({
+        $('#' + cardId).draggable({
+          revert: true
+        });
+      }, 100);
+
+      $(refreshPosition);
+    }
+
+    function openModal(cardId) {
+      var card = $('#' + cardId);
+
+      $('#modal').show();
+
+      $('#modal').data('cardId', cardId);
+      $('#modal-title').html($(card).data('cardName'));
+      $('#modal-image').attr('src', $(card).data('cardFront'));
+      $('#modal-description').html($(card).data('cardDescription'));
+    };
+
+    $(document).on('click', '.defaultDeck', function() {
+      $('#add').show();
+      $('#remove').hide();
+      openModal($(this).attr('id'));
+    });
+
+    $(document).on('click', '.gameDeck', function() {
+      $('#add').hide();
+      $('#remove').show();
+      openModal($(this).attr('id'));
+    });
+
+    $(document).on('click', '#close', function() {
+      $('#modal').hide();
+    });
+
+    $(document).on('click', '#add', function() {
+      var cardId = $('#modal').data('cardId');
+      var card = $('#' + cardId);
+      var exit = false;
+
+      for(var i = 0; i < {{ maxCards }} && !exit; i++) {
+        if($('#cardSlot' + i).data('occupiedBy') == 'nothing') {
+          var html = $('#cardSlot' + i).html();
+          var data = $('#cardSlot' + i).data();
+          var id = $('#cardSlot' + i).attr('id');
+
+          $('#cardSlot' + i).html($('#' + card.data('container')).html()).attr('id', id).data(data);
+
+          data = $('#' + card.data('container')).data();
+          id = $('#' + card.data('container')).attr('id');
+
+          $('#' + card.data('container')).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
+
+          $('#' + cardId).appendTo('#cardSlot' + i)
+          .data('container', 'cardSlot' + i)
+          .draggable({
+            revert: false
+          })
+          .position({
+            of: $('#cardSlot' + i)
+          })
+          .removeClass('defaultDeck ui-draggable-dragging')
+          .addClass('gameDeck');
+
+          $('#cardSlot' + i).data('occupiedBy', cardId);
+
+          setTimeout(function () {
+            $('#' + cardId).draggable({
+              revert: true
+            });
+          }, 100);
+
+          $(refreshPosition);
+
+          exit = true;
+        }
+      }
+
+      $('#modal').hide();
+    });
+
+    $(document).on('click', '#remove', function() {
+      var cardId = $('#modal').data('cardId');
+      var card = $('#' + cardId);
+
+      var html = $('#container' + cardId).html();
+      var data = $('#container' + cardId).data();
+      var id = $('#container' + cardId).attr('id');
+
+      $('#container' + cardId).html($('#' + card.data('container')).html()).attr('id', id).data(data);
+
+      data = $('#' + card.data('container')).data();
+      id = $('#' + card.data('container')).attr('id');
+
+      $('#' + card.data('container')).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
+
+      $('#' + cardId).appendTo('#container' + cardId)
+      .data('container', 'container' + cardId)
+      .draggable({
+        revert: false
+      })
+      .position({
+        of: $('#container' + cardId)
+      })
+      .removeClass('gameDeck ui-draggable-dragging')
+      .addClass('defaultDeck');
+
+      $('#container' + cardId).data('occupiedBy', '#' + cardId);
+
+      setTimeout(function () {
+        $('#' + cardId).draggable({
           revert: true
         });
       }, 100);
 
       $(refreshPosition);
 
-      exit = true;
-    }
-
-  }
-}
-
-function handleCardDropPile(event, ui) {
-  var card = ui.draggable;
-  var cardId = card.attr('id');
-
-  var html = $('#container' + cardId).html();
-
-  var data = $('#container' + cardId).data();
-  var id = $('#container' + cardId).attr('id');
-
-  $('#container' + cardId).html($('#' + card.data("container")).html()).attr('id', id).data(data);
-
-  var data = $('#' + card.data("container")).data();
-  var id = $('#' + card.data("container")).attr('id');
-
-  $('#' + card.data("container")).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
-
-  $("#" + cardId).appendTo("#container" + cardId)
-  .data("container", "container" + cardId)
-  .draggable({
-    revert: false
-  })
-  .position({
-    of: $('#container' + cardId)
-  })
-  .removeClass('ui-draggable-dragging');
-
-  $('#container' + cardId).data("occupiedBy", "#" + cardId);
-
-  setTimeout(function () {
-    $("#" + cardId).draggable({
-      revert: true
+      $('#modal').hide();
     });
-  }, 100);
 
-  $(refreshPosition);
-}
-
-function handleCardSlotsClick(event) {
-  if(isMobile.any()) {
-
-    event.setAttribute('onclick', 'handleCardPileClick(this)');
-
-    var container = $(event);
-    var cardId = $(event).parent().parent().parent().data("occupiedBy");
-    var card = $('#' + cardId);
-
-    var html = $('#container' + cardId).html();
-    var data = $('#container' + cardId).data();
-    var id = $('#container' + cardId).attr('id');
-
-    $('#container' + cardId).html($('#' + card.data("container")).html()).attr('id', id).data(data);
-
-    var data = $('#' + card.data("container")).data();
-    var id = $('#' + card.data("container")).attr('id');
-
-    $('#' + card.data("container")).html(html).attr('id', id).data(data).data('occupiedBy', 'nothing');
-
-    $("#" + cardId).appendTo("#container" + cardId)
-    .data("container", "container" + cardId)
-    .draggable({
-      revert: false
-    })
-    .position({
-      of: $('#container' + cardId)
-    })
-    .removeClass('ui-draggable-dragging');
-
-    $('#container' + cardId).data("occupiedBy", "#" + cardId);
-
-    setTimeout(function () {
-      $("#" + cardId).draggable({
-        revert: true
-      });
-    }, 100);
-
-    $(refreshPosition);
-
-  }
-}
-
-function handleCardPileClick(event) {
-  if(isMobile.any()) {
-    var container = $(event);
-    var cardId = $(event).parent().parent().parent().data("occupiedBy").substr(1);
-    var card = $('#' + cardId);
-
-    var exit = false;
-
-    for (var i = 0; i < {{maxCards}} && !exit; i++) {
-
-      if ($('#cardSlot' + i).data("occupiedBy") == "nothing") {
-
-        event.setAttribute('onclick', 'handleCardSlotsClick(this)');
-
-        var html = $('#cardSlot' + i).html();
-
-        var data = $('#cardSlot' + i).data();
-        var id = $('#cardSlot' + i).attr('id');
-
-        $('#cardSlot' + i).html($('#' + card.data("container")).html()).attr('id', id).data(data);
-
-        var data = $('#' + card.data("container")).data();
-        var id = $('#' + card.data("container")).attr('id');
-
-        $('#' + card.data("container")).html(html).attr('onclick', onclick).attr('id', id).data(data).data("occupiedBy", "nothing");
-
-        $("#" + cardId).appendTo("#cardSlot" + i)
-        .data("container", "cardSlot" + i)
-        .draggable({
-          revert: false
-        })
-        .position({
-          of: $('#cardSlot' + i)
-        })
-        .removeClass('ui-draggable-dragging');
-
-        $('#cardSlot' + i).data("occupiedBy", cardId);
-
-        setTimeout(function () {
-          $("#" + cardId).draggable({
-            revert: true
-          });
-        }, 100);
-
-        $(refreshPosition);
-
-        exit = true;
-
+    $(document).ready(function() {
+      if(isMobile.any()) {
+        $('.desktop').hide();
+      } else {
+        $('.mobile').hide();
       }
 
-    }
-  }
-}
+      $('#cardCharacters').hide();
+      $('#cardFunctions').hide();
+      $('#cardPlaces').hide();
+      $('#cardMagicElements').hide();
 
-var isMobile = {
-  Android: function() {
-    return navigator.userAgent.match(/Android/i);
-  },
-  BlackBerry: function() {
-    return navigator.userAgent.match(/BlackBerry/i);
-  },
-  iOS: function() {
-    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-  },
-  Opera: function() {
-    return navigator.userAgent.match(/Opera Mini/i);
-  },
-  Windows: function() {
-    return navigator.userAgent.match(/IEMobile/i);
-  },
-  any: function() {
-    return navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
-  }
-};
+      $('.mainCard').click(function() {
+        $('#cardCharacters').hide();
+        $('#cardFunctions').hide();
+        $('#cardPlaces').hide();
+        $('#cardMagicElements').hide();
 
-$(document).ready(function() {
+        $('#' + $(this).attr('id') + 's').show();
 
-  if(isMobile.any()) {
-    $(".desktop").hide();
-  } else {
-    $(".mobile").hide();
-  }
+        $(refreshPosition);
+      });
 
-  $("#cardCharacters").hide();
-  $("#cardFunctions").hide();
-  $("#cardPlaces").hide();
-  $("#cardMagicElements").hide();
+      //Closes the modal
+      $(window).click(function() {
+        if (event.target.id == $('#modal').attr('id')) {
+          $('#modal').hide();
+        }
+      })
 
-  $(".mainCard").click(function() {
-    $("#cardCharacters").hide();
-    $("#cardFunctions").hide();
-    $("#cardPlaces").hide();
-    $("#cardMagicElements").hide();
+      $(window).resize(function () {
+        $(refreshPosition);
+      });
+    });
 
-    $("#" + $(this).attr("id") + "s").show();
+    $(initialize);
+  </script>
+{% endblock %}
 
-    $(refreshPosition);
-  });
-
-  $(window).resize(function () {
-    $(refreshPosition);
-  });
-});
-
-$(init);
-
-</script>
-<div class="container-fluid">
-  <div class="row center-block">
+{% block body %}
+  <div class="container-fluid">
     <div class="row center-block">
-      <div class="col-md-6 col-xs-12 hidden-md hidden-lg">
-        <h1 class="animated zoomIn">Istruzioni del gioco</h1>
-        <div class="offer offer-radius offer-info">
-          <div class="offer-content offer-info">
-            <h3 class="desktop">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
-            <h3 class="mobile">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-xs-12">
-        <div class="row center-block">
-          <h1 class="animated zoomIn">I mazzi delle carte</h1>
-          <div class="col-xs-3 col-xxs-6">
-            <div class="mainCard hovereffect" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/R_R.png")}}">
-              <div class="overlay">
-                <h2>Ruoli</h2>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-3 col-xxs-6">
-            <div class="mainCard hovereffect" id="cardFunction"><img class="img-responsive" src="{{ asset("images/R_F.png")}}">
-              <div class="overlay">
-                <h2>Funzioni</h2>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-3 col-xxs-6">
-            <div class="mainCard hovereffect" id="cardPlace"><img class="img-responsive" src="{{ asset("images/R_L.png")}}">
-              <div class="overlay">
-                <h2>Luoghi</h2>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-3 col-xxs-6">
-            <div class="mainCard hovereffect" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/R_EM.png")}}">
-              <div class="overlay">
-                <h2>Elementi magici</h2>
-              </div>
+      <div class="row center-block">
+        <div class="col-md-6 col-xs-12 hidden-md hidden-lg">
+          <h1 class="animated zoomIn">Istruzioni del gioco</h1>
+          <div class="offer offer-radius offer-info">
+            <div class="offer-content offer-info">
+              <h3 class="desktop">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+              <h3 class="mobile">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
             </div>
           </div>
         </div>
-      </div>
-      <div class="hidden-sm hidden-xs">
-        <h1 class="animated zoomIn">Istruzioni del gioco</h1>
-        <div class="offer offer-radius offer-info">
-          <div class="offer-content offer-info">
-            <h3 class="desktop">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
-            <h3 class="mobile">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+        <div class="col-md-6 col-xs-12">
+          <div class="row center-block">
+            <h1 class="animated zoomIn">I mazzi delle carte</h1>
+            <div class="col-xs-3 col-xxs-6">
+              <div class="mainCard hovereffect" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/R_R.png")}}">
+                <div class="overlay">
+                  <h2>Ruoli</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-xxs-6">
+              <div class="mainCard hovereffect" id="cardFunction"><img class="img-responsive" src="{{ asset("images/R_F.png")}}">
+                <div class="overlay">
+                  <h2>Funzioni</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-xxs-6">
+              <div class="mainCard hovereffect" id="cardPlace"><img class="img-responsive" src="{{ asset("images/R_L.png")}}">
+                <div class="overlay">
+                  <h2>Luoghi</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-xxs-6">
+              <div class="mainCard hovereffect" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/R_EM.png")}}">
+                <div class="overlay">
+                  <h2>Elementi magici</h2>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="hidden-sm hidden-xs">
+          <h1 class="animated zoomIn">Istruzioni del gioco</h1>
+          <div class="offer offer-radius offer-info">
+            <div class="offer-content offer-info">
+              <h3 class="desktop">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+              <h3 class="mobile">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div class="row center-block" id="content">
+        <div class="col-md-6 col-xs-12">
+          <div><h1 class="animated zoomIn">Le carte</h1></div>
+          <div class="col-xs-12 cardContainer">
+            <div class="row" id="cardCharacters"></div>
+          </div>
+          <div class="col-xs-12 cardContainer">
+            <div class="row" id="cardPlaces"></div>
+          </div>
+          <div class="col-xs-12 cardContainer">
+            <div class="row" id="cardMagicElements"></div>
+          </div>
+          <div class="col-xs-12 cardContainer">
+            <div class="row" id="cardFunctions"></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+          <h1 class="animated zoomIn">Il tuo tabellone</h1>
+          <div class="col-xs-12" id="cardSlotsContainer">
+            <div id="cardSlots"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-body">
+          <br/>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-5 col-xs-offset-0">
+              <img src="" class="img-responsive" id="modal-image"/>
+            </div>
+            <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-xs-6 col-xs-offset-1">
+              <h3 class="text-center" id="modal-title"></h3>
+              <br/>
+              <p class="text-center" id="modal-description"></p>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+              <div class="text-right">
+                <button type="button" class="btn btn-primary" id="close">Chiudi</button>
+                <button type="button" class="btn btn-danger" id="remove">Rimuovi</button>
+                <button type="button" class="btn btn-success" id="add">Aggiungi</button>
+              </div>
+            </div>
+          </div>
+          <br/>
         </div>
       </div>
     </div>
     <br/>
-    <div class="row center-block" id="content">
-      <div class="col-md-6 col-xs-12">
-        <div><h1 class="animated zoomIn">Le carte</h1></div>
-        <div class="col-xs-12 cardContainer">
-          <div class="row" id="cardCharacters"></div>
-        </div>
-        <div class="col-xs-12 cardContainer">
-          <div class="row" id="cardPlaces"></div>
-        </div>
-        <div class="col-xs-12 cardContainer">
-          <div class="row" id="cardMagicElements"></div>
-        </div>
-        <div class="col-xs-12 cardContainer">
-          <div class="row" id="cardFunctions"></div>
-        </div>
-      </div>
-      <div class="col-md-6 col-xs-12">
-        <h1 class="animated zoomIn">Il tuo tabellone</h1>
-        <div class="col-xs-12" id="cardSlotsContainer">
-          <div id="cardSlots"></div>
-        </div>
-      </div>
-    </div>
+    <br/>
+    <br/>
   </div>
-  <br/>
-  <br/>
-  <br/>
-</div>
 {% endblock %}

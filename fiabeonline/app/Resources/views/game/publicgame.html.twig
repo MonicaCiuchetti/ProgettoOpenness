@@ -287,6 +287,7 @@
       $('#modal-title').html($(card).data('cardName'));
       $('#modal-image').attr('src', $(card).data('cardFront'));
       $('#modal-description').html($(card).data('cardDescription'));
+      $('#modal-text').html($(card).data('cardText'));
     };
 
     $(document).on('click', '.defaultDeck', function() {
@@ -437,8 +438,8 @@
           <h1 class="animated zoomIn">Istruzioni del gioco</h1>
           <div class="offer offer-radius offer-info">
             <div class="offer-content offer-info">
-              <h3 class="desktop">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
-              <h3 class="mobile">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+              <h3 class="desktop">1. Apri il mazzo di carte tra quello dei personaggi, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+              <h3 class="mobile">1. Apri il mazzo di carte tra quello dei personaggi, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
             </div>
           </div>
         </div>
@@ -447,30 +448,18 @@
             <h1 class="animated zoomIn">I mazzi delle carte</h1>
             <div class="col-xs-3 col-xxs-6">
               <div class="mainCard hovereffect" id="cardCharacter"><img class="img-responsive" src="{{ asset("images/R_R.png")}}">
-                <div class="overlay">
-                  <h2>Ruoli</h2>
-                </div>
               </div>
             </div>
             <div class="col-xs-3 col-xxs-6">
               <div class="mainCard hovereffect" id="cardFunction"><img class="img-responsive" src="{{ asset("images/R_F.png")}}">
-                <div class="overlay">
-                  <h2>Funzioni</h2>
-                </div>
               </div>
             </div>
             <div class="col-xs-3 col-xxs-6">
               <div class="mainCard hovereffect" id="cardPlace"><img class="img-responsive" src="{{ asset("images/R_L.png")}}">
-                <div class="overlay">
-                  <h2>Luoghi</h2>
-                </div>
               </div>
             </div>
             <div class="col-xs-3 col-xxs-6">
               <div class="mainCard hovereffect" id="cardMagicElement"><img class="img-responsive" src="{{ asset("images/R_EM.png")}}">
-                <div class="overlay">
-                  <h2>Elementi magici</h2>
-                </div>
               </div>
             </div>
           </div>
@@ -479,8 +468,8 @@
           <h1 class="animated zoomIn">Istruzioni del gioco</h1>
           <div class="offer offer-radius offer-info">
             <div class="offer-content offer-info">
-              <h3 class="desktop">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
-              <h3 class="mobile">1. Apri il mazzo di carte tra quello dei ruoli, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+              <h3 class="desktop">1. Apri il mazzo di carte tra quello dei personaggi, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Seleziona le carte che desideri e trascinale sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
+              <h3 class="mobile">1. Apri il mazzo di carte tra quello dei personaggi, delle funzioni, dei luoghi o quello degli elementi magici.<br>2. Fai click sulle carte che desideri per spostarle sul tabellone di gioco. <br>3. Inventa e racconta la tua storia.</h3>
             </div>
           </div>
         </div>
@@ -521,7 +510,8 @@
             <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-xs-6 col-xs-offset-1">
               <h3 class="text-center" id="modal-title"></h3>
               <br/>
-              <p class="text-center" id="modal-description"></p>
+              <h5 class="text-justify" id="modal-description"></h5>
+              <p class="text-justify" id="modal-text"></p>
             </div>
           </div>
           <br/>

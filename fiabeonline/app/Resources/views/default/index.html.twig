@@ -9,7 +9,7 @@
 {% block body %}
     <div class="container body-container">
         <div class="row">
-            <div class="col-sm-7">
+            <div class="col-xs-12 col-sm-7">
                 <h2 id="type-blockquotes">L'algoritmo della fiaba</h2>
                 <blockquote>
                     <p>"Credo che le fiabe, quelle vecchie e quelle nuove, possano contribuire a educare la mente. La fiaba è il luogo di tutte le ipotesi: essa ci può dare delle chiavi per entrare nella realtà per strade nuove, può aiutare il bambino a conoscere il mondo."</p>
@@ -20,7 +20,7 @@
                     <small><cite title="Source Title">Hans C. Andersen</cite></small>
                 </blockquote>
             </div>
-            <div class="col-sm-5">
+            <div class="col-xs-12 col-sm-5">
                 <div class="offer-home offer-radius-home offer-info">
                     <div class="offer-content offer-info">
                         <h3>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-xs-12 col-sm-4">
 
                     <div class="section more">
                         <div class="well">
@@ -56,32 +56,28 @@
                         </div>
                     </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-12 col-sm-4">
                     <div class="section your">
                         <div class="well">
                           <div id="slideshow" class="carousel slide">
                     <ol class="carousel-indicators">
                         <li data-target="#slideshow" data-slide-to="0" class="active"></li>
-                        <li data-target="#Carousel" data-slide-to="1"></li>
+                        <li data-target="#slideshow" data-slide-to="1"></li>
                         <li data-target="#slideshow" data-slide-to="2"></li>
+                        <li data-target="#slideshow" data-slide-to="3"></li>
                     </ol>
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img src="{{ asset('images/R_EM_hp.png') }}" alt="le carte di Propp">
-                            <div class="carousel-caption">Elementi magici</div>
-                        </div>
-
-                        <div class="item">
-                          <img src="{{ asset('images/R_F.png') }}" alt="le carte di Propp">
-                          <div class="carousel-caption">Funzioni</div>
+                            <img src="{{ asset('images/R_EM.png') }}" class="img-responsive" alt="le carte di Propp">
                         </div>
                         <div class="item">
-                          <img src="{{ asset('images/R_L.png') }}" alt="le carte di Propp">
-                          <div class="carousel-caption">Luoghi</div>
+                          <img src="{{ asset('images/R_F.png') }}" class="img-responsive" alt="le carte di Propp">
                         </div>
                         <div class="item">
-                          <img src="{{ asset('images/R_R.png') }}" alt="le carte di Propp">
-                          <div class="carousel-caption">Personaggi</div>
+                          <img src="{{ asset('images/R_L.png') }}" class="img-responsive" alt="le carte di Propp">
+                        </div>
+                        <div class="item">
+                          <img src="{{ asset('images/R_R.png') }}" class="img-responsive" alt="le carte di Propp">
                         </div>
                     </div>
                     <a data-slide="prev" href="#slideshow" class="left carousel-control">‹</a>
@@ -95,7 +91,7 @@
                                 </div>
                             </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-12 col-sm-4">
                     <div class="section last">
                         <div class="well">
                             <p> <b>La fiaba più votata </b></p>
@@ -108,7 +104,7 @@
                             </div>
                             <p>
                                 <a class="btn btn-primary btn-sm" onclick="location.href='{{ path('tale', { idTale: bestTale.id }) }}'">
-                                    <span class="fa fa-fort-awesome" aria-hidden="true"></span> Visualizza
+                                    <span class="fa fa-thumbs-o-up" aria-hidden="true"></span> Visualizza
                                 </a>
                             </p>
                         </div>
